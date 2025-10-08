@@ -27,7 +27,7 @@
     "scripts": {
         "build:spago": "spago bundle --bundle-type module --platform browser --outfile public/index.js",
         "build:css": "postcss src/style.css -o ./public/output.css",
-        "copy-images": "copyfiles -u 1 images/**/* dist/images/",
+        "copy-images": "copyfiles -u 1 images/*.svg dist/images/ && copyfiles -u 1 'images/**/*' dist/images/",
         "build": "npm run build:spago && npm run build:css && npx vite build && npm run copy-images",
         "serve": "npm run build && npx vite serve ",
         "start": "http-server ./dist -p $PORT"

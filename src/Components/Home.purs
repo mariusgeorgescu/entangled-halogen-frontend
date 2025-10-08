@@ -13,7 +13,7 @@ import Halogen as H
 import Halogen.HTML as HH
 import Halogen.Store.Monad (class MonadStore)
 import Store as Store
-import Components.HTML.RenderUtils.App (renderProfessionalServicesSection, renderCexplorerPoolGraphSection, renderHeroSection, renderPoolOverviewSection, renderFooterSection) as RU
+import Components.HTML.RenderUtils.App (renderProfessionalServicesSection, renderCexplorerPoolGraphSection, renderHeroSection, renderPoolOverviewSection, renderFooterSection, renderFabFlower) as RU
 
 --------------------------------------------------------------------------------
 -- * Utils
@@ -120,6 +120,7 @@ render s =
     , RU.renderPoolOverviewSection
     , RU.renderCexplorerPoolGraphSection
     , RU.renderFooterSection
+    , RU.renderFabFlower
     ]
 
 renderWalletWidgetSlot ::

@@ -1,4 +1,5 @@
-module Components.HTML.RenderUtils.App where
+module Components.HTML.RenderUtils.App
+  where
 
 import Prelude
 import Components.HTML.Icons (activeSvgIcon, downSvgIcon, errorSvgIcon, finalSvgIcon, infoSvgIcon, successSvgIcon, upSvgIcon, warningSvgIcon)
@@ -12,21 +13,26 @@ import Halogen as H
 import Halogen.HTML as HH
 import Halogen.HTML.Events as HE
 import Halogen.HTML.Properties as HP
+import Halogen.Svg.Attributes as SA
+import Halogen.Svg.Attributes.Color (Color(..))
+import Halogen.Svg.Attributes.StrokeLineCap (StrokeLineCap(..))
+import Halogen.Svg.Attributes.StrokeLineJoin (StrokeLineJoin(..))
+import Halogen.Svg.Elements as SE
 
 -- ==============================================================================
 -- INPUT DATA
 -- ==============================================================================
-type Labelled input output
-  = { label :: String
-    , state :: F.FieldState input String output
-    }
+type Labelled input output =
+  { label :: String
+  , state :: F.FieldState input String output
+  }
 
 -- Attach a label and error text to a form input
-withLabel ::
-  forall input output action slots m.
-  Labelled input output ->
-  H.ComponentHTML action slots m ->
-  H.ComponentHTML action slots m
+withLabel
+  :: forall input output action slots m
+   . Labelled input output
+  -> H.ComponentHTML action slots m
+  -> H.ComponentHTML action slots m
 withLabel { label, state } html =
   let
     (Tuple errorMsg inputColor) = case state.result of
@@ -40,73 +46,73 @@ withLabel { label, state } html =
       , HH.small [ HP.classes [ HH.ClassName "bg-error text-error-content" ] ] [ HH.text errorMsg ]
       ]
 
-type TextInput action output
-  = { label :: String
-    , state :: F.FieldState String String output
-    , action :: F.FieldAction action String String output
-    }
+type TextInput action output =
+  { label :: String
+  , state :: F.FieldState String String output
+  , action :: F.FieldAction action String String output
+  }
 
-textInput ::
-  forall output action slots m.
-  TextInput action output ->
-  Array (HP.IProp HTMLinput action) ->
-  H.ComponentHTML action slots m
+textInput
+  :: forall output action slots m
+   . TextInput action output
+  -> Array (HP.IProp HTMLinput action)
+  -> H.ComponentHTML action slots m
 textInput { label, state, action } =
   withLabel { label, state } <<< HH.input
     <<< append
-        [ HP.value state.value
-        , case state.result of
-            Nothing -> HP.attr (HH.AttrName "aria-touched") "false"
-            Just (Left _) -> HP.attr (HH.AttrName "aria-invalid") "true"
-            Just (Right _) -> HP.attr (HH.AttrName "aria-invalid") "false"
-        , HE.onValueInput action.handleChange
-        , HE.onBlur action.handleBlur
-        , HP.classes [ HH.ClassName "input input-bordered input-secondary w-full max-w-xs" ]
-        ]
+      [ HP.value state.value
+      , case state.result of
+          Nothing -> HP.attr (HH.AttrName "aria-touched") "false"
+          Just (Left _) -> HP.attr (HH.AttrName "aria-invalid") "true"
+          Just (Right _) -> HP.attr (HH.AttrName "aria-invalid") "false"
+      , HE.onValueInput action.handleChange
+      , HE.onBlur action.handleBlur
+      , HP.classes [ HH.ClassName "input input-bordered input-secondary w-full max-w-xs" ]
+      ]
 
-textInput_ ::
-  forall output action slots m.
-  TextInput action output ->
-  H.ComponentHTML action slots m
+textInput_
+  :: forall output action slots m
+   . TextInput action output
+  -> H.ComponentHTML action slots m
 textInput_ = flip textInput []
 
-type Textarea action output
-  = { label :: String
-    , state :: F.FieldState String String output
-    , action :: F.FieldAction action String String output
-    }
+type Textarea action output =
+  { label :: String
+  , state :: F.FieldState String String output
+  , action :: F.FieldAction action String String output
+  }
 
-textarea ::
-  forall output action slots m.
-  Textarea action output ->
-  Array (HP.IProp HTMLtextarea action) ->
-  H.ComponentHTML action slots m
+textarea
+  :: forall output action slots m
+   . Textarea action output
+  -> Array (HP.IProp HTMLtextarea action)
+  -> H.ComponentHTML action slots m
 textarea { label, state, action } =
   withLabel { label, state } <<< HH.textarea
     <<< append
-        [ HP.value state.value
-        , HE.onValueInput action.handleChange
-        , HE.onBlur action.handleBlur
-        , HP.classes [ HH.ClassName "textarea textarea-secondary textarea-bordered  w-full max-w-xs" ]
-        ]
+      [ HP.value state.value
+      , HE.onValueInput action.handleChange
+      , HE.onBlur action.handleBlur
+      , HP.classes [ HH.ClassName "textarea textarea-secondary textarea-bordered  w-full max-w-xs" ]
+      ]
 
-textarea_ ::
-  forall output action slots m.
-  Textarea action output ->
-  H.ComponentHTML action slots m
+textarea_
+  :: forall output action slots m
+   . Textarea action output
+  -> H.ComponentHTML action slots m
 textarea_ = flip textarea []
 
-type Checkbox error action
-  = { label :: String
-    , state :: F.FieldState Boolean error Boolean
-    , action :: F.FieldAction action Boolean error Boolean
-    }
+type Checkbox error action =
+  { label :: String
+  , state :: F.FieldState Boolean error Boolean
+  , action :: F.FieldAction action Boolean error Boolean
+  }
 
-checkboxConsent ::
-  forall error action slots m.
-  Checkbox error action ->
-  Array (HP.IProp HTMLinput action) ->
-  H.ComponentHTML action slots m
+checkboxConsent
+  :: forall error action slots m
+   . Checkbox error action
+  -> Array (HP.IProp HTMLinput action)
+  -> H.ComponentHTML action slots m
 checkboxConsent { label, state, action } props =
   HH.fieldset_
     [ HH.label_
@@ -121,11 +127,11 @@ checkboxConsent { label, state, action } props =
         ]
     ]
 
-checkbox ::
-  forall error action slots m.
-  Checkbox error action ->
-  Array (HP.IProp HTMLinput action) ->
-  H.ComponentHTML action slots m
+checkbox
+  :: forall error action slots m
+   . Checkbox error action
+  -> Array (HP.IProp HTMLinput action)
+  -> H.ComponentHTML action slots m
 checkbox { label, state, action } props =
   HH.fieldset_
     [ HH.label_
@@ -140,10 +146,10 @@ checkbox { label, state, action } props =
         ]
     ]
 
-checkbox_ ::
-  forall error action slots m.
-  Checkbox error action ->
-  H.ComponentHTML action slots m
+checkbox_
+  :: forall error action slots m
+   . Checkbox error action
+  -> H.ComponentHTML action slots m
 checkbox_ = flip checkbox []
 
 -- <label class="swap">
@@ -151,13 +157,13 @@ checkbox_ = flip checkbox []
 --   <div class="swap-on">ON</div>
 --   <div class="swap-off">OFF</div>
 -- </label>
-swap ::
-  forall error action slots m.
-  H.ComponentHTML action slots m ->
-  H.ComponentHTML action slots m ->
-  Checkbox error action ->
-  Array (HP.IProp HTMLinput action) ->
-  H.ComponentHTML action slots m
+swap
+  :: forall error action slots m
+   . H.ComponentHTML action slots m
+  -> H.ComponentHTML action slots m
+  -> Checkbox error action
+  -> Array (HP.IProp HTMLinput action)
+  -> H.ComponentHTML action slots m
 swap onHTML offHTML { label, state, action } props =
   HH.fieldset [ HP.classes [ HH.ClassName "grid grid-cols-1 gap-1" ] ]
     [ HH.text label
@@ -174,12 +180,12 @@ swap onHTML offHTML { label, state, action } props =
         ]
     ]
 
-swap_ ::
-  forall error action slots m.
-  H.ComponentHTML action slots m ->
-  H.ComponentHTML action slots m ->
-  Checkbox error action ->
-  H.ComponentHTML action slots m
+swap_
+  :: forall error action slots m
+   . H.ComponentHTML action slots m
+  -> H.ComponentHTML action slots m
+  -> Checkbox error action
+  -> H.ComponentHTML action slots m
 swap_ onText offText = flip (swap onText offText) []
 
 swapUpDown :: forall error action slots m. Checkbox error action -> H.ComponentHTML action slots m
@@ -486,9 +492,10 @@ renderCardWithOverlayImgSingle imageUrl elements actions =
     [ HH.figure_ [ HH.img [ HP.src imageUrl ] ]
     , HH.div [ HP.classes [ HH.ClassName "card-body place-content-center" ] ]
         $ [ (HH.div [ HP.classes [ HH.ClassName "stat" ] ] elements) ]
-        <> [ HH.div [ HP.classes [ HH.ClassName "card-actions justify-end" ] ]
-              actions
-          ]
+            <>
+              [ HH.div [ HP.classes [ HH.ClassName "card-actions justify-end" ] ]
+                  actions
+              ]
     ]
 
 renderCardWithOverlayImg2 ∷ forall w i. String -> Array (HH.HTML w i) -> Array (HH.HTML w i) -> HH.HTML w i
@@ -497,9 +504,10 @@ renderCardWithOverlayImg2 imageUrl elements actions =
     [ HH.figure_ [ HH.img [ HP.src imageUrl ] ]
     , HH.div [ HP.classes [ HH.ClassName "card-body place-content-between " ] ]
         $ elements
-        <> [ HH.div [ HP.classes [ HH.ClassName "card-actions justify-end" ] ]
-              actions
-          ]
+            <>
+              [ HH.div [ HP.classes [ HH.ClassName "card-actions justify-end" ] ]
+                  actions
+              ]
     ]
 
 ------------------------
@@ -576,15 +584,16 @@ renderLinkHover = renderLink "link-hover"
 renderFooterNav :: forall w i. String -> Array (HH.HTML w i) -> HH.HTML w i
 renderFooterNav title contents =
   HH.nav_
-    $ [ HH.h6 [ HP.classes [ HH.ClassName "footer-title" ] ] [ HH.text title ]
+    $
+      [ HH.h6 [ HP.classes [ HH.ClassName "footer-title" ] ] [ HH.text title ]
       ]
-    <> contents
+        <> contents
 
 renderFooter :: forall w i. HH.HTML w i -> Array (HH.HTML w i) -> HH.HTML w i
 renderFooter aside navs =
   HH.footer [ HP.classes [ HH.ClassName "footer md:footer-horizontal bg-neutral text-neutral-content p-10" ] ]
     $ [ aside ]
-    <> navs
+        <> navs
 
 stringLimitBy :: Int -> String -> String
 stringLimitBy limit content =
@@ -603,29 +612,30 @@ renderFilter :: forall w i. String -> Array String -> HH.HTML w i
 renderFilter name options =
   HH.form [ HP.classes [ HH.ClassName "filter" ] ]
     $ [ HH.input [ HP.classes [ HH.ClassName "btn btn-square" ], HP.type_ HP.InputReset, HP.value "×" ] ]
-    <> ( map
-          ( \o ->
-              HH.label_
-                [ HH.input
-                    [ HP.classes [ HH.ClassName "btn" ]
-                    , HP.type_ HP.InputRadio
-                    , HP.name name
-                    , HP.attr (HH.AttrName "aria-label") o
+        <>
+          ( map
+              ( \o ->
+                  HH.label_
+                    [ HH.input
+                        [ HP.classes [ HH.ClassName "btn" ]
+                        , HP.type_ HP.InputRadio
+                        , HP.name name
+                        , HP.attr (HH.AttrName "aria-label") o
+                        ]
                     ]
-                ]
+              )
+              options
           )
-          options
-      )
 
 -- ==============================================================================
 -- FILTER
 -- ==============================================================================
-type Filter error action
-  = { label :: String
-    , options :: Array String
-    , state :: F.FieldState String error String
-    , action :: F.FieldAction action String error String
-    }
+type Filter error action =
+  { label :: String
+  , options :: Array String
+  , state :: F.FieldState String error String
+  , action :: F.FieldAction action String error String
+  }
 
 -- <div class="filter">
 --   <input class="btn filter-reset" type="radio" name="metaframeworks" aria-label="All"/>
@@ -633,17 +643,18 @@ type Filter error action
 --   <input class="btn" type="radio" name="metaframeworks" aria-label="Nuxt"/>
 --   <input class="btn" type="radio" name="metaframeworks" aria-label="Next.js"/>
 -- </div>
-filter ::
-  forall error action slots m.
-  Filter error action ->
-  Array (HP.IProp HTMLinput action) ->
-  H.ComponentHTML action slots m
+filter
+  :: forall error action slots m
+   . Filter error action
+  -> Array (HP.IProp HTMLinput action)
+  -> H.ComponentHTML action slots m
 filter { label, options, state, action } props =
   HH.fieldset_
     [ HH.label_
         [ HH.text label
         , HH.div [ HP.classes [ HH.ClassName "filter" ] ]
-            $ [ HH.input
+            $
+              [ HH.input
                   [ HP.classes [ HH.ClassName "btn filter-reset" ]
                   , HP.type_ HP.InputRadio
                   , HP.name label
@@ -652,29 +663,30 @@ filter { label, options, state, action } props =
                   , HP.attr (HH.AttrName "aria-label") "x"
                   ]
               ]
-            <> ( map
-                  ( \o ->
-                      HH.input
-                        $ flip append props
-                            [ HP.classes [ HH.ClassName "btn" ]
-                            , HP.type_ HP.InputRadio
-                            , HP.name label
-                            , HP.checked (state.value == o)
-                            , HE.onValueInput action.handleChange
-                            , HE.onChange (\_ -> action.handleChange o)
-                            , HE.onBlur action.handleBlur
-                            , HP.attr (HH.AttrName "aria-label") o
-                            ]
+                <>
+                  ( map
+                      ( \o ->
+                          HH.input
+                            $ flip append props
+                                [ HP.classes [ HH.ClassName "btn" ]
+                                , HP.type_ HP.InputRadio
+                                , HP.name label
+                                , HP.checked (state.value == o)
+                                , HE.onValueInput action.handleChange
+                                , HE.onChange (\_ -> action.handleChange o)
+                                , HE.onBlur action.handleBlur
+                                , HP.attr (HH.AttrName "aria-label") o
+                                ]
+                      )
+                      options
                   )
-                  options
-              )
         ]
     ]
 
-filter_ ::
-  forall error action slots m.
-  Filter error action ->
-  H.ComponentHTML action slots m
+filter_
+  :: forall error action slots m
+   . Filter error action
+  -> H.ComponentHTML action slots m
 filter_ = flip filter []
 
 -- ==============================================================================
@@ -689,7 +701,7 @@ renderProfessionalServicesSection =
     [ HH.div [ HP.classes [ HH.ClassName "text-center mb-8" ] ]
         [ HH.h2 [ HP.classes [ HH.ClassName "text-3xl md:text-4xl font-bold" ] ] [ HH.text "Professional Services" ]
         , HH.p [ HP.classes [ HH.ClassName "opacity-80 mt-2" ] ]
-            [ HH.text "We build reliable Web3 apps and infrastructure. From operations to full-stack dApp development, we focus on security, performance, and developer experience."
+            [ HH.text "We transform blockchain ideas into production-ready solutions. Our team specializes in Cardano development, from smart contracts to full-stack dApps, with security and performance at the core."
             ]
         , HH.div [ HP.classes [ HH.ClassName "flex flex-wrap justify-center gap-2 mt-4" ] ]
             [ badge "badge-secondary" "Fixed budget"
@@ -699,31 +711,25 @@ renderProfessionalServicesSection =
         ]
     , HH.div [ HP.classes [ HH.ClassName "grid grid-cols-1 md:grid-cols-2 gap-4" ] ]
         [ serviceCard "Smart Contracts"
-            [ "Efficiency and Security"
-            , "NFTs, DeFi, you name it"
+            [ "Battle-tested smart contract development"
+            , "NFTs, DeFi, DAOs, and custom solutions"
+            , "Optimized for efficiency and cost"
             ]
         , serviceCard "Audits"
-            [ "Expert auditing of your contracts"
-            , "Improve security and performance"
-            , "Manual and automated testing"
+            [ "Comprehensive security analysis"
+            , "Gas optimization recommendations"
+            , "Detailed audit reports with actionable insights"
             ]
         , serviceCard "Backend & Frontend"
-            [ "Scalable backend for growth"
-            , "Engaging and functional UIs"
-            , "Security and privacy compliance"
+            [ "Haskell, PureScript, and modern frameworks"
+            , "Web3-native user experiences"
+            , "Secure API design and integration"
             ]
         , serviceCard "Infrastructure"
-            [ "Robust, scalable, and secure"
-            , "High availability & data redundancy"
-            , "Optimize for peak performance"
+            [ "24/7 monitoring and support"
+            , "Cloud-native Kubernetes deployments"
+            , "Disaster recovery and backup solutions"
             ]
-        ]
-    , HH.div [ HP.classes [ HH.ClassName "mt-8 flex justify-center" ] ]
-        [ HH.a
-            [ HP.classes [ HH.ClassName "btn btn-primary" ]
-            , HP.href "#contact"
-            ]
-            [ HH.text "Let's talk" ]
         ]
     ]
   where
@@ -759,19 +765,19 @@ renderHeroSection =
             , HH.div_
                 [ HH.h1 [ HP.classes [ HH.ClassName "text-4xl md:text-5xl font-bold" ] ] [ HH.text "ENTANGLED Labs" ]
                 , HH.p [ HP.classes [ HH.ClassName "py-4 opacity-80" ] ]
-                    [ HH.text "Blockchain R&D • Node operators • Professional Services" ]
+                    [ HH.text "Your trusted Cardano infrastructure & development partner" ]
                 , HH.div [ HP.classes [ HH.ClassName "flex gap-2" ] ]
                     [ HH.a
                         [ HP.classes [ HH.ClassName "btn btn-primary" ]
                         , HP.href "https://cexplorer.io/pool/pool1sj3gnahsms73uxxu43rgwczdw596en7dtsfcqf6297vzgcedquv"
                         , HP.target "_blank"
                         ]
-                        [ HH.text "Stake with E7D" ]
+                        [ HH.text "Start Earning Rewards" ]
                     , HH.a
                         [ HP.classes [ HH.ClassName "btn btn-secondary" ]
                         , HP.href "#services"
                         ]
-                        [ HH.text "Professional Services" ]
+                        [ HH.text "Let's Build Together" ]
                     ]
                 ]
             ]
@@ -790,15 +796,12 @@ renderPoolOverviewSection =
     [ HH.div [ HP.classes [ HH.ClassName "text-center mb-6" ] ]
         [ HH.h2 [ HP.classes [ HH.ClassName "text-3xl font-bold" ] ] [ HH.text "E7D Cardano Staking Pool" ]
         , HH.p [ HP.classes [ HH.ClassName "opacity-80 mt-2" ] ]
-            [ HH.text
-                "Secure, reliable, and community-focused staking."
-            , HH.br_
-            , HH.text "We are also a single stake pool operator and are dedicated to providing secure and reliable staking services to our delegators"
+            [ HH.text "Secure, reliable, and community-focused staking. As a single pool operator, we're 100% dedicated to our delegators' success."
             ]
         ]
     , HH.div [ HP.classes [ HH.ClassName "grid grid-cols-1 md:grid-cols-3 gap-4" ] ]
         [ stat "99.9%" "Uptime target"
-        , stat "Low fees" "Low fees for our delegators"
+        , stat "Competitive Fees" "More rewards in your wallet"
         , stat "Secured" "Best practices operations"
         ]
     , HH.div [ HP.classes [ HH.ClassName "mt-6 flex justify-center gap-2" ] ]
@@ -807,12 +810,12 @@ renderPoolOverviewSection =
             , HP.href "https://cexplorer.io/pool/pool1sj3gnahsms73uxxu43rgwczdw596en7dtsfcqf6297vzgcedquv"
             , HP.target "_blank"
             ]
-            [ HH.text "View Live Metrics" ]
+            [ HH.text "See Pool Performance" ]
         , HH.a
             [ HP.classes [ HH.ClassName "btn" ]
             , HP.href "#hero"
             ]
-            [ HH.text "Delegate Now" ]
+            [ HH.text "Join Our Pool" ]
         ]
     ]
   where
@@ -836,7 +839,7 @@ renderFooterSection =
         , HH.p_
             [ HH.text "ENTANGLED Labs"
             , HH.br_
-            , HH.text "Reliable Cardano staking and dApp engineering"
+            , HH.text "Secure staking • Expert development • Trusted partner"
             ]
         ]
     , HH.nav_
@@ -846,10 +849,8 @@ renderFooterSection =
         , HH.a [ HP.classes [ HH.ClassName "link link-hover" ], HP.href "#pool" ] [ HH.text "Pool" ]
         ]
     , HH.nav_
-        [ HH.h6 [ HP.classes [ HH.ClassName "footer-title" ] ] [ HH.text "Social" ]
-        , HH.a [ HP.classes [ HH.ClassName "link link-hover" ], HP.target "_blank", HP.href "#" ] [ HH.text "Twitter" ]
-        , HH.a [ HP.classes [ HH.ClassName "link link-hover" ], HP.target "_blank", HP.href "#" ] [ HH.text "LinkedIn" ]
-        , HH.a [ HP.classes [ HH.ClassName "link link-hover" ], HP.target "_blank", HP.href "#" ] [ HH.text "YouTube" ]
+        [ HH.h6 [ HP.classes [ HH.ClassName "footer-title" ] ] [ HH.text "Links" ]
+        , HH.a [ HP.classes [ HH.ClassName "link link-hover" ], HP.target "_blank", HP.href "https://github.com/en7angled/" ] [ HH.text "GitHub" ]
         ]
     ]
 
@@ -862,7 +863,7 @@ renderCexplorerPoolGraphSection =
     [ HP.classes [ HH.ClassName "w-full max-w-6xl mx-auto px-4 py-12" ] ]
     [ HH.div [ HP.classes [ HH.ClassName "text-center mb-6" ] ]
         [ HH.h2 [ HP.classes [ HH.ClassName "text-2xl md:text-3xl font-bold" ] ] [ HH.text "Stake Pool Graph" ]
-        , HH.p [ HP.classes [ HH.ClassName "opacity-80 mt-2" ] ] [ HH.text "Live metrics via cexplorer.io" ]
+        , HH.p [ HP.classes [ HH.ClassName "opacity-80 mt-2" ] ] [ HH.text "Real-time performance metrics and block production history" ]
         ]
     , HH.div [ HP.classes [ HH.ClassName "flex justify-center" ] ]
         [ HH.div [ HP.classes [ HH.ClassName "w-full max-w-4xl" ] ]
@@ -885,6 +886,112 @@ renderCexplorerPoolGraphSection =
             , HP.target "_blank"
             , HP.classes [ HH.ClassName "link link-hover" ]
             ]
-            [ HH.text "pool detail on cexplorer.io" ]
+            [ HH.text "View detailed pool statistics →" ]
         ]
     ]
+
+-- ==============================================================================
+-- FAB Speed Dial (Floating Action Button)
+-- ==============================================================================
+renderFabFlower :: forall w i. HH.HTML w i
+renderFabFlower =
+  HH.div [ HP.classes [ HH.ClassName "fab" ] ]
+    [ HH.div
+        [ HP.tabIndex 0
+        , HP.attr (HH.AttrName "role") "button"
+        , HP.classes [ HH.ClassName "btn btn-lg btn-circle btn-accent" ]
+        ]
+        [ starIcon ]
+    , HH.div [ HP.classes [ HH.ClassName "fab-close" ] ]
+        [ HH.text "Close "
+        , HH.span [ HP.classes [ HH.ClassName "btn btn-circle btn-lg btn-error" ] ]
+            [ HH.text "✕" ]
+        ]
+    , HH.div_
+        [ HH.text "Raffleize Art"
+        , HH.a
+            [ HP.classes [ HH.ClassName "btn btn-lg btn-circle" ]
+            , HP.href "https://www.raffleize.art"
+            , HP.target "_blank"
+            ]
+            [ paletteIcon ]
+        ]
+    , HH.div_
+        [ HH.text "BJJ Belts"
+        , HH.a
+            [ HP.classes [ HH.ClassName "btn btn-lg btn-circle" ]
+            , HP.href "https://www.bjj-belts.org"
+            , HP.target "_blank"
+            ]
+            [ medalIcon ]
+        ]
+    , HH.div_
+        [ HH.text "Cardano Ticker"
+        , HH.a
+            [ HP.classes [ HH.ClassName "btn btn-lg btn-circle" ]
+            , HP.href "https://www.ticker.cardano.vip"
+            , HP.target "_blank"
+            ]
+            [ chartIcon ]
+        ]
+    ]
+  where
+  starIcon :: forall w' i'. HH.HTML w' i'
+  starIcon =
+    SE.svg
+      [ SA.class_ $ HH.ClassName "h-6 w-6 shrink-0 stroke-current"
+      , SA.fill NoColor
+      , SA.viewBox 0.0 0.0 24.0 24.0
+      ]
+      [ SE.path
+          [ SA.strokeLineCap LineCapRound
+          , SA.strokeLineJoin LineJoinRound
+          , SA.strokeWidth 2.0
+          , HP.attr (HH.AttrName "d") "M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"
+          ]
+      ]
+
+  paletteIcon :: forall w' i'. HH.HTML w' i'
+  paletteIcon =
+    SE.svg
+      [ SA.class_ $ HH.ClassName "h-6 w-6 shrink-0 stroke-current"
+      , SA.fill NoColor
+      , SA.viewBox 0.0 0.0 24.0 24.0
+      ]
+      [ SE.path
+          [ SA.strokeLineCap LineCapRound
+          , SA.strokeLineJoin LineJoinRound
+          , SA.strokeWidth 2.0
+          , HP.attr (HH.AttrName "d") "M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"
+          ]
+      ]
+
+  medalIcon :: forall w' i'. HH.HTML w' i'
+  medalIcon =
+    SE.svg
+      [ SA.class_ $ HH.ClassName "h-6 w-6 shrink-0 stroke-current"
+      , SA.fill NoColor
+      , SA.viewBox 0.0 0.0 24.0 24.0
+      ]
+      [ SE.path
+          [ SA.strokeLineCap LineCapRound
+          , SA.strokeLineJoin LineJoinRound
+          , SA.strokeWidth 2.0
+          , HP.attr (HH.AttrName "d") "M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"
+          ]
+      ]
+
+  chartIcon :: forall w' i'. HH.HTML w' i'
+  chartIcon =
+    SE.svg
+      [ SA.class_ $ HH.ClassName "h-6 w-6 shrink-0 stroke-current"
+      , SA.fill NoColor
+      , SA.viewBox 0.0 0.0 24.0 24.0
+      ]
+      [ SE.path
+          [ SA.strokeLineCap LineCapRound
+          , SA.strokeLineJoin LineJoinRound
+          , SA.strokeWidth 2.0
+          , HP.attr (HH.AttrName "d") "M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z"
+          ]
+      ]

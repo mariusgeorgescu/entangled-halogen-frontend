@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  entangled-frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: production
+    image: entangled-halogen-frontend:latest
+    container_name: entangled-frontend
+    ports:
+      - "8080:80"
+    restart: unless-stopped
+    environment:
+      - NODE_ENV=production
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost/"]
+      interval: 30s
+      timeout: 3s
+      retries: 3
+      start_period: 5s
+    networks:
+      - frontend-network
+
+networks:
+  frontend-network:
+    driver: bridge
+

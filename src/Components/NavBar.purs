@@ -125,10 +125,11 @@ render state =
         [ HH.div [ HP.classes [ HH.ClassName "flex-1" ] ]
             [ HH.button
                 ([ HP.classes [ HH.ClassName ("btn btn-ghost") ], HE.onClick (\_ -> HomeButton) ])
-                [ HH.div [ HP.classes [ HH.ClassName "text-lg" ] ]
-                    [ HH.text "E7D" ]
-                , HH.div [ HP.classes [ HH.ClassName "text-xs" ] ]
-                    [ HH.text " </alpha>" ]
+                [ HH.img
+                    [ HP.src "./images/E7D/SVG Vector Files/Transparent Logo.svg"
+                    , HP.alt "E7D Logo"
+                    , HP.classes [ HH.ClassName "h-12" ]
+                    ]
                 ]
             ]
         , HH.div [ HP.classes [ HH.ClassName "flex-2 flex justify-end" ] ]

@@ -1,5 +1,10 @@
 {
     "purescript.addSpagoSources": true,
     "purescript.addNpmPath": true,
-    "purescript.buildCommand": "spago build --purs-args --json-errors"
+    "purescript.buildCommand": "spago build --purs-args --json-errors",
+    "github.copilot.chat.codeGeneration.instructions": [
+        {
+            "file": "./.vscode/daisyui.md"
+        }
+    ],
 }
