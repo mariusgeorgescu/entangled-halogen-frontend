@@ -1,4 +1,4 @@
-module Capabilities.InteractionMonad
+module Capabilities.MonadInteraction
   where
 
 import Prelude
@@ -11,14 +11,13 @@ import Affjax.Web as AXW
 import Capabilities.MonadCIP30 (class MonadCIP30)
 import Capabilities.MonadCIP30 as Cip30
 import Cardano.Wallet.Cip30 (Api)
-import Control.Monad.Reader (class MonadReader)
 import Data.Argonaut.Aeson.Decode.Generic (genericDecodeAeson)
 import Data.Argonaut.Aeson.Encode.Generic (genericEncodeAeson)
 import Data.Argonaut.Aeson.Options as Argonaut
 import Data.Argonaut.Decode (decodeJson, printJsonDecodeError)
 import Data.Argonaut.Decode.Class (class DecodeJson, class DecodeJsonField)
 import Data.Argonaut.Decode.Error (JsonDecodeError)
-import Data.Argonaut.Encode (encodeJson)
+import Data.Argonaut.Encode (encodeJson, toJsonString)
 import Data.Argonaut.Encode.Class (class EncodeJson)
 import Data.Either (Either(..), either)
 import Data.Generic.Rep (class Generic)
@@ -34,6 +33,7 @@ import Effect.Aff.Class (class MonadAff)
 import Effect.Exception (throw)
 import Halogen as H
 import Prim (Array, String)
+import Test.Unit.Console (consoleLog)
 
 
 newtype ServerEnv = ServerEnv 
@@ -59,7 +59,7 @@ _ServerEnv = _Newtype
 defaultServerEnv :: ServerEnv
 defaultServerEnv = ServerEnv 
   { buildTxURL: "http://localhost:8082/build-tx",
-     signAndSubmitTxURL: "http://localhost:8082/sign-and-submit-tx", basicUser: "cardano", basicPassword: "lovelace" }
+     signAndSubmitTxURL: "http://localhost:8082/submit-tx", basicUser: "cardano", basicPassword: "lovelace" }
 --------------------------------------------------------------------------------
 
 
@@ -68,8 +68,7 @@ newtype UserAddresses
   = UserAddresses
   { usedAddresses :: Array String
   , changeAddress :: String
-  , reservedCollateral :: Maybe String
-  , stakeAddress :: Maybe String
+  , stakeAddresses :: Array String
   }
 
 instance encodeJsonUserAddresses :: EncodeJson UserAddresses where
@@ -86,8 +85,7 @@ _UserAddresses ::
   Iso' UserAddresses
     { usedAddresses :: Array String
     , changeAddress :: String
-    , reservedCollateral :: Maybe String
-    , stakeAddress :: Maybe String
+    , stakeAddresses :: Array String
     }
 _UserAddresses = _Newtype
 
@@ -117,8 +115,8 @@ _Interaction = _Newtype
 --------------------------------------------------------------------------------
 newtype AddWitAndSubmitParams =
     AddWitAndSubmitParams {
-      awasTxUnsigned :: String
-    , awasTxWit :: String
+      tx_unsigned :: String
+    , tx_wit :: String
     }
 
 instance encodeJsonAddWitAndSubmitParams :: EncodeJson AddWitAndSubmitParams where
@@ -129,7 +127,7 @@ derive instance genericAddWitAndSubmitParams :: Generic AddWitAndSubmitParams _
 derive instance newtypeAddWitAndSubmitParams :: Newtype AddWitAndSubmitParams _
 
 --------------------------------------------------------------------------------
-_AddWitAndSubmitParams :: Iso' AddWitAndSubmitParams { awasTxUnsigned :: String, awasTxWit :: String}
+_AddWitAndSubmitParams :: Iso' AddWitAndSubmitParams { tx_unsigned :: String, tx_wit :: String}
 _AddWitAndSubmitParams = _Newtype
 
 --------------------------------------------------------------------------------
@@ -146,10 +144,22 @@ class
   , MonadAff m
   , DecodeJson a
   , EncodeJson a
+  , MonadCIP30 m
   , DecodeJsonField a
-  ) <= InteractionMonad a m where
-  buildTransaction :: ServerEnv -> Interaction a -> m (Either String String)
-  signAndSubmitTransaction :: ServerEnv -> Api -> String -> m (Either String String)
+  ) <= MonadInteraction a m where
+  buildTransaction :: ServerEnv -> Api -> a -> m (Either String String)
+  submitTransaction :: ServerEnv  -> String -> String -> m (Either String String)
+  signTransaction ::  Api -> String -> m (Either String String)
+
+
+signTransactionDefault ::
+  forall m.
+  MonadAff m =>
+  MonadCIP30 m =>
+  Api -> String -> m (Either String String)
+signTransactionDefault api unsignedTxCbor = do
+  signedTx <- Cip30.signTx api unsignedTxCbor true
+  pure $ Right signedTx
 
 
 buildTransactionDefault ::
@@ -158,39 +168,62 @@ buildTransactionDefault ::
   EncodeJson a =>
   DecodeJson a =>
   DecodeJsonField a =>
-  ServerEnv -> Interaction a -> m (Either String String)
-buildTransactionDefault serverEnv interaction = do 
-      let
-          env = unwrap serverEnv
-          req = 
-                { url : env.buildTxURL
-                , method : Left POST
-                , responseFormat : AXRF.json  
-                , headers :
-                    [ AXRH.RequestHeader "Authorization" ("Basic " <> (Base64.encode (env.basicUser <> ":" <> env.basicPassword)))
-                    ]
-                , content : Just $ AXRB.Json $ encodeJson interaction
-                , password : Just env.basicPassword
-                , username : Just env.basicUser
-                , timeout : Just $ Milliseconds 30000.0
-                , withCredentials : true
+  MonadCIP30 m =>
+  ServerEnv ->  Api ->  a -> m (Either String String)
+buildTransactionDefault serverEnv api a = do 
+    usedAddresses <-  Cip30.getUsedAddresses api Nothing
+    changeAddress <- Cip30.getChangeAddress api
+    stakeAddresses <- Cip30.getRewardAddresses api
+    let interaction = 
+            Interaction
+                { action: a
+                , recipient: Nothing
+                , userAddresses:
+                    UserAddresses
+                      { usedAddresses: usedAddresses
+                      , changeAddress: changeAddress
+                      , stakeAddresses: stakeAddresses
+                      }
                 }
-      result <- H.liftAff $ AXW.request req
-      case result of 
-        Right success -> do
-            txCBOR <- H.liftEffect $ getDecodedJson $ decodeJson @String (_.body success)
-            pure $ Right txCBOR
-        Left e -> pure $  Left $ AX.printError e
+    H.liftEffect $ consoleLog $ show (toJsonString interaction)
+    buildTransactionFromInteraction serverEnv interaction
 
+buildTransactionFromInteraction ::
+  forall a m.
+  MonadAff m =>
+  EncodeJson a =>
+  DecodeJson a =>
+  DecodeJsonField a =>
+  ServerEnv -> Interaction a -> m (Either String String)
+buildTransactionFromInteraction serverEnv interaction = do
+  let env = unwrap serverEnv
+  let req =
+            { url : env.buildTxURL
+            , method : Left POST
+            , responseFormat : AXRF.json
+            , headers :
+                [ AXRH.RequestHeader "Authorization" ("Basic " <> (Base64.encode (env.basicUser <> ":" <> env.basicPassword)))
+                ]
+            , content : Just $ AXRB.Json $ encodeJson interaction
+            , password : Just env.basicPassword
+            , username : Just env.basicUser
+            , timeout : Just $ Milliseconds 10_000_000.0
+            , withCredentials : true
+            }
+  result <- H.liftAff $ AXW.request req
+  case result of
+    Right success -> do
+        txCBOR <- H.liftEffect $ getDecodedJson $ decodeJson @String (_.body success)
+        pure $ Right txCBOR
+    Left e -> pure $ Left $ AX.printError e
 
-
-signAndSubmitTransactionDefault::
+submitTransactionDefault::
   forall m.
   MonadAff m =>
   MonadCIP30 m =>
-  ServerEnv ->  Api -> String -> m (Either String String)
-signAndSubmitTransactionDefault serverEnv api unsignedTxCbor = do 
-    signedTx <- Cip30.signTx api unsignedTxCbor true 
+  ServerEnv ->   String -> String -> m (Either String String)
+submitTransactionDefault serverEnv  unsignedTxCbor signedTx = do 
+   
     let
         env = unwrap serverEnv
         req = 
@@ -200,10 +233,10 @@ signAndSubmitTransactionDefault serverEnv api unsignedTxCbor = do
               , headers :
                   [ AXRH.RequestHeader "Authorization" ("Basic " <> (Base64.encode (env.basicUser <> ":" <> env.basicPassword)))
                   ]
-              , content : Just $ AXRB.Json  $ encodeJson (AddWitAndSubmitParams { awasTxUnsigned: unsignedTxCbor, awasTxWit: signedTx })
+              , content : Just $ AXRB.Json  $ encodeJson (AddWitAndSubmitParams { tx_unsigned: unsignedTxCbor, tx_wit: signedTx })
               , password : Just env.basicPassword
               , username : Just env.basicUser
-              , timeout : Just $ Milliseconds 30000.0
+              , timeout : Just $ Milliseconds 10_000_000.0
               , withCredentials : true
               }
     result <- H.liftAff $ AXW.request req
@@ -216,11 +249,11 @@ signAndSubmitTransactionDefault serverEnv api unsignedTxCbor = do
 
 instance interactionMonadDefault ::
   ( MonadAff m
-  , MonadReader ServerEnv m
   , EncodeJson a
   , DecodeJson a
   , DecodeJsonField a
   , MonadCIP30 m
-  ) => InteractionMonad a m where
+  ) => MonadInteraction a m where
     buildTransaction = buildTransactionDefault
-    signAndSubmitTransaction = signAndSubmitTransactionDefault
+    submitTransaction = submitTransactionDefault
+    signTransaction = signTransactionDefault

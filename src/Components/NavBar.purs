@@ -3,8 +3,8 @@ module Components.NavBar where
 import Prelude
 import AppEnv (Env)
 import Capabilities.MonadCIP30 (class MonadCIP30)
+import Capabilities.MonadInteraction (class MonadInteraction)
 import Cardano.Wallet.Cip30 (Api)
-import WalletConnect.Component as WC
 import Control.Monad.Reader.Class (class MonadAsk)
 import Data.Maybe (Maybe(..))
 import Effect.Aff.Class (class MonadAff)
@@ -12,12 +12,13 @@ import Halogen as H
 import Halogen.HTML as HH
 import Halogen.HTML.Events as HE
 import Halogen.HTML.Properties as HP
--- import Halogen.HTML.Properties.ARIA as HPA -- no longer used here
 import Halogen.Store.Connect (Connected, connect)
 import Halogen.Store.Monad (class MonadStore, updateStore)
 import Halogen.Store.Select (selectAll)
 import Store as Store
+import Test.Unit.Console (consoleLog)
 import Type.Proxy (Proxy(..))
+import WalletConnect.Component as WC
 
 --------------------------------------------------------------------------------
 -- * Component Interface
@@ -37,6 +38,7 @@ data Output
   = WalletConnectEvent
   | InvalidNetworkEvent
   | HomeEvent
+  | BuildTransactionEvent String Api
 
 --------------------------------------------------------------------------------
 -- * Child Slots
@@ -92,6 +94,7 @@ handleAction ::
   MonadAff m =>
   MonadCIP30 m =>
   MonadAsk Env m =>
+  MonadInteraction String m =>
   MonadStore Store.Action Store.Store m =>
   Action → H.HalogenM State Action Slots Output m Unit
 handleAction = case _ of
@@ -102,14 +105,28 @@ handleAction = case _ of
     H.modify_ _ { walletApi = x.context.walletApi }
     handleAction Initialize
   HandleWalletConnectOutput out -> case out of
-    WC.WalletConnectedEvent -> H.raise WalletConnectEvent
+    WC.WalletConnectedEvent -> do
+      mApi <- H.query WC.walletConnectProxy unit (WC.GetWalletApi identity)
+      case mApi of
+        Just (Just api) -> do
+          updateStore (Store.Connect api)
+          H.raise WalletConnectEvent
+        _ -> pure unit
     WC.WalletDisconnectedEvent -> do
       updateStore Store.Disconnect
       H.raise WalletConnectEvent
-    WC.CustomButtonEvent bid -> case bid of
-      "home" -> H.raise HomeEvent
-      "delegate" -> pure unit
-      _ -> pure unit
+    WC.CustomButtonEvent bid -> do
+      H.liftEffect $ consoleLog $ show bid
+      case bid of
+        "home" -> H.raise HomeEvent
+        "delegate" -> do
+          walletApi <- H.gets _.walletApi
+          case walletApi of
+            Just api -> do
+              H.liftEffect $ consoleLog $ show "DelegateEvent"
+              H.raise $ BuildTransactionEvent "DelegateToPool" api
+            Nothing -> pure unit
+        _ -> H.liftEffect $ consoleLog $ show "Unknown button event"
   HomeButton -> H.raise HomeEvent
 
 --------------------------------------------------------------------------------

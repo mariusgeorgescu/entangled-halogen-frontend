@@ -5,21 +5,21 @@ ARG BUILDPLATFORM
 ARG TARGETPLATFORM
 ARG TARGETOS
 ARG TARGETARCH
-FROM --platform=$BUILDPLATFORM node:23.10.0-alpine AS builder
+FROM --platform=$BUILDPLATFORM node:23.10.0 AS builder
 
 # Helpful for debugging cross-builds
 RUN echo "Building on $BUILDPLATFORM for $TARGETPLATFORM ($TARGETOS/$TARGETARCH)"
 
 # Install required system dependencies (including build tools for native modules)
-RUN apk add --no-cache \
-    git \
-    curl \
-    python3 \
-    make \
-    g++ \
-    gcc \
-    musl-dev \
-    libc6-compat
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
+      git \
+      curl \
+      python3 \
+      make \
+      g++ \
+      ca-certificates && \
+    rm -rf /var/lib/apt/lists/*
 
 # Set working directory
 WORKDIR /app
@@ -31,7 +31,7 @@ COPY package.json package-lock.json ./
 RUN npm config set fetch-retries 5 && \
     npm config set fetch-retry-mintimeout 20000 && \
     npm config set fetch-retry-maxtimeout 120000 && \
-    npm ci --prefer-offline --no-audit
+    npm ci --prefer-offline --no-audit --unsafe-perm
 
 # Copy source files
 COPY . .
@@ -40,7 +40,10 @@ COPY . .
 RUN npm run build
 
 # Stage 2: Production server with nginx (multi-arch)
-FROM --platform=$TARGETPLATFORM nginx:alpine AS production
+FROM nginx:alpine AS production
+
+# Upgrade base OS packages to pick up security fixes
+RUN apk -U --no-cache upgrade
 
 # Copy custom nginx configuration
 COPY nginx.conf /etc/nginx/conf.d/default.conf

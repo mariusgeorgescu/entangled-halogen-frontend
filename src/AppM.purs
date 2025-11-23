@@ -5,6 +5,7 @@ module AppM
   ) where
 
 import Prelude
+
 import AppEnv (Env)
 import Capabilities.MonadCIP30 (class MonadCIP30)
 import Cardano.Wallet.Cip30 as Cip30
@@ -87,3 +88,4 @@ instance monadCip30AppM :: MonadCIP30 AppM where
   isEnabled = H.liftAff <<< Cip30.isEnabled
   getApiVersion = H.liftEffect <<< Cip30.getApiVersion
   getSupportedExtensions = H.liftEffect <<< Cip30.getSupportedExtensions
+

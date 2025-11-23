@@ -1,5 +1,5 @@
 package:
-  name: raffleize-frontend-purescript
+  name: entangled-frontend-purescript
   dependencies:
     - affjax
     - affjax-web

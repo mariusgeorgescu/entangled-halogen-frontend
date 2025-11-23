@@ -1,5 +1,4 @@
-module Components.HTML.RenderUtils.App
-  where
+module Components.HTML.RenderUtils.App where
 
 import Prelude
 import Components.HTML.Icons (activeSvgIcon, downSvgIcon, errorSvgIcon, finalSvgIcon, infoSvgIcon, successSvgIcon, upSvgIcon, warningSvgIcon)
@@ -22,17 +21,17 @@ import Halogen.Svg.Elements as SE
 -- ==============================================================================
 -- INPUT DATA
 -- ==============================================================================
-type Labelled input output =
-  { label :: String
-  , state :: F.FieldState input String output
-  }
+type Labelled input output
+  = { label :: String
+    , state :: F.FieldState input String output
+    }
 
 -- Attach a label and error text to a form input
-withLabel
-  :: forall input output action slots m
-   . Labelled input output
-  -> H.ComponentHTML action slots m
-  -> H.ComponentHTML action slots m
+withLabel ::
+  forall input output action slots m.
+  Labelled input output ->
+  H.ComponentHTML action slots m ->
+  H.ComponentHTML action slots m
 withLabel { label, state } html =
   let
     (Tuple errorMsg inputColor) = case state.result of
@@ -46,73 +45,73 @@ withLabel { label, state } html =
       , HH.small [ HP.classes [ HH.ClassName "bg-error text-error-content" ] ] [ HH.text errorMsg ]
       ]
 
-type TextInput action output =
-  { label :: String
-  , state :: F.FieldState String String output
-  , action :: F.FieldAction action String String output
-  }
+type TextInput action output
+  = { label :: String
+    , state :: F.FieldState String String output
+    , action :: F.FieldAction action String String output
+    }
 
-textInput
-  :: forall output action slots m
-   . TextInput action output
-  -> Array (HP.IProp HTMLinput action)
-  -> H.ComponentHTML action slots m
+textInput ::
+  forall output action slots m.
+  TextInput action output ->
+  Array (HP.IProp HTMLinput action) ->
+  H.ComponentHTML action slots m
 textInput { label, state, action } =
   withLabel { label, state } <<< HH.input
     <<< append
-      [ HP.value state.value
-      , case state.result of
-          Nothing -> HP.attr (HH.AttrName "aria-touched") "false"
-          Just (Left _) -> HP.attr (HH.AttrName "aria-invalid") "true"
-          Just (Right _) -> HP.attr (HH.AttrName "aria-invalid") "false"
-      , HE.onValueInput action.handleChange
-      , HE.onBlur action.handleBlur
-      , HP.classes [ HH.ClassName "input input-bordered input-secondary w-full max-w-xs" ]
-      ]
+        [ HP.value state.value
+        , case state.result of
+            Nothing -> HP.attr (HH.AttrName "aria-touched") "false"
+            Just (Left _) -> HP.attr (HH.AttrName "aria-invalid") "true"
+            Just (Right _) -> HP.attr (HH.AttrName "aria-invalid") "false"
+        , HE.onValueInput action.handleChange
+        , HE.onBlur action.handleBlur
+        , HP.classes [ HH.ClassName "input input-bordered input-secondary w-full max-w-xs" ]
+        ]
 
-textInput_
-  :: forall output action slots m
-   . TextInput action output
-  -> H.ComponentHTML action slots m
+textInput_ ::
+  forall output action slots m.
+  TextInput action output ->
+  H.ComponentHTML action slots m
 textInput_ = flip textInput []
 
-type Textarea action output =
-  { label :: String
-  , state :: F.FieldState String String output
-  , action :: F.FieldAction action String String output
-  }
+type Textarea action output
+  = { label :: String
+    , state :: F.FieldState String String output
+    , action :: F.FieldAction action String String output
+    }
 
-textarea
-  :: forall output action slots m
-   . Textarea action output
-  -> Array (HP.IProp HTMLtextarea action)
-  -> H.ComponentHTML action slots m
+textarea ::
+  forall output action slots m.
+  Textarea action output ->
+  Array (HP.IProp HTMLtextarea action) ->
+  H.ComponentHTML action slots m
 textarea { label, state, action } =
   withLabel { label, state } <<< HH.textarea
     <<< append
-      [ HP.value state.value
-      , HE.onValueInput action.handleChange
-      , HE.onBlur action.handleBlur
-      , HP.classes [ HH.ClassName "textarea textarea-secondary textarea-bordered  w-full max-w-xs" ]
-      ]
+        [ HP.value state.value
+        , HE.onValueInput action.handleChange
+        , HE.onBlur action.handleBlur
+        , HP.classes [ HH.ClassName "textarea textarea-secondary textarea-bordered  w-full max-w-xs" ]
+        ]
 
-textarea_
-  :: forall output action slots m
-   . Textarea action output
-  -> H.ComponentHTML action slots m
+textarea_ ::
+  forall output action slots m.
+  Textarea action output ->
+  H.ComponentHTML action slots m
 textarea_ = flip textarea []
 
-type Checkbox error action =
-  { label :: String
-  , state :: F.FieldState Boolean error Boolean
-  , action :: F.FieldAction action Boolean error Boolean
-  }
+type Checkbox error action
+  = { label :: String
+    , state :: F.FieldState Boolean error Boolean
+    , action :: F.FieldAction action Boolean error Boolean
+    }
 
-checkboxConsent
-  :: forall error action slots m
-   . Checkbox error action
-  -> Array (HP.IProp HTMLinput action)
-  -> H.ComponentHTML action slots m
+checkboxConsent ::
+  forall error action slots m.
+  Checkbox error action ->
+  Array (HP.IProp HTMLinput action) ->
+  H.ComponentHTML action slots m
 checkboxConsent { label, state, action } props =
   HH.fieldset_
     [ HH.label_
@@ -127,11 +126,11 @@ checkboxConsent { label, state, action } props =
         ]
     ]
 
-checkbox
-  :: forall error action slots m
-   . Checkbox error action
-  -> Array (HP.IProp HTMLinput action)
-  -> H.ComponentHTML action slots m
+checkbox ::
+  forall error action slots m.
+  Checkbox error action ->
+  Array (HP.IProp HTMLinput action) ->
+  H.ComponentHTML action slots m
 checkbox { label, state, action } props =
   HH.fieldset_
     [ HH.label_
@@ -146,10 +145,10 @@ checkbox { label, state, action } props =
         ]
     ]
 
-checkbox_
-  :: forall error action slots m
-   . Checkbox error action
-  -> H.ComponentHTML action slots m
+checkbox_ ::
+  forall error action slots m.
+  Checkbox error action ->
+  H.ComponentHTML action slots m
 checkbox_ = flip checkbox []
 
 -- <label class="swap">
@@ -157,13 +156,13 @@ checkbox_ = flip checkbox []
 --   <div class="swap-on">ON</div>
 --   <div class="swap-off">OFF</div>
 -- </label>
-swap
-  :: forall error action slots m
-   . H.ComponentHTML action slots m
-  -> H.ComponentHTML action slots m
-  -> Checkbox error action
-  -> Array (HP.IProp HTMLinput action)
-  -> H.ComponentHTML action slots m
+swap ::
+  forall error action slots m.
+  H.ComponentHTML action slots m ->
+  H.ComponentHTML action slots m ->
+  Checkbox error action ->
+  Array (HP.IProp HTMLinput action) ->
+  H.ComponentHTML action slots m
 swap onHTML offHTML { label, state, action } props =
   HH.fieldset [ HP.classes [ HH.ClassName "grid grid-cols-1 gap-1" ] ]
     [ HH.text label
@@ -180,12 +179,12 @@ swap onHTML offHTML { label, state, action } props =
         ]
     ]
 
-swap_
-  :: forall error action slots m
-   . H.ComponentHTML action slots m
-  -> H.ComponentHTML action slots m
-  -> Checkbox error action
-  -> H.ComponentHTML action slots m
+swap_ ::
+  forall error action slots m.
+  H.ComponentHTML action slots m ->
+  H.ComponentHTML action slots m ->
+  Checkbox error action ->
+  H.ComponentHTML action slots m
 swap_ onText offText = flip (swap onText offText) []
 
 swapUpDown :: forall error action slots m. Checkbox error action -> H.ComponentHTML action slots m
@@ -492,10 +491,9 @@ renderCardWithOverlayImgSingle imageUrl elements actions =
     [ HH.figure_ [ HH.img [ HP.src imageUrl ] ]
     , HH.div [ HP.classes [ HH.ClassName "card-body place-content-center" ] ]
         $ [ (HH.div [ HP.classes [ HH.ClassName "stat" ] ] elements) ]
-            <>
-              [ HH.div [ HP.classes [ HH.ClassName "card-actions justify-end" ] ]
-                  actions
-              ]
+        <> [ HH.div [ HP.classes [ HH.ClassName "card-actions justify-end" ] ]
+              actions
+          ]
     ]
 
 renderCardWithOverlayImg2 ∷ forall w i. String -> Array (HH.HTML w i) -> Array (HH.HTML w i) -> HH.HTML w i
@@ -504,10 +502,9 @@ renderCardWithOverlayImg2 imageUrl elements actions =
     [ HH.figure_ [ HH.img [ HP.src imageUrl ] ]
     , HH.div [ HP.classes [ HH.ClassName "card-body place-content-between " ] ]
         $ elements
-            <>
-              [ HH.div [ HP.classes [ HH.ClassName "card-actions justify-end" ] ]
-                  actions
-              ]
+        <> [ HH.div [ HP.classes [ HH.ClassName "card-actions justify-end" ] ]
+              actions
+          ]
     ]
 
 ------------------------
@@ -584,16 +581,15 @@ renderLinkHover = renderLink "link-hover"
 renderFooterNav :: forall w i. String -> Array (HH.HTML w i) -> HH.HTML w i
 renderFooterNav title contents =
   HH.nav_
-    $
-      [ HH.h6 [ HP.classes [ HH.ClassName "footer-title" ] ] [ HH.text title ]
+    $ [ HH.h6 [ HP.classes [ HH.ClassName "footer-title" ] ] [ HH.text title ]
       ]
-        <> contents
+    <> contents
 
 renderFooter :: forall w i. HH.HTML w i -> Array (HH.HTML w i) -> HH.HTML w i
 renderFooter aside navs =
   HH.footer [ HP.classes [ HH.ClassName "footer md:footer-horizontal bg-neutral text-neutral-content p-10" ] ]
     $ [ aside ]
-        <> navs
+    <> navs
 
 stringLimitBy :: Int -> String -> String
 stringLimitBy limit content =
@@ -612,30 +608,29 @@ renderFilter :: forall w i. String -> Array String -> HH.HTML w i
 renderFilter name options =
   HH.form [ HP.classes [ HH.ClassName "filter" ] ]
     $ [ HH.input [ HP.classes [ HH.ClassName "btn btn-square" ], HP.type_ HP.InputReset, HP.value "×" ] ]
-        <>
-          ( map
-              ( \o ->
-                  HH.label_
-                    [ HH.input
-                        [ HP.classes [ HH.ClassName "btn" ]
-                        , HP.type_ HP.InputRadio
-                        , HP.name name
-                        , HP.attr (HH.AttrName "aria-label") o
-                        ]
+    <> ( map
+          ( \o ->
+              HH.label_
+                [ HH.input
+                    [ HP.classes [ HH.ClassName "btn" ]
+                    , HP.type_ HP.InputRadio
+                    , HP.name name
+                    , HP.attr (HH.AttrName "aria-label") o
                     ]
-              )
-              options
+                ]
           )
+          options
+      )
 
 -- ==============================================================================
 -- FILTER
 -- ==============================================================================
-type Filter error action =
-  { label :: String
-  , options :: Array String
-  , state :: F.FieldState String error String
-  , action :: F.FieldAction action String error String
-  }
+type Filter error action
+  = { label :: String
+    , options :: Array String
+    , state :: F.FieldState String error String
+    , action :: F.FieldAction action String error String
+    }
 
 -- <div class="filter">
 --   <input class="btn filter-reset" type="radio" name="metaframeworks" aria-label="All"/>
@@ -643,18 +638,17 @@ type Filter error action =
 --   <input class="btn" type="radio" name="metaframeworks" aria-label="Nuxt"/>
 --   <input class="btn" type="radio" name="metaframeworks" aria-label="Next.js"/>
 -- </div>
-filter
-  :: forall error action slots m
-   . Filter error action
-  -> Array (HP.IProp HTMLinput action)
-  -> H.ComponentHTML action slots m
+filter ::
+  forall error action slots m.
+  Filter error action ->
+  Array (HP.IProp HTMLinput action) ->
+  H.ComponentHTML action slots m
 filter { label, options, state, action } props =
   HH.fieldset_
     [ HH.label_
         [ HH.text label
         , HH.div [ HP.classes [ HH.ClassName "filter" ] ]
-            $
-              [ HH.input
+            $ [ HH.input
                   [ HP.classes [ HH.ClassName "btn filter-reset" ]
                   , HP.type_ HP.InputRadio
                   , HP.name label
@@ -663,30 +657,29 @@ filter { label, options, state, action } props =
                   , HP.attr (HH.AttrName "aria-label") "x"
                   ]
               ]
-                <>
-                  ( map
-                      ( \o ->
-                          HH.input
-                            $ flip append props
-                                [ HP.classes [ HH.ClassName "btn" ]
-                                , HP.type_ HP.InputRadio
-                                , HP.name label
-                                , HP.checked (state.value == o)
-                                , HE.onValueInput action.handleChange
-                                , HE.onChange (\_ -> action.handleChange o)
-                                , HE.onBlur action.handleBlur
-                                , HP.attr (HH.AttrName "aria-label") o
-                                ]
-                      )
-                      options
+            <> ( map
+                  ( \o ->
+                      HH.input
+                        $ flip append props
+                            [ HP.classes [ HH.ClassName "btn" ]
+                            , HP.type_ HP.InputRadio
+                            , HP.name label
+                            , HP.checked (state.value == o)
+                            , HE.onValueInput action.handleChange
+                            , HE.onChange (\_ -> action.handleChange o)
+                            , HE.onBlur action.handleBlur
+                            , HP.attr (HH.AttrName "aria-label") o
+                            ]
                   )
+                  options
+              )
         ]
     ]
 
-filter_
-  :: forall error action slots m
-   . Filter error action
-  -> H.ComponentHTML action slots m
+filter_ ::
+  forall error action slots m.
+  Filter error action ->
+  H.ComponentHTML action slots m
 filter_ = flip filter []
 
 -- ==============================================================================

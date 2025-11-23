@@ -45,3 +45,5 @@ trimQuotes s = String.drop 1 $ String.take (String.length s - 1) s
 
 formatNumberFromStr ∷ String → String
 formatNumberFromStr str = formatOrShowNumber "0,0" $ maybe 0.0 identity $ Number.fromString $ str
+
+
