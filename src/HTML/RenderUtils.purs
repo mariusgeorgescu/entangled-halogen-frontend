@@ -685,13 +685,11 @@ filter_ ::
   H.ComponentHTML action slots m
 filter_ = flip filter []
 
-
-
 -- ==============================================================================
 -- PROFESSIONAL SERVICES (Static Section)
 -- ==============================================================================
-renderProfessionalServicesSection :: forall w i. HH.HTML w i
-renderProfessionalServicesSection =
+renderProfessionalServicesSection :: forall w i. Array (HH.HTML w i) -> HH.HTML w i
+renderProfessionalServicesSection buttonsList =
   HH.section
     [ HP.id "services"
     , HP.classes [ HH.ClassName "w-full max-w-6xl mx-auto px-4 py-12" ]
@@ -729,6 +727,7 @@ renderProfessionalServicesSection =
             , "Disaster recovery and backup solutions"
             ]
         ]
+    , HH.div [ HP.classes [ HH.ClassName "mt-6 flex justify-center gap-2" ] ] buttonsList
     ]
   where
   badge :: forall w' i'. String -> String -> HH.HTML w' i'
@@ -765,18 +764,18 @@ renderHeroSection buttonsList =
                 , HH.p [ HP.classes [ HH.ClassName "py-4 opacity-80" ] ]
                     [ HH.text "Your trusted Cardano infrastructure & development partner" ]
                 , HH.div [ HP.classes [ HH.ClassName "flex gap-2" ] ] buttonsList
-                    -- [ HH.a
-                    --     [ HP.classes [ HH.ClassName "btn btn-primary" ]
-                    --     , HP.href "https://cexplorer.io/pool/pool1sj3gnahsms73uxxu43rgwczdw596en7dtsfcqf6297vzgcedquv"
-                    --     , HP.target "_blank"
-                    --     ]
-                    --     [ HH.text "Start Earning Rewards" ]
-                    -- , HH.a
-                    --     [ HP.classes [ HH.ClassName "btn btn-secondary" ]
-                    --     , HP.href "#services"
-                    --     ]
-                    --     [ HH.text "Let's Build Together" ]
-                    -- ]
+                -- [ HH.a
+                --     [ HP.classes [ HH.ClassName "btn btn-primary" ]
+                --     , HP.href "https://cexplorer.io/pool/pool1sj3gnahsms73uxxu43rgwczdw596en7dtsfcqf6297vzgcedquv"
+                --     , HP.target "_blank"
+                --     ]
+                --     [ HH.text "Start Earning Rewards" ]
+                -- , HH.a
+                --     [ HP.classes [ HH.ClassName "btn btn-secondary" ]
+                --     , HP.href "#services"
+                --     ]
+                --     [ HH.text "Let's Build Together" ]
+                -- ]
                 ]
             ]
         ]
@@ -813,7 +812,7 @@ renderPoolOverviewSection =
             [ HP.classes [ HH.ClassName "btn" ]
             , HP.href "#hero"
             ]
-            [ HH.text "Join Our Pool" ]
+            [ HH.text "Join us" ]
         ]
     ]
   where

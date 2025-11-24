@@ -13,6 +13,11 @@ import Data.String (drop, length, take)
 import Data.String as String
 import Data.Time.Duration (Milliseconds(..), Minutes, negateDuration)
 import Data.Tuple (Tuple)
+import Prelude
+import Effect (Effect)
+import Web.HTML (window)
+import Web.HTML.Window (scroll, scrollBy)
+
 
 enumerate :: ∀ a. Array a -> Array (Tuple Int a)
 enumerate arr = A.zip (A.range 0 $ A.length arr) arr
@@ -46,4 +51,12 @@ trimQuotes s = String.drop 1 $ String.take (String.length s - 1) s
 formatNumberFromStr ∷ String → String
 formatNumberFromStr str = formatOrShowNumber "0,0" $ maybe 0.0 identity $ Number.fromString $ str
 
+scrollToTop :: Effect Unit
+scrollToTop = do
+  win <- window
+  scroll 0 0 win
 
+scrollByXY :: Int -> Int -> Effect Unit
+scrollByXY x y = do
+  win <- window
+  scrollBy x y win

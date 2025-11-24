@@ -2,12 +2,14 @@ module Components.Home where
 
 import Prelude
 
+import App.Utils (scrollToTop)
 import AppEnv (Env)
 import Capabilities.MonadCIP30 (class MonadCIP30)
 import Capabilities.MonadInteraction (class MonadInteraction, buildTransaction, defaultServerEnv, signTransaction, submitTransaction)
 import Cardano.Wallet.Cip30 as Cardano.Wallet.Cip30
 import Components.HTML.RenderUtils.App (renderAccentButton, renderCexplorerPoolGraphSection, renderFabFlower, renderFooterSection, renderHeroSection, renderPoolOverviewSection, renderPrimaryButton, renderProfessionalServicesSection, renderSecondaryButton, renderToasts) as RU
 import Components.NavBar as NavBar
+import Components.Portfolio as Portfolio
 import Control.Monad.Reader.Class (class MonadAsk, asks)
 import Control.Monad.Rec.Class (forever)
 import Data.Array (cons, filter)
@@ -50,10 +52,12 @@ clearToasts ts = filter ((_ > 0) <<< _.remainingSeconds) ts
 --------------------------------------------------------------------------------
 type Slots
   = ( navbarWidget :: NavBar.Slot
+    , portfolioWidget :: Portfolio.Slot
     )
 
 data Page
   = MainPage
+  | PortfolioPage
 
 derive instance eqValue :: Eq Page
 
@@ -69,7 +73,9 @@ type State
 
 data Action
   = Initialize
+  | ChangePage Page
   | HandleNavBarOutput NavBar.Output
+  | HandlePortfolioOutput Portfolio.Output
   | SubmitTransaction String String
   | SignTransaction Cardano.Wallet.Cip30.Api String
   | StartEarningRewardsButton 
@@ -152,7 +158,7 @@ handleAction action = case action of
     pure unit
   HandleNavBarOutput navbarout -> case navbarout of
     NavBar.HomeEvent -> do
-      pure unit
+      handleAction (ChangePage MainPage)
     NavBar.BuildTransactionEvent userAction api -> do
       buildResult <- buildTransaction defaultServerEnv api userAction
       H.liftEffect $ consoleLog $ show buildResult
@@ -187,6 +193,11 @@ handleAction action = case action of
       Just (Just api) -> do
         handleAction (HandleNavBarOutput (NavBar.BuildTransactionEvent "DelegateToPool" api))
       _ -> H.modify_ \s -> s { toasts = walletNotConnectedToast `cons` s.toasts }
+  ChangePage page -> do
+    H.liftEffect $ scrollToTop
+    H.modify_ _ { currentPage = page }
+  HandlePortfolioOutput portfolioout -> case portfolioout of
+    Portfolio.NavigateToHome -> handleAction (ChangePage MainPage)
 --------------------------------------------------------------------------------
 -- * Component Rendering
 --------------------------------------------------------------------------------
@@ -200,14 +211,12 @@ render ::
 render s =
   HH.div_
     [ renderWalletWidgetSlot
-    , RU.renderHeroSection buttonsList
-    , RU.renderProfessionalServicesSection
-    , RU.renderPoolOverviewSection
-    , RU.renderCexplorerPoolGraphSection
+    , renderBodyContent s
     , RU.renderFooterSection
     , RU.renderFabFlower
     , RU.renderToasts $ getToast <$> s.toasts -- must be last to show up in front.
     ]
+
 
 renderWalletWidgetSlot ::
   forall m.
@@ -220,13 +229,35 @@ renderWalletWidgetSlot = HH.slot NavBar.navbarProxy unit NavBar.component unit H
 
 
 
-buttonsList :: forall w. Array (HH.HTML w Action)
-buttonsList = [ RU.renderSecondaryButton "Start Earning Rewards" StartEarningRewardsButton
+renderBodyContent :: forall m.
+  MonadAff m =>
+  MonadAsk Env m =>
+  MonadCIP30 m =>
+  MonadStore Store.Action Store.Store m =>
+  State -> H.ComponentHTML Action Slots m
+renderBodyContent s = case s.currentPage of 
+  MainPage -> 
+    HH.div_ [    
+      RU.renderHeroSection heroButtonsList
+    , RU.renderProfessionalServicesSection professionalServicesButtonsList
+    , RU.renderPoolOverviewSection
+    , RU.renderCexplorerPoolGraphSection
+    ]
+  PortfolioPage -> renderPortfolioWidgetSlot
+
+
+renderPortfolioWidgetSlot :: forall m.
+  H.ComponentHTML Action Slots m
+renderPortfolioWidgetSlot = HH.slot Portfolio.portfolioProxy unit Portfolio.component {} HandlePortfolioOutput
+
+heroButtonsList :: forall w. Array (HH.HTML w Action)
+heroButtonsList = [ RU.renderSecondaryButton "Start Earning Rewards" StartEarningRewardsButton
               , RU.renderSecondaryButton "Delegate Your Vote" LetUsBeYourDRepButton
               , RU.renderPrimaryButton "Stake & Vote" BothButton
               ]
 
-
+professionalServicesButtonsList :: forall w. Array (HH.HTML w Action)
+professionalServicesButtonsList = [RU.renderPrimaryButton "Security Audits" (ChangePage PortfolioPage)]
 
 txBuildSuccessToast ∷ { alertType ∷ String, message ∷ String, remainingSeconds ∷ Int }
 txBuildSuccessToast = { remainingSeconds: 5, alertType: "info alert-dash", message: "Transaction built successfully. Please review and sign the transaction." }

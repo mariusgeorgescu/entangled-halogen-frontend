@@ -133,13 +133,14 @@ handleAction = case _ of
       H.liftEffect $ consoleLog $ show bid
       case bid of
         "home" -> H.raise HomeEvent
-        userAction | userAction `elem` ["DelegateToPool", "DelegateToDRep", "DelegateToPoolAndDRep"] -> do
-          walletApi <- H.gets _.walletApi
-          case walletApi of
-            Just api -> do
-              H.liftEffect $ consoleLog $ show $ "DelegateEvent: " <> userAction
-              H.raise $ BuildTransactionEvent userAction api
-            Nothing -> pure unit
+        userAction
+          | userAction `elem` [ "DelegateToPool", "DelegateToDRep", "DelegateToPoolAndDRep" ] -> do
+            walletApi <- H.gets _.walletApi
+            case walletApi of
+              Just api -> do
+                H.liftEffect $ consoleLog $ show $ "DelegateEvent: " <> userAction
+                H.raise $ BuildTransactionEvent userAction api
+              Nothing -> pure unit
         _ -> H.liftEffect $ consoleLog $ show "Unknown button event"
   HomeButton -> H.raise HomeEvent
 
@@ -155,11 +156,11 @@ render state =
         [ HP.classes [ HH.ClassName "navbar bg-neutral text-neutral-content gap-4" ] ]
         [ HH.div [ HP.classes [ HH.ClassName "flex-1" ] ]
             [ HH.button
-                ([ HP.classes [ HH.ClassName ("btn btn-ghost") ], HE.onClick (\_ -> HomeButton) ])
+                ([ HP.classes [ HH.ClassName ("btn btn-lg btn-ghost") ], HE.onClick (\_ -> HomeButton) ])
                 [ HH.img
                     [ HP.src "./images/E7D/SVG Vector Files/Transparent Logo.svg"
                     , HP.alt "E7D Logo"
-                    , HP.classes [ HH.ClassName "h-12" ]
+                    , HP.classes [ HH.ClassName "h-16" ]
                     ]
                 ]
             ]
