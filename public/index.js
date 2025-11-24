@@ -4057,6 +4057,22 @@ var findIndex2 = /* @__PURE__ */ (function() {
   return runFn4(findIndexImpl)(Just.create)(Nothing.value);
 })();
 var filter2 = /* @__PURE__ */ runFn2(filterImpl);
+var elemIndex = function(dictEq) {
+  var eq22 = eq(dictEq);
+  return function(x) {
+    return findIndex2(function(v2) {
+      return eq22(v2)(x);
+    });
+  };
+};
+var elem2 = function(dictEq) {
+  var elemIndex1 = elemIndex(dictEq);
+  return function(a3) {
+    return function(arr) {
+      return isJust(elemIndex1(a3)(arr));
+    };
+  };
+};
 var deleteAt = /* @__PURE__ */ (function() {
   return runFn4(_deleteAt)(Just.create)(Nothing.value);
 })();
@@ -11957,6 +11973,7 @@ var modify_5 = /* @__PURE__ */ modify_2(monadStateHalogenM);
 var identity14 = /* @__PURE__ */ identity(categoryFn);
 var pure11 = /* @__PURE__ */ pure(applicativeHalogenM);
 var show8 = /* @__PURE__ */ show(showString);
+var elem3 = /* @__PURE__ */ elem2(eqString);
 var decodeFieldId2 = /* @__PURE__ */ decodeFieldId(decodeJsonString);
 var WalletConnectEvent = /* @__PURE__ */ (function() {
   function WalletConnectEvent2() {
@@ -12037,9 +12054,19 @@ var render2 = function(dictMonadAff) {
         iconSrc: "./images/home-symbol.svg",
         classes: ["btn-secondary"]
       }, {
-        id: "delegate",
-        label: "Delegate",
-        iconSrc: "./images/createsymbol.svg",
+        id: "DelegateToPool",
+        label: "Delegate to [E7D] Pool",
+        iconSrc: "./images/support-icon.svg",
+        classes: ["btn-primary"]
+      }, {
+        id: "DelegateToDRep",
+        label: "Delegate to [MG] DRep",
+        iconSrc: "./images/vote_icon.svg",
+        classes: ["btn-primary"]
+      }, {
+        id: "DelegateToPoolAndDRep",
+        label: "Delegate to [E7D] Pool and [MG] DRep",
+        iconSrc: "./images/certificate-love.svg",
         classes: ["btn-primary"]
       }];
       return div3([classes(["bg-base-100 text-base-content sticky top-0 z-30 flex h-16 w-full justify-center bg-opacity-90 backdrop-blur transition-shadow duration-100 [transform:translate3d(0,0,0)] shadow-sm"])])([div3([classes(["navbar bg-neutral text-neutral-content gap-4"])])([div3([classes(["flex-1"])])([button([classes(["btn btn-ghost"]), onClick(function(v2) {
@@ -12080,16 +12107,16 @@ var handleAction2 = function(dictMonadAff) {
             ;
             if (v2 instanceof Receive4) {
               return discard5(modify_5(function(v1) {
-                var $58 = {};
-                for (var $59 in v1) {
-                  if ({}.hasOwnProperty.call(v1, $59)) {
-                    $58[$59] = v1[$59];
+                var $60 = {};
+                for (var $61 in v1) {
+                  if ({}.hasOwnProperty.call(v1, $61)) {
+                    $60[$61] = v1[$61];
                   }
                   ;
                 }
                 ;
-                $58.walletApi = v2.value0.context.walletApi;
-                return $58;
+                $60.walletApi = v2.value0.context.walletApi;
+                return $60;
               }))(function() {
                 return handleAction2(dictMonadAff)(dictMonadCIP30)(dictMonadAsk)(dictMonadInteraction)(dictMonadStore)(Initialize3.value);
               });
@@ -12120,13 +12147,13 @@ var handleAction2 = function(dictMonadAff) {
                     return raise(HomeEvent.value);
                   }
                   ;
-                  if (v2.value0.value0 === "delegate") {
+                  if (elem3(v2.value0.value0)(["DelegateToPool", "DelegateToDRep", "DelegateToPoolAndDRep"])) {
                     return bind8(gets4(function(v1) {
                       return v1.walletApi;
                     }))(function(walletApi) {
                       if (walletApi instanceof Just) {
-                        return discard5(liftEffect11(consoleLog(show8("DelegateEvent"))))(function() {
-                          return raise(new BuildTransactionEvent("DelegateToPool", walletApi.value0));
+                        return discard5(liftEffect11(consoleLog(show8("DelegateEvent: " + v2.value0.value0))))(function() {
+                          return raise(new BuildTransactionEvent(v2.value0.value0, walletApi.value0));
                         });
                       }
                       ;
@@ -12134,7 +12161,7 @@ var handleAction2 = function(dictMonadAff) {
                         return pure11(unit);
                       }
                       ;
-                      throw new Error("Failed pattern match at Components.NavBar (line 124, column 11 - line 128, column 33): " + [walletApi.constructor.name]);
+                      throw new Error("Failed pattern match at Components.NavBar (line 125, column 11 - line 129, column 33): " + [walletApi.constructor.name]);
                     });
                   }
                   ;
@@ -12142,14 +12169,14 @@ var handleAction2 = function(dictMonadAff) {
                 });
               }
               ;
-              throw new Error("Failed pattern match at Components.NavBar (line 107, column 36 - line 129, column 69): " + [v2.value0.constructor.name]);
+              throw new Error("Failed pattern match at Components.NavBar (line 108, column 36 - line 130, column 69): " + [v2.value0.constructor.name]);
             }
             ;
             if (v2 instanceof HomeButton) {
               return raise(HomeEvent.value);
             }
             ;
-            throw new Error("Failed pattern match at Components.NavBar (line 100, column 16 - line 130, column 34): " + [v2.constructor.name]);
+            throw new Error("Failed pattern match at Components.NavBar (line 101, column 16 - line 131, column 34): " + [v2.constructor.name]);
           };
         };
       };
@@ -12176,8 +12203,8 @@ var component2 = function(dictMonadAff) {
             finalize: defaultEval.finalize,
             handleAction: handleAction32(dictMonadStore),
             initialize: new Just(Initialize3.value),
-            receive: function($71) {
-              return Just.create(Receive4.create($71));
+            receive: function($73) {
+              return Just.create(Receive4.create($73));
             }
           })
         }));
@@ -12278,7 +12305,7 @@ var Tick = /* @__PURE__ */ (function() {
 var txSubmitSuccessToast = {
   remainingSeconds: 5,
   alertType: "info",
-  message: "Transaction submitted successfully"
+  message: "Transaction signed and submitted successfully"
 };
 var txSubmitFailedToast = function(e) {
   return {
@@ -12304,7 +12331,7 @@ var txConfirmedFailedToast = function(txId) {
 var txBuildSuccessToast = {
   remainingSeconds: 5,
   alertType: "info alert-soft",
-  message: "Transaction built successfully"
+  message: "Transaction built successfully. Please review and sign the transaction."
 };
 var txBuildFailedToast = function(e) {
   return {

@@ -19,6 +19,7 @@ import Store as Store
 import Test.Unit.Console (consoleLog)
 import Type.Proxy (Proxy(..))
 import WalletConnect.Component as WC
+import Data.Array (elem)
 
 --------------------------------------------------------------------------------
 -- * Component Interface
@@ -119,12 +120,12 @@ handleAction = case _ of
       H.liftEffect $ consoleLog $ show bid
       case bid of
         "home" -> H.raise HomeEvent
-        "delegate" -> do
+        userAction | userAction `elem` ["DelegateToPool", "DelegateToDRep", "DelegateToPoolAndDRep"] -> do
           walletApi <- H.gets _.walletApi
           case walletApi of
             Just api -> do
-              H.liftEffect $ consoleLog $ show "DelegateEvent"
-              H.raise $ BuildTransactionEvent "DelegateToPool" api
+              H.liftEffect $ consoleLog $ show $ "DelegateEvent: " <> userAction
+              H.raise $ BuildTransactionEvent userAction api
             Nothing -> pure unit
         _ -> H.liftEffect $ consoleLog $ show "Unknown button event"
   HomeButton -> H.raise HomeEvent
@@ -158,5 +159,7 @@ render state =
   where
   customButtons =
     [ { id: "home", label: "Home", iconSrc: "./images/home-symbol.svg", classes: [ "btn-secondary" ] }
-    , { id: "delegate", label: "Delegate", iconSrc: "./images/createsymbol.svg", classes: [ "btn-primary" ] }
+    , { id: "DelegateToPool", label: "Delegate to [E7D] Pool", iconSrc: "./images/support-icon.svg", classes: [ "btn-primary" ] }
+    , { id: "DelegateToDRep", label: "Delegate to [MG] DRep", iconSrc: "./images/vote_icon.svg", classes: [ "btn-primary" ] }
+    , { id: "DelegateToPoolAndDRep", label: "Delegate to [E7D] Pool and [MG] DRep", iconSrc: "./images/certificate-love.svg", classes: [ "btn-primary" ] }
     ]

@@ -199,13 +199,13 @@ renderWalletWidgetSlot = HH.slot NavBar.navbarProxy unit NavBar.component unit H
 
 
 txBuildSuccessToast ∷ { alertType ∷ String, message ∷ String, remainingSeconds ∷ Int }
-txBuildSuccessToast = { remainingSeconds: 5, alertType: "info alert-soft", message: "Transaction built successfully" }
+txBuildSuccessToast = { remainingSeconds: 5, alertType: "info alert-soft", message: "Transaction built successfully. Please review and sign the transaction." }
 txBuildFailedToast ∷ String → { alertType ∷ String, message ∷ String, remainingSeconds ∷ Int }
 txBuildFailedToast e = { remainingSeconds: 5, alertType: "error", message: "Transaction building failed: " <> e }
 
 
 txSubmitSuccessToast ∷  { alertType ∷ String, message ∷ String, remainingSeconds ∷ Int }
-txSubmitSuccessToast  = { remainingSeconds: 5, alertType: "info", message: "Transaction submitted successfully" }
+txSubmitSuccessToast  = { remainingSeconds: 5, alertType: "info", message: "Transaction signed and submitted successfully" }
 
 txSubmitFailedToast ∷ String → { alertType ∷ String, message ∷ String, remainingSeconds ∷ Int }
 txSubmitFailedToast e = { remainingSeconds: 5, alertType: "error", message: "Transaction submission failed: " <> e }
