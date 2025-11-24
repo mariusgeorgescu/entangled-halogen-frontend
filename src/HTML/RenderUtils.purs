@@ -372,6 +372,9 @@ renderSecondaryButton = renderButton "btn-secondary"
 renderPrimaryButton ∷ ∀ w i. String → i -> HH.HTML w i
 renderPrimaryButton = renderButton "btn-primary"
 
+renderAccentButton ∷ ∀ w i. String → i -> HH.HTML w i
+renderAccentButton = renderButton "btn-accent"
+
 -- <button class="btn">
 --   Button
 --   <svg
@@ -682,6 +685,8 @@ filter_ ::
   H.ComponentHTML action slots m
 filter_ = flip filter []
 
+
+
 -- ==============================================================================
 -- PROFESSIONAL SERVICES (Static Section)
 -- ==============================================================================
@@ -742,8 +747,8 @@ renderProfessionalServicesSection =
 -- ==============================================================================
 -- HERO (Static Section)
 -- ==============================================================================
-renderHeroSection :: forall w i. HH.HTML w i
-renderHeroSection =
+renderHeroSection :: forall w i. Array (HH.HTML w i) -> HH.HTML w i
+renderHeroSection buttonsList =
   HH.section
     [ HP.id "hero"
     , HP.classes [ HH.ClassName "w-full bg-base-200" ]
@@ -759,19 +764,19 @@ renderHeroSection =
                 [ HH.h1 [ HP.classes [ HH.ClassName "text-4xl md:text-5xl font-bold" ] ] [ HH.text "ENTANGLED Labs" ]
                 , HH.p [ HP.classes [ HH.ClassName "py-4 opacity-80" ] ]
                     [ HH.text "Your trusted Cardano infrastructure & development partner" ]
-                , HH.div [ HP.classes [ HH.ClassName "flex gap-2" ] ]
-                    [ HH.a
-                        [ HP.classes [ HH.ClassName "btn btn-primary" ]
-                        , HP.href "https://cexplorer.io/pool/pool1sj3gnahsms73uxxu43rgwczdw596en7dtsfcqf6297vzgcedquv"
-                        , HP.target "_blank"
-                        ]
-                        [ HH.text "Start Earning Rewards" ]
-                    , HH.a
-                        [ HP.classes [ HH.ClassName "btn btn-secondary" ]
-                        , HP.href "#services"
-                        ]
-                        [ HH.text "Let's Build Together" ]
-                    ]
+                , HH.div [ HP.classes [ HH.ClassName "flex gap-2" ] ] buttonsList
+                    -- [ HH.a
+                    --     [ HP.classes [ HH.ClassName "btn btn-primary" ]
+                    --     , HP.href "https://cexplorer.io/pool/pool1sj3gnahsms73uxxu43rgwczdw596en7dtsfcqf6297vzgcedquv"
+                    --     , HP.target "_blank"
+                    --     ]
+                    --     [ HH.text "Start Earning Rewards" ]
+                    -- , HH.a
+                    --     [ HP.classes [ HH.ClassName "btn btn-secondary" ]
+                    --     , HP.href "#services"
+                    --     ]
+                    --     [ HH.text "Let's Build Together" ]
+                    -- ]
                 ]
             ]
         ]

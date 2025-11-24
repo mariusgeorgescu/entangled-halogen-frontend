@@ -25,7 +25,7 @@ import Data.Array (elem)
 -- * Component Interface
 --------------------------------------------------------------------------------
 type Slot
-  = forall query. H.Slot query Output Unit
+  = H.Slot Query Output Unit
 
 navbarProxy = Proxy :: Proxy "navbarWidget"
 
@@ -34,6 +34,9 @@ type Input
 
 type StoreContext
   = Store.Store
+
+data Query a
+  = GetWalletApi (Maybe Api -> a)
 
 data Output
   = WalletConnectEvent
@@ -62,12 +65,12 @@ data Action
   | HomeButton
 
 component ::
-  forall query m.
+  forall m.
   MonadAff m =>
   MonadCIP30 m =>
   MonadAsk Env m =>
   MonadStore Store.Action Store.Store m =>
-  H.Component query Input Output m
+  H.Component Query Input Output m
 component =
   connect (selectAll)
     $ H.mkComponent
@@ -77,6 +80,7 @@ component =
             H.mkEval
               H.defaultEval
                 { handleAction = handleAction
+                , handleQuery = handleQuery
                 , initialize = Just Initialize
                 , receive = Just <<< Receive
                 }
@@ -89,6 +93,15 @@ initialState :: Connected StoreContext Input -> State
 initialState x =
   { walletApi: x.context.walletApi
   }
+
+handleQuery ::
+  forall m a.
+  MonadAff m =>
+  Query a -> H.HalogenM State Action Slots Output m (Maybe a)
+handleQuery = case _ of
+  GetWalletApi k -> do
+    walletApi <- H.gets _.walletApi
+    pure $ Just (k walletApi)
 
 handleAction ::
   forall m.
@@ -159,7 +172,7 @@ render state =
   where
   customButtons =
     [ { id: "home", label: "Home", iconSrc: "./images/home-symbol.svg", classes: [ "btn-secondary" ] }
-    , { id: "DelegateToPool", label: "Delegate to [E7D] Pool", iconSrc: "./images/support-icon.svg", classes: [ "btn-primary" ] }
-    , { id: "DelegateToDRep", label: "Delegate to [MG] DRep", iconSrc: "./images/vote_icon.svg", classes: [ "btn-primary" ] }
-    , { id: "DelegateToPoolAndDRep", label: "Delegate to [E7D] Pool and [MG] DRep", iconSrc: "./images/certificate-love.svg", classes: [ "btn-primary" ] }
+    , { id: "DelegateToPool", label: "Stake with us", iconSrc: "./images/support-icon.svg", classes: [ "btn-primary" ] }
+    , { id: "DelegateToDRep", label: "Let us be your DRep", iconSrc: "./images/vote_icon.svg", classes: [ "btn-primary" ] }
+    , { id: "DelegateToPoolAndDRep", label: "Both of the above", iconSrc: "./images/verified-check.svg", classes: [ "btn-primary" ] }
     ]

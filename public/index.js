@@ -10653,7 +10653,9 @@ var renderPoolOverviewSection = /* @__PURE__ */ (function() {
   };
   return section([id3("pool"), classes(["w-full max-w-6xl mx-auto px-4 py-12"])])([div3([classes(["text-center mb-6"])])([h2([classes(["text-3xl font-bold"])])([text("E7D Cardano Staking Pool")]), p([classes(["opacity-80 mt-2"])])([text("Secure, reliable, and community-focused staking. As a single pool operator, we're 100% dedicated to our delegators' success.")])]), div3([classes(["grid grid-cols-1 md:grid-cols-3 gap-4"])])([stat("99.9%")("Uptime target"), stat("Competitive Fees")("More rewards in your wallet"), stat("Secured")("Best practices operations")]), div3([classes(["mt-6 flex justify-center gap-2"])])([a2([classes(["btn btn-primary"]), href("https://cexplorer.io/pool/pool1sj3gnahsms73uxxu43rgwczdw596en7dtsfcqf6297vzgcedquv"), target("_blank")])([text("See Pool Performance")]), a2([classes(["btn"]), href("#hero")])([text("Join Our Pool")])])]);
 })();
-var renderHeroSection = /* @__PURE__ */ section([/* @__PURE__ */ id3("hero"), /* @__PURE__ */ classes(["w-full bg-base-200"])])([/* @__PURE__ */ div3([/* @__PURE__ */ classes(["hero min-h-[48vh]"])])([/* @__PURE__ */ div3([/* @__PURE__ */ classes(["hero-content flex-col lg:flex-row gap-8"])])([/* @__PURE__ */ img([/* @__PURE__ */ src("./images/E7D/SVG Vector Files/Transparent Logo.svg"), /* @__PURE__ */ alt4("ENTANGLED Labs Logo"), /* @__PURE__ */ classes(["max-w-xs"])]), /* @__PURE__ */ div_([/* @__PURE__ */ h1([/* @__PURE__ */ classes(["text-4xl md:text-5xl font-bold"])])([/* @__PURE__ */ text("ENTANGLED Labs")]), /* @__PURE__ */ p([/* @__PURE__ */ classes(["py-4 opacity-80"])])([/* @__PURE__ */ text("Your trusted Cardano infrastructure & development partner")]), /* @__PURE__ */ div3([/* @__PURE__ */ classes(["flex gap-2"])])([/* @__PURE__ */ a2([/* @__PURE__ */ classes(["btn btn-primary"]), /* @__PURE__ */ href("https://cexplorer.io/pool/pool1sj3gnahsms73uxxu43rgwczdw596en7dtsfcqf6297vzgcedquv"), /* @__PURE__ */ target("_blank")])([/* @__PURE__ */ text("Start Earning Rewards")]), /* @__PURE__ */ a2([/* @__PURE__ */ classes(["btn btn-secondary"]), /* @__PURE__ */ href("#services")])([/* @__PURE__ */ text("Let's Build Together")])])])])])]);
+var renderHeroSection = function(buttonsList2) {
+  return section([id3("hero"), classes(["w-full bg-base-200"])])([div3([classes(["hero min-h-[48vh]"])])([div3([classes(["hero-content flex-col lg:flex-row gap-8"])])([img([src("./images/E7D/SVG Vector Files/Transparent Logo.svg"), alt4("ENTANGLED Labs Logo"), classes(["max-w-xs"])]), div_([h1([classes(["text-4xl md:text-5xl font-bold"])])([text("ENTANGLED Labs")]), p([classes(["py-4 opacity-80"])])([text("Your trusted Cardano infrastructure & development partner")]), div3([classes(["flex gap-2"])])(buttonsList2)])])])]);
+};
 var renderFooterSection = /* @__PURE__ */ footer([/* @__PURE__ */ classes(["footer footer-horizontal  bg-base-200 text-base-content p-10 mt-12"])])([/* @__PURE__ */ aside_([/* @__PURE__ */ img([/* @__PURE__ */ src("./images/E7D/PNG Logo Files/Transparent Logo.png"), /* @__PURE__ */ alt4("ENTANGLED Labs"), /* @__PURE__ */ classes(["w-16"])]), /* @__PURE__ */ p_([/* @__PURE__ */ text("ENTANGLED Labs"), br_, /* @__PURE__ */ text("Secure staking \u2022 Expert development \u2022 Trusted partner")])]), /* @__PURE__ */ nav_([/* @__PURE__ */ h6([/* @__PURE__ */ classes(["footer-title"])])([/* @__PURE__ */ text("Company")]), /* @__PURE__ */ a2([/* @__PURE__ */ classes(["link link-hover"]), /* @__PURE__ */ href("#about")])([/* @__PURE__ */ text("About")]), /* @__PURE__ */ a2([/* @__PURE__ */ classes(["link link-hover"]), /* @__PURE__ */ href("#services")])([/* @__PURE__ */ text("Services")]), /* @__PURE__ */ a2([/* @__PURE__ */ classes(["link link-hover"]), /* @__PURE__ */ href("#pool")])([/* @__PURE__ */ text("Pool")])]), /* @__PURE__ */ nav_([/* @__PURE__ */ h6([/* @__PURE__ */ classes(["footer-title"])])([/* @__PURE__ */ text("Links")]), /* @__PURE__ */ a2([/* @__PURE__ */ classes(["link link-hover"]), /* @__PURE__ */ target("_blank"), /* @__PURE__ */ href("https://github.com/en7angled/")])([/* @__PURE__ */ text("GitHub")])])]);
 var renderFabFlower = /* @__PURE__ */ (function() {
   var starIcon = svg([class_("h-6 w-6 shrink-0 stroke-current"), fill(NoColor.value), viewBox(0)(0)(24)(24)])([path([strokeLineCap(LineCapRound.value), strokeLineJoin(LineJoinRound.value), strokeWidth(2), attr2("d")("M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z")])]);
@@ -10663,6 +10665,17 @@ var renderFabFlower = /* @__PURE__ */ (function() {
   return div3([classes(["fab"])])([div3([tabIndex2(0), attr2("role")("button"), classes(["btn btn-lg btn-circle btn-accent"])])([starIcon]), div3([classes(["fab-close"])])([text("Close "), span3([classes(["btn btn-circle btn-lg btn-error"])])([text("\u2715")])]), div_([text("Raffleize Art"), a2([classes(["btn btn-lg btn-circle"]), href("https://www.raffleize.art"), target("_blank")])([paletteIcon])]), div_([text("BJJ Belts"), a2([classes(["btn btn-lg btn-circle"]), href("https://www.bjj-belts.org"), target("_blank")])([medalIcon])]), div_([text("Cardano Ticker"), a2([classes(["btn btn-lg btn-circle"]), href("https://www.ticker.cardano.vip"), target("_blank")])([chartIcon])])]);
 })();
 var renderCexplorerPoolGraphSection = /* @__PURE__ */ section([/* @__PURE__ */ classes(["w-full max-w-6xl mx-auto px-4 py-12"])])([/* @__PURE__ */ div3([/* @__PURE__ */ classes(["text-center mb-6"])])([/* @__PURE__ */ h2([/* @__PURE__ */ classes(["text-2xl md:text-3xl font-bold"])])([/* @__PURE__ */ text("Stake Pool Graph")]), /* @__PURE__ */ p([/* @__PURE__ */ classes(["opacity-80 mt-2"])])([/* @__PURE__ */ text("Real-time performance metrics and block production history")])]), /* @__PURE__ */ div3([/* @__PURE__ */ classes(["flex justify-center"])])([/* @__PURE__ */ div3([/* @__PURE__ */ classes(["w-full max-w-4xl"])])([/* @__PURE__ */ div3([/* @__PURE__ */ classes(["relative w-full"]), /* @__PURE__ */ style("padding-top: 52.8%")])([/* @__PURE__ */ iframe([/* @__PURE__ */ src("https://img.cexplorer.io/w/widget-graph.html?pool=pool1sj3gnahsms73uxxu43rgwczdw596en7dtsfcqf6297vzgcedquv&theme=dark"), /* @__PURE__ */ attr2("frameborder")("0"), /* @__PURE__ */ attr2("allowtransparency")("true"), /* @__PURE__ */ attr2("style")("position:absolute;top:0;left:0;width:100%;height:100%;background:transparent !important;")])])])]), /* @__PURE__ */ div3([/* @__PURE__ */ classes(["text-center mt-3"])])([/* @__PURE__ */ a2([/* @__PURE__ */ href("https://cexplorer.io/pool/pool1sj3gnahsms73uxxu43rgwczdw596en7dtsfcqf6297vzgcedquv"), /* @__PURE__ */ target("_blank"), /* @__PURE__ */ classes(["link link-hover"])])([/* @__PURE__ */ text("View detailed pool statistics \u2192")])])]);
+var renderButton = function(classes2) {
+  return function(text6) {
+    return function(action2) {
+      return button([classes(["btn " + classes2]), onClick(function(v2) {
+        return action2;
+      })])([text(text6)]);
+    };
+  };
+};
+var renderPrimaryButton = /* @__PURE__ */ renderButton("btn-primary");
+var renderSecondaryButton = /* @__PURE__ */ renderButton("btn-secondary");
 
 // output/Components.HTML.RenderUtils/index.js
 var renderLink = function(classes2) {
@@ -11461,14 +11474,14 @@ var SetWalletApi = /* @__PURE__ */ (function() {
   return SetWalletApi2;
 })();
 var GetWalletApi = /* @__PURE__ */ (function() {
-  function GetWalletApi2(value0) {
+  function GetWalletApi3(value0) {
     this.value0 = value0;
   }
   ;
-  GetWalletApi2.create = function(value0) {
-    return new GetWalletApi2(value0);
+  GetWalletApi3.create = function(value0) {
+    return new GetWalletApi3(value0);
   };
-  return GetWalletApi2;
+  return GetWalletApi3;
 })();
 var GetConnectedWalletInfo = /* @__PURE__ */ (function() {
   function GetConnectedWalletInfo2(value0) {
@@ -11966,15 +11979,25 @@ var walletConnectComponentIsSymbol = {
 var slot3 = /* @__PURE__ */ slot()(walletConnectComponentIsSymbol)(ordUnit);
 var bind8 = /* @__PURE__ */ bind(bindHalogenM);
 var gets4 = /* @__PURE__ */ gets(monadStateHalogenM);
+var pure11 = /* @__PURE__ */ pure(applicativeHalogenM);
 var $$void6 = /* @__PURE__ */ $$void(functorHalogenM);
 var query3 = /* @__PURE__ */ query()(walletConnectComponentIsSymbol)(ordUnit);
 var discard5 = /* @__PURE__ */ discard(discardUnit)(bindHalogenM);
 var modify_5 = /* @__PURE__ */ modify_2(monadStateHalogenM);
 var identity14 = /* @__PURE__ */ identity(categoryFn);
-var pure11 = /* @__PURE__ */ pure(applicativeHalogenM);
 var show8 = /* @__PURE__ */ show(showString);
 var elem3 = /* @__PURE__ */ elem2(eqString);
 var decodeFieldId2 = /* @__PURE__ */ decodeFieldId(decodeJsonString);
+var GetWalletApi2 = /* @__PURE__ */ (function() {
+  function GetWalletApi3(value0) {
+    this.value0 = value0;
+  }
+  ;
+  GetWalletApi3.create = function(value0) {
+    return new GetWalletApi3(value0);
+  };
+  return GetWalletApi3;
+})();
 var WalletConnectEvent = /* @__PURE__ */ (function() {
   function WalletConnectEvent2() {
   }
@@ -12055,18 +12078,18 @@ var render2 = function(dictMonadAff) {
         classes: ["btn-secondary"]
       }, {
         id: "DelegateToPool",
-        label: "Delegate to [E7D] Pool",
+        label: "Stake with us",
         iconSrc: "./images/support-icon.svg",
         classes: ["btn-primary"]
       }, {
         id: "DelegateToDRep",
-        label: "Delegate to [MG] DRep",
+        label: "Let us be your DRep",
         iconSrc: "./images/vote_icon.svg",
         classes: ["btn-primary"]
       }, {
         id: "DelegateToPoolAndDRep",
-        label: "Delegate to [E7D] Pool and [MG] DRep",
-        iconSrc: "./images/certificate-love.svg",
+        label: "Both of the above",
+        iconSrc: "./images/verified-check.svg",
         classes: ["btn-primary"]
       }];
       return div3([classes(["bg-base-100 text-base-content sticky top-0 z-30 flex h-16 w-full justify-center bg-opacity-90 backdrop-blur transition-shadow duration-100 [transform:translate3d(0,0,0)] shadow-sm"])])([div3([classes(["navbar bg-neutral text-neutral-content gap-4"])])([div3([classes(["flex-1"])])([button([classes(["btn btn-ghost"]), onClick(function(v2) {
@@ -12089,6 +12112,15 @@ var initialState2 = function(x) {
     walletApi: x.context.walletApi
   };
 };
+var handleQuery2 = function(dictMonadAff) {
+  return function(v2) {
+    return bind8(gets4(function(v1) {
+      return v1.walletApi;
+    }))(function(walletApi) {
+      return pure11(new Just(v2.value0(walletApi)));
+    });
+  };
+};
 var handleAction2 = function(dictMonadAff) {
   var liftEffect11 = liftEffect(monadEffectHalogenM(dictMonadAff.MonadEffect0()));
   return function(dictMonadCIP30) {
@@ -12107,16 +12139,16 @@ var handleAction2 = function(dictMonadAff) {
             ;
             if (v2 instanceof Receive4) {
               return discard5(modify_5(function(v1) {
-                var $60 = {};
-                for (var $61 in v1) {
-                  if ({}.hasOwnProperty.call(v1, $61)) {
-                    $60[$61] = v1[$61];
+                var $66 = {};
+                for (var $67 in v1) {
+                  if ({}.hasOwnProperty.call(v1, $67)) {
+                    $66[$67] = v1[$67];
                   }
                   ;
                 }
                 ;
-                $60.walletApi = v2.value0.context.walletApi;
-                return $60;
+                $66.walletApi = v2.value0.context.walletApi;
+                return $66;
               }))(function() {
                 return handleAction2(dictMonadAff)(dictMonadCIP30)(dictMonadAsk)(dictMonadInteraction)(dictMonadStore)(Initialize3.value);
               });
@@ -12161,7 +12193,7 @@ var handleAction2 = function(dictMonadAff) {
                         return pure11(unit);
                       }
                       ;
-                      throw new Error("Failed pattern match at Components.NavBar (line 125, column 11 - line 129, column 33): " + [walletApi.constructor.name]);
+                      throw new Error("Failed pattern match at Components.NavBar (line 138, column 11 - line 142, column 33): " + [walletApi.constructor.name]);
                     });
                   }
                   ;
@@ -12169,14 +12201,14 @@ var handleAction2 = function(dictMonadAff) {
                 });
               }
               ;
-              throw new Error("Failed pattern match at Components.NavBar (line 108, column 36 - line 130, column 69): " + [v2.value0.constructor.name]);
+              throw new Error("Failed pattern match at Components.NavBar (line 121, column 36 - line 143, column 69): " + [v2.value0.constructor.name]);
             }
             ;
             if (v2 instanceof HomeButton) {
               return raise(HomeEvent.value);
             }
             ;
-            throw new Error("Failed pattern match at Components.NavBar (line 101, column 16 - line 131, column 34): " + [v2.constructor.name]);
+            throw new Error("Failed pattern match at Components.NavBar (line 114, column 16 - line 144, column 34): " + [v2.constructor.name]);
           };
         };
       };
@@ -12188,6 +12220,7 @@ var component2 = function(dictMonadAff) {
   var render1 = render2(dictMonadAff);
   var handleAction1 = handleAction2(dictMonadAff);
   var interactionMonadDefault2 = interactionMonadDefault(dictMonadAff)(encodeJsonJString)(decodeJsonString)(decodeFieldId2);
+  var handleQuery1 = handleQuery2(dictMonadAff);
   return function(dictMonadCIP30) {
     var render22 = render1(dictMonadCIP30);
     var handleAction22 = handleAction1(dictMonadCIP30);
@@ -12199,12 +12232,12 @@ var component2 = function(dictMonadAff) {
           initialState: initialState2,
           render: render22,
           "eval": mkEval({
-            handleQuery: defaultEval.handleQuery,
             finalize: defaultEval.finalize,
             handleAction: handleAction32(dictMonadStore),
+            handleQuery: handleQuery1,
             initialize: new Just(Initialize3.value),
-            receive: function($73) {
-              return Just.create(Receive4.create($73));
+            receive: function($79) {
+              return Just.create(Receive4.create($79));
             }
           })
         }));
@@ -12224,11 +12257,12 @@ function now() {
 }
 
 // output/Components.Home/index.js
-var slot4 = /* @__PURE__ */ slot()({
+var navbarWidgetIsSymbol = {
   reflectSymbol: function() {
     return "navbarWidget";
   }
-})(ordUnit);
+};
+var slot4 = /* @__PURE__ */ slot()(navbarWidgetIsSymbol)(ordUnit);
 var map32 = /* @__PURE__ */ map(functorArray);
 var forever2 = /* @__PURE__ */ forever(monadRecAff);
 var discard6 = /* @__PURE__ */ discard(discardUnit);
@@ -12245,6 +12279,8 @@ var gets5 = /* @__PURE__ */ gets(monadStateHalogenM);
 var modify_6 = /* @__PURE__ */ modify_2(monadStateHalogenM);
 var decodeFieldId3 = /* @__PURE__ */ decodeFieldId(decodeJsonString);
 var show9 = /* @__PURE__ */ show(/* @__PURE__ */ showEither(showString)(showString));
+var query4 = /* @__PURE__ */ query()(navbarWidgetIsSymbol)(ordUnit);
+var identity15 = /* @__PURE__ */ identity(categoryFn);
 var MainPage = /* @__PURE__ */ (function() {
   function MainPage2() {
   }
@@ -12295,6 +12331,27 @@ var SignTransaction = /* @__PURE__ */ (function() {
   };
   return SignTransaction2;
 })();
+var StartEarningRewardsButton = /* @__PURE__ */ (function() {
+  function StartEarningRewardsButton2() {
+  }
+  ;
+  StartEarningRewardsButton2.value = new StartEarningRewardsButton2();
+  return StartEarningRewardsButton2;
+})();
+var LetUsBeYourDRepButton = /* @__PURE__ */ (function() {
+  function LetUsBeYourDRepButton2() {
+  }
+  ;
+  LetUsBeYourDRepButton2.value = new LetUsBeYourDRepButton2();
+  return LetUsBeYourDRepButton2;
+})();
+var BothButton = /* @__PURE__ */ (function() {
+  function BothButton2() {
+  }
+  ;
+  BothButton2.value = new BothButton2();
+  return BothButton2;
+})();
 var Tick = /* @__PURE__ */ (function() {
   function Tick2() {
   }
@@ -12302,6 +12359,11 @@ var Tick = /* @__PURE__ */ (function() {
   Tick2.value = new Tick2();
   return Tick2;
 })();
+var walletNotConnectedToast = {
+  remainingSeconds: 5,
+  alertType: "info",
+  message: "Please connect your wallet for this action"
+};
 var txSubmitSuccessToast = {
   remainingSeconds: 5,
   alertType: "info",
@@ -12330,7 +12392,7 @@ var txConfirmedFailedToast = function(txId) {
 };
 var txBuildSuccessToast = {
   remainingSeconds: 5,
-  alertType: "info alert-soft",
+  alertType: "info alert-dash",
   message: "Transaction built successfully. Please review and sign the transaction."
 };
 var txBuildFailedToast = function(e) {
@@ -12361,19 +12423,6 @@ var initialState3 = function(i2) {
 var getToast = function(t2) {
   return new Tuple(t2.alertType, t2.message);
 };
-var render3 = function(dictMonadAff) {
-  var renderWalletWidgetSlot1 = renderWalletWidgetSlot(dictMonadAff);
-  return function(dictMonadCIP30) {
-    return function(dictMonadStore) {
-      return function(dictMonadAsk) {
-        var renderWalletWidgetSlot2 = renderWalletWidgetSlot1(dictMonadAsk)(dictMonadCIP30)(dictMonadStore);
-        return function(s2) {
-          return div_([renderWalletWidgetSlot2, renderHeroSection, renderProfessionalServicesSection, renderPoolOverviewSection, renderCexplorerPoolGraphSection, renderFooterSection, renderFabFlower, renderToasts(map32(getToast)(s2.toasts))]);
-        };
-      };
-    };
-  };
-};
 var decrementToats = function(ts) {
   return map32(function(t2) {
     return {
@@ -12384,12 +12433,12 @@ var decrementToats = function(ts) {
   })(ts);
 };
 var clearToasts = function(ts) {
-  return filter2(function($150) {
+  return filter2(function($175) {
     return (function(v2) {
       return v2 > 0;
     })((function(v2) {
       return v2.remainingSeconds;
-    })($150));
+    })($175));
   })(ts);
 };
 var handleAction3 = function(dictMonadAff) {
@@ -12429,25 +12478,25 @@ var handleAction3 = function(dictMonadAff) {
             }
             ;
             if (action2 instanceof Tick) {
-              return bind9(map113(function($151) {
-                return unwrap7(unInstant($151));
+              return bind9(map113(function($176) {
+                return unwrap7(unInstant($176));
               })(liftEffect12(now)))(function(ct) {
                 return bind9(gets5(function(v2) {
                   return v2.toasts;
                 }))(function(ts) {
                   var newTs = clearToasts(decrementToats(ts));
                   return modify_6(function(v2) {
-                    var $109 = {};
-                    for (var $110 in v2) {
-                      if ({}.hasOwnProperty.call(v2, $110)) {
-                        $109[$110] = v2[$110];
+                    var $116 = {};
+                    for (var $117 in v2) {
+                      if ({}.hasOwnProperty.call(v2, $117)) {
+                        $116[$117] = v2[$117];
                       }
                       ;
                     }
                     ;
-                    $109.currentTime = ct;
-                    $109.toasts = newTs;
-                    return $109;
+                    $116.currentTime = ct;
+                    $116.toasts = newTs;
+                    return $116;
                   });
                 });
               });
@@ -12458,16 +12507,16 @@ var handleAction3 = function(dictMonadAff) {
                 return discard22((function() {
                   if (signedTxResult instanceof Right) {
                     return discard22(modify_6(function(s2) {
-                      var $113 = {};
-                      for (var $114 in s2) {
-                        if ({}.hasOwnProperty.call(s2, $114)) {
-                          $113[$114] = s2[$114];
+                      var $120 = {};
+                      for (var $121 in s2) {
+                        if ({}.hasOwnProperty.call(s2, $121)) {
+                          $120[$121] = s2[$121];
                         }
                         ;
                       }
                       ;
-                      $113.toasts = cons2(txSubmitSuccessToast)(s2.toasts);
-                      return $113;
+                      $120.toasts = cons2(txSubmitSuccessToast)(s2.toasts);
+                      return $120;
                     }))(function() {
                       return handleAction3(dictMonadAff)(dictMonadCIP30)(dictMonadStore)(dictMonadAsk)(dictMonadInteraction)(new SubmitTransaction(action2.value1, signedTxResult.value0));
                     });
@@ -12475,20 +12524,20 @@ var handleAction3 = function(dictMonadAff) {
                   ;
                   if (signedTxResult instanceof Left) {
                     return modify_6(function(s2) {
-                      var $117 = {};
-                      for (var $118 in s2) {
-                        if ({}.hasOwnProperty.call(s2, $118)) {
-                          $117[$118] = s2[$118];
+                      var $124 = {};
+                      for (var $125 in s2) {
+                        if ({}.hasOwnProperty.call(s2, $125)) {
+                          $124[$125] = s2[$125];
                         }
                         ;
                       }
                       ;
-                      $117.toasts = cons2(txSubmitFailedToast(signedTxResult.value0))(s2.toasts);
-                      return $117;
+                      $124.toasts = cons2(txSubmitFailedToast(signedTxResult.value0))(s2.toasts);
+                      return $124;
                     });
                   }
                   ;
-                  throw new Error("Failed pattern match at Components.Home (line 133, column 5 - line 138, column 79): " + [signedTxResult.constructor.name]);
+                  throw new Error("Failed pattern match at Components.Home (line 137, column 5 - line 142, column 79): " + [signedTxResult.constructor.name]);
                 })())(function() {
                   return pure13(unit);
                 });
@@ -12500,35 +12549,35 @@ var handleAction3 = function(dictMonadAff) {
                 return discard22((function() {
                   if (submitResult instanceof Right) {
                     return modify_6(function(s2) {
-                      var $124 = {};
-                      for (var $125 in s2) {
-                        if ({}.hasOwnProperty.call(s2, $125)) {
-                          $124[$125] = s2[$125];
+                      var $131 = {};
+                      for (var $132 in s2) {
+                        if ({}.hasOwnProperty.call(s2, $132)) {
+                          $131[$132] = s2[$132];
                         }
                         ;
                       }
                       ;
-                      $124.toasts = cons2(txConfirmedSuccessToast(submitResult.value0))(s2.toasts);
-                      return $124;
+                      $131.toasts = cons2(txConfirmedSuccessToast(submitResult.value0))(s2.toasts);
+                      return $131;
                     });
                   }
                   ;
                   if (submitResult instanceof Left) {
                     return modify_6(function(s2) {
-                      var $128 = {};
-                      for (var $129 in s2) {
-                        if ({}.hasOwnProperty.call(s2, $129)) {
-                          $128[$129] = s2[$129];
+                      var $135 = {};
+                      for (var $136 in s2) {
+                        if ({}.hasOwnProperty.call(s2, $136)) {
+                          $135[$136] = s2[$136];
                         }
                         ;
                       }
                       ;
-                      $128.toasts = cons2(txConfirmedFailedToast(submitResult.value0))(s2.toasts);
-                      return $128;
+                      $135.toasts = cons2(txConfirmedFailedToast(submitResult.value0))(s2.toasts);
+                      return $135;
                     });
                   }
                   ;
-                  throw new Error("Failed pattern match at Components.Home (line 142, column 5 - line 146, column 82): " + [submitResult.constructor.name]);
+                  throw new Error("Failed pattern match at Components.Home (line 146, column 5 - line 150, column 82): " + [submitResult.constructor.name]);
                 })())(function() {
                   return discard22(liftEffect12(consoleLog(show9(submitResult))))(function() {
                     return pure13(unit);
@@ -12548,16 +12597,16 @@ var handleAction3 = function(dictMonadAff) {
                     return discard22((function() {
                       if (buildResult instanceof Right) {
                         return discard22(modify_6(function(s2) {
-                          var $136 = {};
-                          for (var $137 in s2) {
-                            if ({}.hasOwnProperty.call(s2, $137)) {
-                              $136[$137] = s2[$137];
+                          var $143 = {};
+                          for (var $144 in s2) {
+                            if ({}.hasOwnProperty.call(s2, $144)) {
+                              $143[$144] = s2[$144];
                             }
                             ;
                           }
                           ;
-                          $136.toasts = cons2(txBuildSuccessToast)(s2.toasts);
-                          return $136;
+                          $143.toasts = cons2(txBuildSuccessToast)(s2.toasts);
+                          return $143;
                         }))(function() {
                           return handleAction3(dictMonadAff)(dictMonadCIP30)(dictMonadStore)(dictMonadAsk)(dictMonadInteraction)(new SignTransaction(action2.value0.value1, buildResult.value0));
                         });
@@ -12565,20 +12614,20 @@ var handleAction3 = function(dictMonadAff) {
                       ;
                       if (buildResult instanceof Left) {
                         return modify_6(function(s2) {
-                          var $140 = {};
-                          for (var $141 in s2) {
-                            if ({}.hasOwnProperty.call(s2, $141)) {
-                              $140[$141] = s2[$141];
+                          var $147 = {};
+                          for (var $148 in s2) {
+                            if ({}.hasOwnProperty.call(s2, $148)) {
+                              $147[$148] = s2[$148];
                             }
                             ;
                           }
                           ;
-                          $140.toasts = cons2(txBuildFailedToast(buildResult.value0))(s2.toasts);
-                          return $140;
+                          $147.toasts = cons2(txBuildFailedToast(buildResult.value0))(s2.toasts);
+                          return $147;
                         });
                       }
                       ;
-                      throw new Error("Failed pattern match at Components.Home (line 155, column 7 - line 160, column 80): " + [buildResult.constructor.name]);
+                      throw new Error("Failed pattern match at Components.Home (line 159, column 7 - line 164, column 80): " + [buildResult.constructor.name]);
                     })())(function() {
                       return pure13(unit);
                     });
@@ -12600,25 +12649,104 @@ var handleAction3 = function(dictMonadAff) {
                     message: "Your wallet has to be connected to Cardano " + (cardanoNetwork + " network")
                   };
                   return modify_6(function(s2) {
-                    var $146 = {};
-                    for (var $147 in s2) {
-                      if ({}.hasOwnProperty.call(s2, $147)) {
-                        $146[$147] = s2[$147];
+                    var $153 = {};
+                    for (var $154 in s2) {
+                      if ({}.hasOwnProperty.call(s2, $154)) {
+                        $153[$154] = s2[$154];
                       }
                       ;
                     }
                     ;
-                    $146.toasts = cons2(newToast)(s2.toasts);
-                    return $146;
+                    $153.toasts = cons2(newToast)(s2.toasts);
+                    return $153;
                   });
                 });
               }
               ;
-              throw new Error("Failed pattern match at Components.Home (line 149, column 35 - line 167, column 62): " + [action2.value0.constructor.name]);
+              throw new Error("Failed pattern match at Components.Home (line 153, column 35 - line 171, column 62): " + [action2.value0.constructor.name]);
             }
             ;
-            throw new Error("Failed pattern match at Components.Home (line 110, column 23 - line 167, column 62): " + [action2.constructor.name]);
+            if (action2 instanceof StartEarningRewardsButton) {
+              return bind9(query4(navbarProxy)(unit)(new GetWalletApi2(identity15)))(function(mApi) {
+                if (mApi instanceof Just && mApi.value0 instanceof Just) {
+                  return handleAction3(dictMonadAff)(dictMonadCIP30)(dictMonadStore)(dictMonadAsk)(dictMonadInteraction)(new HandleNavBarOutput(new BuildTransactionEvent("DelegateToPool", mApi.value0.value0)));
+                }
+                ;
+                return modify_6(function(s2) {
+                  var $160 = {};
+                  for (var $161 in s2) {
+                    if ({}.hasOwnProperty.call(s2, $161)) {
+                      $160[$161] = s2[$161];
+                    }
+                    ;
+                  }
+                  ;
+                  $160.toasts = cons2(walletNotConnectedToast)(s2.toasts);
+                  return $160;
+                });
+              });
+            }
+            ;
+            if (action2 instanceof LetUsBeYourDRepButton) {
+              return bind9(query4(navbarProxy)(unit)(new GetWalletApi2(identity15)))(function(mApi) {
+                if (mApi instanceof Just && mApi.value0 instanceof Just) {
+                  return handleAction3(dictMonadAff)(dictMonadCIP30)(dictMonadStore)(dictMonadAsk)(dictMonadInteraction)(new HandleNavBarOutput(new BuildTransactionEvent("DelegateToPool", mApi.value0.value0)));
+                }
+                ;
+                return modify_6(function(s2) {
+                  var $166 = {};
+                  for (var $167 in s2) {
+                    if ({}.hasOwnProperty.call(s2, $167)) {
+                      $166[$167] = s2[$167];
+                    }
+                    ;
+                  }
+                  ;
+                  $166.toasts = cons2(walletNotConnectedToast)(s2.toasts);
+                  return $166;
+                });
+              });
+            }
+            ;
+            if (action2 instanceof BothButton) {
+              return bind9(query4(navbarProxy)(unit)(new GetWalletApi2(identity15)))(function(mApi) {
+                if (mApi instanceof Just && mApi.value0 instanceof Just) {
+                  return handleAction3(dictMonadAff)(dictMonadCIP30)(dictMonadStore)(dictMonadAsk)(dictMonadInteraction)(new HandleNavBarOutput(new BuildTransactionEvent("DelegateToPool", mApi.value0.value0)));
+                }
+                ;
+                return modify_6(function(s2) {
+                  var $172 = {};
+                  for (var $173 in s2) {
+                    if ({}.hasOwnProperty.call(s2, $173)) {
+                      $172[$173] = s2[$173];
+                    }
+                    ;
+                  }
+                  ;
+                  $172.toasts = cons2(walletNotConnectedToast)(s2.toasts);
+                  return $172;
+                });
+              });
+            }
+            ;
+            throw new Error("Failed pattern match at Components.Home (line 114, column 23 - line 189, column 82): " + [action2.constructor.name]);
           };
+        };
+      };
+    };
+  };
+};
+var buttonsList = /* @__PURE__ */ (function() {
+  return [renderSecondaryButton("Start Earning Rewards")(StartEarningRewardsButton.value), renderSecondaryButton("Delegate Your Vote")(LetUsBeYourDRepButton.value), renderPrimaryButton("Stake & Vote")(BothButton.value)];
+})();
+var render3 = function(dictMonadAff) {
+  var renderWalletWidgetSlot1 = renderWalletWidgetSlot(dictMonadAff);
+  return function(dictMonadCIP30) {
+    return function(dictMonadStore) {
+      return function(dictMonadAsk) {
+        var renderWalletWidgetSlot2 = renderWalletWidgetSlot1(dictMonadAsk)(dictMonadCIP30)(dictMonadStore);
+        return function(s2) {
+          return div_([renderWalletWidgetSlot2, renderHeroSection(buttonsList), renderProfessionalServicesSection, renderPoolOverviewSection, renderCexplorerPoolGraphSection, renderFooterSection, renderFabFlower, renderToasts(map32(getToast)(s2.toasts))]);
         };
       };
     };
@@ -12738,9 +12866,9 @@ var pure15 = /* @__PURE__ */ pure(applicativeEffect);
 var map34 = /* @__PURE__ */ map(functorEffect);
 var discard7 = /* @__PURE__ */ discard(discardUnit);
 var throwError3 = /* @__PURE__ */ throwError(monadThrowAff);
-var selectElement = function(query4) {
+var selectElement = function(query5) {
   return bind10(liftEffect7(bindFlipped7(composeKleisliFlipped3((function() {
-    var $16 = querySelector(query4);
+    var $16 = querySelector(query5);
     return function($17) {
       return $16(toParentNode($17));
     };
@@ -13514,7 +13642,7 @@ var traverse_6 = /* @__PURE__ */ traverse_(applicativeEffect)(foldableMaybe);
 var unwrap8 = /* @__PURE__ */ unwrap();
 var when3 = /* @__PURE__ */ when(applicativeEffect);
 var not2 = /* @__PURE__ */ not(/* @__PURE__ */ heytingAlgebraFunction(/* @__PURE__ */ heytingAlgebraFunction(heytingAlgebraBoolean)));
-var identity15 = /* @__PURE__ */ identity(categoryFn);
+var identity16 = /* @__PURE__ */ identity(categoryFn);
 var bind15 = /* @__PURE__ */ bind(bindAff);
 var liftEffect10 = /* @__PURE__ */ liftEffect(monadEffectAff);
 var map38 = /* @__PURE__ */ map(functorEffect);
@@ -13656,7 +13784,7 @@ var renderSpec = function(document2) {
     };
     return {
       render: render4,
-      renderChild: identity15,
+      renderChild: identity16,
       removeChild: removeChild3,
       dispose: removeChild3
     };

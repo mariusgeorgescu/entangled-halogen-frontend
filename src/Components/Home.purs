@@ -1,12 +1,12 @@
 module Components.Home where
 
-import Capabilities.MonadInteraction (class MonadInteraction, buildTransaction, defaultServerEnv, signTransaction, submitTransaction)
-import Data.Time.Duration (Milliseconds(..))
 import Prelude
+
 import AppEnv (Env)
 import Capabilities.MonadCIP30 (class MonadCIP30)
+import Capabilities.MonadInteraction (class MonadInteraction, buildTransaction, defaultServerEnv, signTransaction, submitTransaction)
 import Cardano.Wallet.Cip30 as Cardano.Wallet.Cip30
-import Components.HTML.RenderUtils.App (renderCexplorerPoolGraphSection, renderFabFlower, renderFooterSection, renderHeroSection, renderPoolOverviewSection, renderProfessionalServicesSection, renderToasts) as RU
+import Components.HTML.RenderUtils.App (renderAccentButton, renderCexplorerPoolGraphSection, renderFabFlower, renderFooterSection, renderHeroSection, renderPoolOverviewSection, renderPrimaryButton, renderProfessionalServicesSection, renderSecondaryButton, renderToasts) as RU
 import Components.NavBar as NavBar
 import Control.Monad.Reader.Class (class MonadAsk, asks)
 import Control.Monad.Rec.Class (forever)
@@ -15,6 +15,7 @@ import Data.DateTime.Instant (unInstant)
 import Data.Either (Either(..))
 import Data.Maybe (Maybe(..))
 import Data.Newtype (unwrap)
+import Data.Time.Duration (Milliseconds(..))
 import Data.Tuple (Tuple(..))
 import Effect.Aff as Aff
 import Effect.Aff.Class (class MonadAff)
@@ -71,6 +72,9 @@ data Action
   | HandleNavBarOutput NavBar.Output
   | SubmitTransaction String String
   | SignTransaction Cardano.Wallet.Cip30.Api String
+  | StartEarningRewardsButton 
+  | LetUsBeYourDRepButton
+  | BothButton
   | Tick
 
 component ::
@@ -165,7 +169,24 @@ handleAction action = case action of
       let
         newToast = { remainingSeconds: 5, alertType: "error", message: "Your wallet has to be connected to Cardano " <> cardanoNetwork <> " network" }
       H.modify_ \s -> s { toasts = newToast `cons` s.toasts }
-
+  StartEarningRewardsButton -> do
+    mApi <- H.query NavBar.navbarProxy unit (NavBar.GetWalletApi identity)
+    case mApi of
+      Just (Just api) -> do
+        handleAction (HandleNavBarOutput (NavBar.BuildTransactionEvent "DelegateToPool" api))
+      _ -> H.modify_ \s -> s { toasts = walletNotConnectedToast `cons` s.toasts }
+  LetUsBeYourDRepButton -> do
+    mApi <- H.query NavBar.navbarProxy unit (NavBar.GetWalletApi identity)
+    case mApi of
+      Just (Just api) -> do
+        handleAction (HandleNavBarOutput (NavBar.BuildTransactionEvent "DelegateToPool" api))
+      _ -> H.modify_ \s -> s { toasts = walletNotConnectedToast `cons` s.toasts }
+  BothButton -> do
+    mApi <- H.query NavBar.navbarProxy unit (NavBar.GetWalletApi identity)
+    case mApi of
+      Just (Just api) -> do
+        handleAction (HandleNavBarOutput (NavBar.BuildTransactionEvent "DelegateToPool" api))
+      _ -> H.modify_ \s -> s { toasts = walletNotConnectedToast `cons` s.toasts }
 --------------------------------------------------------------------------------
 -- * Component Rendering
 --------------------------------------------------------------------------------
@@ -179,7 +200,7 @@ render ::
 render s =
   HH.div_
     [ renderWalletWidgetSlot
-    , RU.renderHeroSection
+    , RU.renderHeroSection buttonsList
     , RU.renderProfessionalServicesSection
     , RU.renderPoolOverviewSection
     , RU.renderCexplorerPoolGraphSection
@@ -198,8 +219,17 @@ renderWalletWidgetSlot ::
 renderWalletWidgetSlot = HH.slot NavBar.navbarProxy unit NavBar.component unit HandleNavBarOutput
 
 
+
+buttonsList :: forall w. Array (HH.HTML w Action)
+buttonsList = [ RU.renderSecondaryButton "Start Earning Rewards" StartEarningRewardsButton
+              , RU.renderSecondaryButton "Delegate Your Vote" LetUsBeYourDRepButton
+              , RU.renderPrimaryButton "Stake & Vote" BothButton
+              ]
+
+
+
 txBuildSuccessToast ∷ { alertType ∷ String, message ∷ String, remainingSeconds ∷ Int }
-txBuildSuccessToast = { remainingSeconds: 5, alertType: "info alert-soft", message: "Transaction built successfully. Please review and sign the transaction." }
+txBuildSuccessToast = { remainingSeconds: 5, alertType: "info alert-dash", message: "Transaction built successfully. Please review and sign the transaction." }
 txBuildFailedToast ∷ String → { alertType ∷ String, message ∷ String, remainingSeconds ∷ Int }
 txBuildFailedToast e = { remainingSeconds: 5, alertType: "error", message: "Transaction building failed: " <> e }
 
@@ -215,3 +245,7 @@ txConfirmedSuccessToast txId = { remainingSeconds: 5, alertType: "success", mess
 
 txConfirmedFailedToast ∷ String → { alertType ∷ String, message ∷ String, remainingSeconds ∷ Int }
 txConfirmedFailedToast txId = { remainingSeconds: 5, alertType: "error", message: "Transaction confirmation failed: " <> txId }
+
+
+walletNotConnectedToast ∷ { alertType ∷ String, message ∷ String, remainingSeconds ∷ Int }
+walletNotConnectedToast = { remainingSeconds: 5, alertType: "info", message: "Please connect your wallet for this action" }
