@@ -41,6 +41,7 @@ newtype ServerEnv = ServerEnv
   , submitTxURL :: String
   , basicUser :: String
   , basicPassword :: String
+  , allowedNetwork :: String
   }
 
 instance encodeJsonServerEnv :: EncodeJson ServerEnv where
@@ -53,13 +54,13 @@ derive instance genericServerEnv :: Generic ServerEnv _
 
 derive instance newtypeServerEnv :: Newtype ServerEnv _
 
-_ServerEnv :: Iso' ServerEnv { buildTxURL :: String, submitTxURL :: String, basicUser :: String, basicPassword :: String }
+_ServerEnv :: Iso' ServerEnv { buildTxURL :: String, submitTxURL :: String, basicUser :: String, basicPassword :: String, allowedNetwork :: String }
 _ServerEnv = _Newtype
 
 defaultServerEnv :: ServerEnv
 defaultServerEnv = ServerEnv 
   { buildTxURL: "http://localhost:8082/build-tx",
-     submitTxURL: "http://localhost:8082/submit-tx", basicUser: "cardano", basicPassword: "lovelace" }
+     submitTxURL: "http://localhost:8082/submit-tx", basicUser: "cardano", basicPassword: "lovelace", allowedNetwork: "Preprod"  }
 --------------------------------------------------------------------------------
 
 

@@ -171,7 +171,7 @@ handleAction action = case action of
       pure unit
     NavBar.WalletConnectEvent -> pure unit
     NavBar.InvalidNetworkEvent -> do
-      cardanoNetwork <- asks _.blockchainProviderConfig.cardanoNetwork
+      cardanoNetwork <- asks ( _.allowedNetwork <<< unwrap )
       let
         newToast = { remainingSeconds: 5, alertType: "error", message: "Your wallet has to be connected to Cardano " <> cardanoNetwork <> " network" }
       H.modify_ \s -> s { toasts = newToast `cons` s.toasts }
