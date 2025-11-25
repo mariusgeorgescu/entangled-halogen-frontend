@@ -1,16 +1,13 @@
 module AppEnv where
 
--- | Network configuration
-type BlockchainProviderConfig
-  = { cardanoNetwork :: String
-    }
+import Capabilities.MonadInteraction (ServerEnv, defaultServerEnv)
 
 -----------------
 -- Env Type
 -----------------
 -- | The application environment
 type Env
-  = { blockchainProviderConfig :: BlockchainProviderConfig }
+  = ServerEnv
 
 defaultEnv :: Env
-defaultEnv = { blockchainProviderConfig: { cardanoNetwork: "Preview" } }
+defaultEnv = defaultServerEnv

@@ -38,7 +38,7 @@ import Test.Unit.Console (consoleLog)
 
 newtype ServerEnv = ServerEnv 
   { buildTxURL :: String
-  , signAndSubmitTxURL :: String
+  , submitTxURL :: String
   , basicUser :: String
   , basicPassword :: String
   }
@@ -53,13 +53,13 @@ derive instance genericServerEnv :: Generic ServerEnv _
 
 derive instance newtypeServerEnv :: Newtype ServerEnv _
 
-_ServerEnv :: Iso' ServerEnv { buildTxURL :: String, signAndSubmitTxURL :: String, basicUser :: String, basicPassword :: String }
+_ServerEnv :: Iso' ServerEnv { buildTxURL :: String, submitTxURL :: String, basicUser :: String, basicPassword :: String }
 _ServerEnv = _Newtype
 
 defaultServerEnv :: ServerEnv
 defaultServerEnv = ServerEnv 
   { buildTxURL: "http://localhost:8082/build-tx",
-     signAndSubmitTxURL: "http://localhost:8082/submit-tx", basicUser: "cardano", basicPassword: "lovelace" }
+     submitTxURL: "http://localhost:8082/submit-tx", basicUser: "cardano", basicPassword: "lovelace" }
 --------------------------------------------------------------------------------
 
 
@@ -227,7 +227,7 @@ submitTransactionDefault serverEnv  unsignedTxCbor signedTx = do
     let
         env = unwrap serverEnv
         req = 
-              { url : env.signAndSubmitTxURL
+              { url : env.submitTxURL
               , method : Left POST
               , responseFormat : AXRF.json  
               , headers :

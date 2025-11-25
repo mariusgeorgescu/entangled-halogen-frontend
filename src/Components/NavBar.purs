@@ -160,7 +160,7 @@ render state =
                 [ HH.img
                     [ HP.src "./images/E7D/SVG Vector Files/Transparent Logo.svg"
                     , HP.alt "E7D Logo"
-                    , HP.classes [ HH.ClassName "h-16" ]
+                    , HP.classes [ HH.ClassName "h-20" ]
                     ]
                 ]
             ]

@@ -685,6 +685,23 @@ filter_ ::
   H.ComponentHTML action slots m
 filter_ = flip filter []
 
+-- <span class="text-rotate text-7xl leading-[2]">
+--   <span class="justify-items-center">
+--     <span>📐 DESIGN</span>
+--     <span>⌨️ DEVELOP</span>
+--     <span>🌎 DEPLOY</span>
+--     <span>🌱 SCALE</span>
+--     <span>🔧 MAINTAIN</span>
+--     <span>♻️ REPEAT</span>
+--   </span>
+-- </span>
+renderTextRotate :: forall w i. String -> Array String -> HH.HTML w i
+renderTextRotate classes texts =
+  HH.span [ HP.classes [ HH.ClassName ("text-rotate " <> classes) ] ]
+    [ HH.span [ HP.classes [ HH.ClassName "justify-items-center" ] ]
+        (map (\t -> HH.span_ [ HH.text t ]) texts)
+    ]
+
 -- ==============================================================================
 -- PROFESSIONAL SERVICES (Static Section)
 -- ==============================================================================
@@ -695,7 +712,7 @@ renderProfessionalServicesSection buttonsList =
     , HP.classes [ HH.ClassName "w-full max-w-6xl mx-auto px-4 py-12" ]
     ]
     [ HH.div [ HP.classes [ HH.ClassName "text-center mb-8" ] ]
-        [ HH.h2 [ HP.classes [ HH.ClassName "text-3xl md:text-4xl font-bold" ] ] [ HH.text "Professional Services" ]
+        [ HH.h2 [ HP.classes [ HH.ClassName "text-4xl md:text-4xl font-bold" ] ] [ HH.text "Professional Services" ]
         , HH.p [ HP.classes [ HH.ClassName "opacity-80 mt-2" ] ]
             [ HH.text "We transform blockchain ideas into production-ready solutions. Our team specializes in Cardano development, from smart contracts to full-stack dApps, with security and performance at the core."
             ]
@@ -754,28 +771,25 @@ renderHeroSection buttonsList =
     ]
     [ HH.div [ HP.classes [ HH.ClassName "hero min-h-[48vh]" ] ]
         [ HH.div [ HP.classes [ HH.ClassName "hero-content flex-col lg:flex-row gap-8" ] ]
-            [ HH.img
-                [ HP.src "./images/E7D/SVG Vector Files/Transparent Logo.svg"
-                , HP.alt "ENTANGLED Labs Logo"
-                , HP.classes [ HH.ClassName "max-w-xs" ]
+            [ HH.div_
+                [ HH.img
+                    [ HP.src "./images/E7D/SVG Vector Files/Transparent Logo.svg"
+                    , HP.alt "ENTANGLED Labs Logo"
+                    , HP.classes [ HH.ClassName "max-w-xs" ]
+                    ]
+                , HH.h3 [ HP.classes [ HH.ClassName "text-3xl md:text-3xl font-bold" ] ]
+                    [ HH.span_
+                        [ HH.text "We "
+                        , renderTextRotate "text-4xl text-success" [ " DESIGN 📐 ", " DEVELOP ⌨️ ", " DEPLOY 🌎 ", " SCALE ⬆️ ", " MAINTAIN 🔧 " ]
+                        ]
+                    , HH.p_ [ HH.text " for you." ]
+                    ]
                 ]
             , HH.div_
                 [ HH.h1 [ HP.classes [ HH.ClassName "text-4xl md:text-5xl font-bold" ] ] [ HH.text "ENTANGLED Labs" ]
                 , HH.p [ HP.classes [ HH.ClassName "py-4 opacity-80" ] ]
                     [ HH.text "Your trusted Cardano infrastructure & development partner" ]
                 , HH.div [ HP.classes [ HH.ClassName "flex gap-2" ] ] buttonsList
-                -- [ HH.a
-                --     [ HP.classes [ HH.ClassName "btn btn-primary" ]
-                --     , HP.href "https://cexplorer.io/pool/pool1sj3gnahsms73uxxu43rgwczdw596en7dtsfcqf6297vzgcedquv"
-                --     , HP.target "_blank"
-                --     ]
-                --     [ HH.text "Start Earning Rewards" ]
-                -- , HH.a
-                --     [ HP.classes [ HH.ClassName "btn btn-secondary" ]
-                --     , HP.href "#services"
-                --     ]
-                --     [ HH.text "Let's Build Together" ]
-                -- ]
                 ]
             ]
         ]
