@@ -66,16 +66,14 @@ This guide explains how to build and run the Entangled Halogen Frontend using Do
 The Dockerfile uses a multi-stage build for optimal image size:
 
 - **Stage 1 (builder):** Uses Node.js 23.10.0 Alpine to build the application
-- **Stage 2 (production):** Uses Nginx Alpine to serve the static files
+- **Stage 2 (production):** Uses Node.js Alpine with Fastify to serve static files and BFF API
 
 ### Features
 
-- ✅ Optimized for production with Nginx
-- ✅ Multi-stage build for smaller image size (~50MB final image)
+- ✅ Optimized for production with Fastify
+- ✅ Multi-stage build for smaller image size
 - ✅ Health checks configured
-- ✅ Gzip compression enabled
-- ✅ Security headers configured
-- ✅ Static asset caching
+- ✅ Serves both frontend static files and BFF API endpoints
 - ✅ SPA routing support
 
 ## Configuration
@@ -185,16 +183,14 @@ docker image prune -f
 ## Performance
 
 The production image includes:
-- Gzip compression for text assets
-- Long-term caching for static assets (1 year)
-- Optimized Nginx configuration
-- Minimal Alpine Linux base (~50MB total size)
+- Fastify server serving static files and BFF API
+- Health check endpoint
+- Minimal Alpine Linux base
 
 ## Security
 
 Security features included:
-- Non-root nginx process
-- Security headers (X-Frame-Options, X-Content-Type-Options, etc.)
-- Hidden file access prevention
+- Non-root Node.js process
 - Minimal attack surface with Alpine Linux
+- Environment variable configuration for sensitive data
 

@@ -6401,14 +6401,14 @@
   .h-32 {
     height: calc(var(--spacing) * 32);
   }
-  .min-h-\[48vh\] {
-    min-height: 48vh;
-  }
   .min-h-full {
     min-height: 100%;
   }
   .min-h-screen {
     min-height: 100vh;
+  }
+  .min-h-svh {
+    min-height: 100svh;
   }
   .btn-wide {
     @layer daisyui.l1.l2 {

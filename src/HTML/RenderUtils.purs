@@ -769,7 +769,7 @@ renderHeroSection buttonsList =
     [ HP.id "hero"
     , HP.classes [ HH.ClassName "w-full bg-base-200" ]
     ]
-    [ HH.div [ HP.classes [ HH.ClassName "hero min-h-[48vh]" ] ]
+    [ HH.div [ HP.classes [ HH.ClassName "hero min-h-svh" ] ]
         [ HH.div [ HP.classes [ HH.ClassName "hero-content flex-col lg:flex-row gap-8" ] ]
             [ HH.div_
                 [ HH.img

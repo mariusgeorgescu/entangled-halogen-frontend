@@ -36,7 +36,7 @@ package:
       - "--external:@emurgo/cardano-serialization-lib-browser"
 workspace:
   packageSet:
-    registry: 55.0.0
+    registry: 68.9.0
   extraPackages:
     # cardano-types:
     #   git: https://github.com/mariusgeorgescu/purescript-cardano-types.git

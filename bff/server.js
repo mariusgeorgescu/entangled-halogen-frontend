@@ -1,0 +1,238 @@
+import Fastify from 'fastify';
+import proxy from '@fastify/http-proxy';
+import staticFiles from '@fastify/static';
+import { readdir, readFile } from 'fs/promises';
+import { join, dirname } from 'path';
+import { fileURLToPath } from 'url';
+import { services } from './config.js';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
+const fastify = Fastify({
+  logger: true
+});
+
+// Register CORS plugin to allow requests from frontend
+await fastify.register(import('@fastify/cors'), {
+  origin: true,
+  credentials: true
+});
+
+/**
+ * Create Basic Auth header from username and password
+ */
+function createBasicAuthHeader(username, password) {
+  const credentials = Buffer.from(`${username}:${password}`).toString('base64');
+  return `Basic ${credentials}`;
+}
+
+// Add hook to log ALL incoming requests for debugging
+fastify.addHook('onRequest', async (request, reply) => {
+  // Log all requests to see what's happening
+  fastify.log.info(`[Request] ${request.method} ${request.url} from ${request.ip}`);
+  if (request.url.startsWith('/api/')) {
+    fastify.log.info(`[API Request] ${request.method} ${request.url} from ${request.ip} - Should be handled by proxy`);
+  }
+});
+
+// Add global hook to remove WWW-Authenticate header from all proxy responses and log responses
+fastify.addHook('onSend', async (request, reply, payload) => {
+  if (request.url.startsWith('/api/')) {
+    const wwwAuth = reply.getHeader('www-authenticate');
+    if (wwwAuth) {
+      reply.removeHeader('www-authenticate');
+      fastify.log.info(`Removed WWW-Authenticate header from response for ${request.url}`);
+    }
+    // Log response details
+    fastify.log.info(`[Proxy Response] ${request.method} ${request.url} -> Status: ${reply.statusCode}, Headers: ${JSON.stringify(reply.getHeaders())}`);
+  }
+  return payload;
+});
+
+// Add hook to log responses
+fastify.addHook('onResponse', async (request, reply) => {
+  if (request.url.startsWith('/api/')) {
+    fastify.log.info(`[Proxy Response Hook] ${request.method} ${request.url} -> Status: ${reply.statusCode}, Sent: ${reply.sent}`);
+  }
+});
+
+// Add hook to log errors - this should catch all errors including proxy errors
+fastify.addHook('onError', async (request, reply, error) => {
+  if (request.url && request.url.startsWith('/api/')) {
+    fastify.log.error(`[Proxy Error Hook] ${request.method} ${request.url}: ${error.message}`);
+    fastify.log.error(`[Proxy Error Hook] Code: ${error.code}, Name: ${error.name}`);
+    if (error.stack) {
+      fastify.log.error(`[Proxy Error Hook] Stack: ${error.stack}`);
+    }
+  }
+});
+
+/**
+ * Register proxy routes for each service
+ * IMPORTANT: Proxy must be registered BEFORE static files to avoid conflicts
+ */
+for (const [serviceName, serviceConfig] of Object.entries(services)) {
+  const { target, username, password } = serviceConfig;
+  const authHeader = createBasicAuthHeader(username, password);
+  
+  // Register proxy for this service
+  const undiciConfig = {
+    connectTimeout: 600000, // Time to establish connection: 600 seconds (default is 10s)
+    headersTimeout: 600000, // Time to receive headers: 600 seconds
+    bodyTimeout: 600000, // Time to receive body: 600 seconds
+  };
+  
+  fastify.log.info(`[Proxy Config] Registering ${serviceName} with connectTimeout: ${undiciConfig.connectTimeout}ms`);
+  
+  await fastify.register(proxy, {
+    upstream: target,
+    prefix: `/api/${serviceName}`,
+    rewritePrefix: '/',
+    // Increase timeout for slow backend responses
+    // @fastify/http-proxy uses undici, configure timeout options here
+    timeout: 600000, // Overall timeout: 600 seconds
+    // Configure undici client options for connection timeouts
+    // These override the default 10s timeout
+    undici: undiciConfig,
+    // Disable SSL verification if needed (for development/testing only)
+    // In production, ensure proper SSL certificates are available
+    rejectUnauthorized: process.env.NODE_TLS_REJECT_UNAUTHORIZED !== '0',
+    // Ensure responses are properly streamed
+    disableRequestLogging: false,
+    // Keep connection alive for better performance
+    keepAlive: true,
+    // Add error handling with detailed logging
+    errorHandler: (error, request, reply) => {
+      fastify.log.error(`[Proxy Error Handler] ${request.method} ${request.url}: ${error.message}`);
+      fastify.log.error(`[Proxy Error Handler] Code: ${error.code}, Upstream: ${target}`);
+      fastify.log.error(`[Proxy Error Handler] Stack: ${error.stack}`);
+      reply.code(502).send({
+        error: 'Bad Gateway',
+        message: error.message,
+        code: error.code,
+        upstream: target
+      });
+    },
+    replyOptions: {
+      rewriteRequestHeaders: (originalReq, headers) => {
+        // originalReq.url is /api/delegation-service/build-tx
+        // After rewritePrefix: '/', it becomes /build-tx
+        // So the final URL will be target + /build-tx
+        const rewrittenPath = originalReq.url.replace(`/api/${serviceName}`, '');
+        fastify.log.info(`[Proxy] ${originalReq.method} ${originalReq.url} -> ${target}${rewrittenPath}`);
+        // Remove any existing authorization header and add our own
+        const { authorization, ...restHeaders } = headers;
+        return {
+          ...restHeaders,
+          Authorization: authHeader
+        };
+      }
+    }
+  });
+  
+  fastify.log.info(`Registered proxy for ${serviceName} -> ${target} with 600s timeout`);
+}
+
+/**
+ * Health check endpoint
+ * IMPORTANT: Register endpoints BEFORE static files to avoid interception
+ */
+fastify.get('/health', async (request, reply) => {
+  return { status: 'ok', services: Object.keys(services) };
+});
+
+/**
+ * Test endpoint to verify API routes are reachable
+ */
+fastify.get('/api/test', async (request, reply) => {
+  fastify.log.info(`[API Test] GET /api/test reached the server`);
+  return { 
+    status: 'ok', 
+    message: 'API routes are working',
+    url: request.url,
+    method: request.method,
+    ip: request.ip
+  };
+});
+
+/**
+ * Test connectivity to backend services
+ */
+fastify.get('/test-connectivity', async (request, reply) => {
+  const results = {};
+  
+  for (const [serviceName, serviceConfig] of Object.entries(services)) {
+    const { target } = serviceConfig;
+    try {
+      // Try to resolve DNS and connect
+      const url = new URL(target);
+      results[serviceName] = {
+        target,
+        hostname: url.hostname,
+        port: url.port || (url.protocol === 'https:' ? 443 : 80),
+        protocol: url.protocol,
+        status: 'checking...'
+      };
+    } catch (error) {
+      results[serviceName] = {
+        target,
+        error: error.message
+      };
+    }
+  }
+  
+  return { connectivity: results };
+});
+
+// Register static file serving for PDFs
+await fastify.register(staticFiles, {
+  root: join(__dirname, '../pdfs'),
+  prefix: '/doc/',
+  decorateReply: false
+});
+
+// Register static file serving for frontend
+// IMPORTANT: Proxy is registered BEFORE static files, so /api/ routes should be handled by proxy first
+// @fastify/static with prefix '/' will only serve files if they exist, otherwise it passes to next handler
+await fastify.register(staticFiles, {
+  root: join(__dirname, '../dist'),
+  prefix: '/',
+  decorateReply: false
+});
+
+// SPA fallback - serve index.html for all non-API, non-doc routes
+fastify.setNotFoundHandler(async (request, reply) => {
+  // Don't serve index.html for API routes
+  if (request.url.startsWith('/api/')) {
+    return reply.code(404).send({ error: 'Not found' });
+  }
+  // Serve index.html for SPA routes
+  try {
+    const indexPath = join(__dirname, '../dist/index.html');
+    const indexContent = await readFile(indexPath, 'utf-8');
+    return reply.type('text/html').send(indexContent);
+  } catch (error) {
+    fastify.log.error(`Error serving index.html: ${error.message}`);
+    return reply.code(500).send({ error: 'Internal server error' });
+  }
+});
+
+/**
+ * Start the server
+ */
+const start = async () => {
+  try {
+    const port = process.env.PORT || process.env.BFF_PORT || 80;
+    const host = process.env.BFF_HOST || '0.0.0.0';
+    
+    await fastify.listen({ port, host });
+    fastify.log.info(`Server listening on http://${host}:${port}`);
+    fastify.log.info(`Available services: ${Object.keys(services).join(', ')}`);
+  } catch (err) {
+    fastify.log.error(err);
+    process.exit(1);
+  }
+};
+
+start();

@@ -1,7 +1,6 @@
 module Components.Portfolio where
 
 import Prelude
-import Components.HTML.RenderUtils.App as RU
 import Data.Maybe (Maybe(..))
 import Halogen as H
 import Halogen.HTML as HH
@@ -90,7 +89,7 @@ renderSecurityAuditsSection =
         [ auditCard
             "Hydra Pay Audit Report"
             "Comprehensive security audit of the Hydra Pay protocol"
-            "./pdfs/hydra-pay-audit-report-signed.pdf"
+            "/doc/hydra-pay-audit-report-signed.pdf"
         ]
     ]
   where

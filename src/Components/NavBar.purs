@@ -3,9 +3,11 @@ module Components.NavBar where
 import Prelude
 import AppEnv (Env)
 import Capabilities.MonadCIP30 (class MonadCIP30)
+import Capabilities.MonadCIP30 as MonadCIP30
 import Capabilities.MonadInteraction (class MonadInteraction)
 import Cardano.Wallet.Cip30 (Api)
-import Control.Monad.Reader.Class (class MonadAsk)
+import Control.Monad.Reader.Class (class MonadAsk, ask)
+import Data.Array (elem)
 import Data.Maybe (Maybe(..))
 import Effect.Aff.Class (class MonadAff)
 import Halogen as H
@@ -19,7 +21,6 @@ import Store as Store
 import Test.Unit.Console (consoleLog)
 import Type.Proxy (Proxy(..))
 import WalletConnect.Component as WC
-import Data.Array (elem)
 
 --------------------------------------------------------------------------------
 -- * Component Interface
@@ -40,7 +41,7 @@ data Query a
 
 data Output
   = WalletConnectEvent
-  | InvalidNetworkEvent
+  | InvalidNetworkEvent Int
   | HomeEvent
   | BuildTransactionEvent String Api
 
@@ -125,6 +126,15 @@ handleAction = case _ of
         Just (Just api) -> do
           updateStore (Store.Connect api)
           H.raise WalletConnectEvent
+          env <- ask
+          currentNetworkId <- MonadCIP30.getNetworkId api
+          if (currentNetworkId /= env.allowedNetworkId) then do
+            H.liftEffect $ consoleLog $ show $ "Invalid network: " <> show currentNetworkId <> " <> " <> show env.allowedNetworkId
+            void $ H.query WC.walletConnectProxy unit (WC.DisconnectWalletQuery unit)
+            handleAction (HandleWalletConnectOutput WC.WalletDisconnectedEvent)
+            H.raise $ InvalidNetworkEvent currentNetworkId
+          else
+            pure unit
         _ -> pure unit
     WC.WalletDisconnectedEvent -> do
       updateStore Store.Disconnect
@@ -148,7 +158,7 @@ handleAction = case _ of
 -- * Component Rendering
 --------------------------------------------------------------------------------
 render :: forall m. MonadAff m => MonadCIP30 m => State -> H.ComponentHTML Action Slots m
-render state =
+render _state =
   HH.div
     [ HP.classes [ HH.ClassName "bg-base-100 text-base-content sticky top-0 z-30 flex h-16 w-full justify-center bg-opacity-90 backdrop-blur transition-shadow duration-100 [transform:translate3d(0,0,0)] shadow-sm" ]
     ]

@@ -4,13 +4,14 @@ import Prelude
 
 import App.Utils (scrollToTop)
 import AppEnv (Env)
+import AppTypes (DelegationAction(..))
 import Capabilities.MonadCIP30 (class MonadCIP30)
-import Capabilities.MonadInteraction (class MonadInteraction, buildTransaction, defaultServerEnv, signTransaction, submitTransaction)
+import Capabilities.MonadInteraction (class MonadInteraction, buildTransaction, signTransaction, submitTransaction)
 import Cardano.Wallet.Cip30 as Cardano.Wallet.Cip30
-import Components.HTML.RenderUtils.App (renderAccentButton, renderCexplorerPoolGraphSection, renderFabFlower, renderFooterSection, renderHeroSection, renderPoolOverviewSection, renderPrimaryButton, renderProfessionalServicesSection, renderSecondaryButton, renderToasts) as RU
+import Components.HTML.RenderUtils.App (renderCexplorerPoolGraphSection, renderFabFlower, renderFooterSection, renderHeroSection, renderPoolOverviewSection, renderPrimaryButton, renderProfessionalServicesSection, renderSecondaryButton, renderToasts) as RU
 import Components.NavBar as NavBar
 import Components.Portfolio as Portfolio
-import Control.Monad.Reader.Class (class MonadAsk, asks)
+import Control.Monad.Reader.Class (class MonadAsk, ask, asks)
 import Control.Monad.Rec.Class (forever)
 import Data.Array (cons, filter)
 import Data.DateTime.Instant (unInstant)
@@ -19,6 +20,7 @@ import Data.Maybe (Maybe(..))
 import Data.Newtype (unwrap)
 import Data.Time.Duration (Milliseconds(..))
 import Data.Tuple (Tuple(..))
+import Effect.Aff (error, throwError)
 import Effect.Aff as Aff
 import Effect.Aff.Class (class MonadAff)
 import Effect.Now (now)
@@ -46,6 +48,16 @@ decrementToats ts = (\t -> t { remainingSeconds = t.remainingSeconds - 1 }) <$> 
 
 clearToasts :: Array Toast -> Array Toast
 clearToasts ts = filter ((_ > 0) <<< _.remainingSeconds) ts
+
+parseDelegationAction ::
+  forall m.
+  MonadAff m =>
+  String -> Env -> m DelegationAction
+parseDelegationAction userAction env = case userAction of
+  "DelegateToPool" -> pure (PoolDelegation { poolId: env.myPoolId })
+  "DelegateToDRep" -> pure (DRepDelegation { dRepHash: env.myDRepHash })
+  "DelegateToPoolAndDRep" -> pure (PoolAndDRepDelegation { poolId: env.myPoolId, dRepHash: env.myDRepHash })
+  _ -> H.liftAff $ throwError (error "Invalid delegation action")
 
 --------------------------------------------------------------------------------
 -- * Component Definition
@@ -89,7 +101,7 @@ component ::
   MonadCIP30 m =>
   MonadStore Store.Action Store.Store m =>
   MonadAsk Env m =>
-  MonadInteraction String m =>
+  MonadInteraction DelegationAction m =>
   H.Component query Input output m
 component =
   H.mkComponent
@@ -107,7 +119,7 @@ component =
 -- * Component Evaluation Logic
 --------------------------------------------------------------------------------
 initialState :: Input -> State
-initialState i = { currentPage: MainPage, toasts: [], currentTime: 0.0 }
+initialState _i = { currentPage: MainPage, toasts: [], currentTime: 0.0 }
 
 handleAction ::
   forall output m.
@@ -115,7 +127,7 @@ handleAction ::
   MonadCIP30 m =>
   MonadStore Store.Action Store.Store m =>
   MonadAsk Env m =>
-  MonadInteraction String m =>
+  MonadInteraction DelegationAction m =>
   Action -> H.HalogenM State Action Slots output m Unit
 handleAction action = case action of
   Initialize -> do
@@ -148,10 +160,12 @@ handleAction action = case action of
         H.modify_ \s -> s { toasts = txSubmitFailedToast err `cons` s.toasts }
     pure unit
   SubmitTransaction unsignedTxCbor signedTx -> do
-    submitResult <- submitTransaction @String defaultServerEnv unsignedTxCbor signedTx
+    env <- ask  
+    submitResult <- submitTransaction @String env unsignedTxCbor signedTx
     case submitResult of
       Right txId -> do
         H.modify_ \s -> s { toasts = txConfirmedSuccessToast txId `cons` s.toasts }
+
       Left err -> do
         H.modify_ \s -> s { toasts = txConfirmedFailedToast err `cons` s.toasts }
     H.liftEffect $ consoleLog $ show submitResult
@@ -160,20 +174,24 @@ handleAction action = case action of
     NavBar.HomeEvent -> do
       handleAction (ChangePage MainPage)
     NavBar.BuildTransactionEvent userAction api -> do
-      buildResult <- buildTransaction defaultServerEnv api userAction
+      env <- ask  
+      delegationAction <- parseDelegationAction userAction env
+      buildResult <- buildTransaction env api delegationAction
       H.liftEffect $ consoleLog $ show buildResult
       case buildResult of
         Right txCbor -> do
           H.modify_ \s -> s { toasts = txBuildSuccessToast `cons` s.toasts }
           handleAction (SignTransaction api txCbor)
+        -- Left "GYBuildTxException GYBuildTxNoSuitableCollateral" -> do
+        --   H.modify_ \s -> s { toasts = txBuildFailedToast "Please first set collateral in your wallet !" `cons` s.toasts }
         Left err -> do
           H.modify_ \s -> s { toasts = txBuildFailedToast err `cons` s.toasts }
       pure unit
     NavBar.WalletConnectEvent -> pure unit
-    NavBar.InvalidNetworkEvent -> do
-      cardanoNetwork <- asks ( _.allowedNetwork <<< unwrap )
+    NavBar.InvalidNetworkEvent currentNetwork -> do
+      cardanoNetwork <- asks ( _.allowedNetworkId )
       let
-        newToast = { remainingSeconds: 5, alertType: "error", message: "Your wallet has to be connected to Cardano " <> cardanoNetwork <> " network" }
+        newToast = { remainingSeconds: 5, alertType: "error", message: "You are connected to the " <> show currentNetwork <> " network, but the app is configured to use the " <> show cardanoNetwork <> " network" }
       H.modify_ \s -> s { toasts = newToast `cons` s.toasts }
   StartEarningRewardsButton -> do
     mApi <- H.query NavBar.navbarProxy unit (NavBar.GetWalletApi identity)
