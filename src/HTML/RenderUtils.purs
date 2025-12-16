@@ -771,29 +771,54 @@ renderHeroSection buttonsList =
     ]
     [ HH.div [ HP.classes [ HH.ClassName "hero min-h-svh" ] ]
         [ HH.div [ HP.classes [ HH.ClassName "hero-content flex-col lg:flex-row gap-8" ] ]
-            [ HH.div_
-                [ HH.img
-                    [ HP.src "./images/E7D/SVG Vector Files/Transparent Logo.svg"
-                    , HP.alt "ENTANGLED Labs Logo"
-                    , HP.classes [ HH.ClassName "max-w-xs" ]
-                    ]
-                , HH.h3 [ HP.classes [ HH.ClassName "text-3xl md:text-3xl font-bold" ] ]
-                    [ HH.span_
-                        [ HH.text "We "
-                        , renderTextRotate "text-4xl text-success" [ " DESIGN 📐 ", " DEVELOP ⌨️ ", " DEPLOY 🌎 ", " SCALE ⬆️ ", " MAINTAIN 🔧 " ]
+            [ HH.div [ HP.classes [ HH.ClassName "" ] ]
+                [ HH.div_
+                    [ HH.img
+                        [ HP.src "./images/E7D/SVG Vector Files/Transparent Logo.svg"
+                        , HP.alt "ENTANGLED Labs Logo"
+                        , HP.classes [ HH.ClassName "max-w-xs" ]
                         ]
-                    , HH.p_ [ HH.text " for you." ]
+                    , HH.h3 [ HP.classes [ HH.ClassName "text-3xl md:text-3xl font-bold" ] ]
+                        [ HH.span_
+                            [ HH.text "We "
+                            , renderTextRotate "text-4xl text-success" [ " DESIGN 📐 ", " DEVELOP ⌨️ ", " DEPLOY 🌎 ", " SCALE ⬆️ ", " MAINTAIN 🔧 " ]
+                            , HH.text " for you."
+                            ]
+                        ]
                     ]
-                ]
-            , HH.div_
-                [ HH.h1 [ HP.classes [ HH.ClassName "text-4xl md:text-5xl font-bold" ] ] [ HH.text "ENTANGLED Labs" ]
-                , HH.p [ HP.classes [ HH.ClassName "py-4 opacity-80" ] ]
-                    [ HH.text "Your trusted Cardano infrastructure & development partner" ]
-                , HH.div [ HP.classes [ HH.ClassName "flex gap-2" ] ] buttonsList
+                , HH.div [ HP.classes [ HH.ClassName "flex flex-wrap justify-center gap-2 mt-4" ] ]
+                    [ renderHoverGallery
+                        [ "./images/logos/Cardano-RGB_Logo-Stack-Black.svg"
+                        , "./images/logos/Cardano-RGB_Logo-Stack-White.svg"
+                        , "./images/logos/Midnight-RGB_Logo-Stacked-White.svg"
+                        , "./images/logos/Midnight-RGB_Logo-Stacked-Black.svg"
+                        , "./images/logos/Cardano-RGB_Logo-Stack-Black.svg"
+                        , "./images/logos/Cardano-RGB_Logo-Stack-White.svg"
+                        , "./images/logos/bitcoin-btc-logo.svg"
+                        , "./images/logos/Cardano-RGB_Logo-Stack-Blue.svg"
+                        ]
+                    ]
+                , HH.div_
+                    [ HH.h1 [ HP.classes [ HH.ClassName "text-4xl md:text-5xl font-bold" ] ] [ HH.text "ENTANGLED Labs" ]
+                    , HH.p [ HP.classes [ HH.ClassName "py-4 opacity-80" ] ]
+                        [ HH.text "Your trusted Cardano infrastructure & development partner" ]
+                    , HH.div [ HP.classes [ HH.ClassName "flex gap-2" ] ] buttonsList
+                    ]
                 ]
             ]
         ]
     ]
+
+-- <figure class="hover-gallery max-w-60">
+--   <img src="https://img.daisyui.com/images/stock/daisyui-hat-1.webp" />
+--   <img src="https://img.daisyui.com/images/stock/daisyui-hat-2.webp" />
+--   <img src="https://img.daisyui.com/images/stock/daisyui-hat-3.webp" />
+--   <img src="https://img.daisyui.com/images/stock/daisyui-hat-4.webp" />
+-- </figure>
+renderHoverGallery :: forall w i. Array String -> HH.HTML w i
+renderHoverGallery imageUrls =
+  HH.figure [ HP.classes [ HH.ClassName "hover-gallery max-w-60" ] ]
+    (map (\url -> HH.img [ HP.src url, HP.classes [ HH.ClassName "w-60 h-90 object-contain" ] ]) imageUrls)
 
 -- ==============================================================================
 -- POOL OVERVIEW (Static Section)

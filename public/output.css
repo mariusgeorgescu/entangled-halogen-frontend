@@ -6401,6 +6401,9 @@
   .h-32 {
     height: calc(var(--spacing) * 32);
   }
+  .h-90 {
+    height: calc(var(--spacing) * 90);
+  }
   .min-h-full {
     min-height: 100%;
   }
@@ -6554,6 +6557,9 @@
   }
   .w-16 {
     width: calc(var(--spacing) * 16);
+  }
+  .w-60 {
+    width: calc(var(--spacing) * 60);
   }
   .w-64 {
     width: calc(var(--spacing) * 64);
@@ -7490,6 +7496,10 @@
   }
   .stroke-current {
     stroke: currentcolor;
+  }
+  .object-contain {
+    -o-object-fit: contain;
+       object-fit: contain;
   }
   .checkbox-lg {
     @layer daisyui.l1.l2 {
