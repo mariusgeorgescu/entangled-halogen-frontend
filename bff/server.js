@@ -4,7 +4,7 @@ import staticFiles from '@fastify/static';
 import { readdir, readFile } from 'fs/promises';
 import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
-import { services } from './config.js';
+import { services, gomaestroApiKey } from './config.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -154,6 +154,44 @@ fastify.get('/api/test', async (request, reply) => {
     method: request.method,
     ip: request.ip
   };
+});
+
+/**
+ * Pool info endpoint - proxies to Gomaestro API
+ */
+fastify.get('/api/pool-info/:poolId', async (request, reply) => {
+  const { poolId } = request.params;
+  const url = `https://mainnet.gomaestro-api.org/v1/pools/${poolId}/info`;
+  
+  fastify.log.info(`[Pool Info] Fetching pool info for ${poolId}`);
+  
+  try {
+    const response = await fetch(url, {
+      method: 'GET',
+      headers: {
+        'api-key': gomaestroApiKey
+      }
+    });
+    
+    if (!response.ok) {
+      fastify.log.error(`[Pool Info] Error fetching pool info: ${response.status} ${response.statusText}`);
+      return reply.code(response.status).send({
+        error: 'Failed to fetch pool information',
+        status: response.status,
+        statusText: response.statusText
+      });
+    }
+    
+    const data = await response.json();
+    fastify.log.info(`[Pool Info] Successfully fetched pool info for ${poolId}`);
+    return reply.send(data);
+  } catch (error) {
+    fastify.log.error(`[Pool Info] Error: ${error.message}`);
+    return reply.code(500).send({
+      error: 'Internal server error',
+      message: error.message
+    });
+  }
 });
 
 /**

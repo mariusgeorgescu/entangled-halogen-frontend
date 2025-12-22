@@ -4,11 +4,11 @@ import Prelude
 
 import App.Utils (scrollToTop)
 import AppEnv (Env)
-import AppTypes (DelegationAction(..))
+import AppTypes (DelegationAction(..), PoolInfo)
 import Capabilities.MonadCIP30 (class MonadCIP30)
 import Capabilities.MonadInteraction (class MonadInteraction, buildTransaction, signTransaction, submitTransaction)
 import Cardano.Wallet.Cip30 as Cardano.Wallet.Cip30
-import Components.HTML.RenderUtils.App (renderCexplorerPoolGraphSection, renderFabFlower, renderFooterSection, renderHeroSection, renderPoolOverviewSection, renderPrimaryButton, renderProfessionalServicesSection, renderSecondaryButton, renderToasts) as RU
+import Components.HTML.RenderUtils.App (renderAccentButton, renderCexplorerPoolGraphSection, renderFabFlower, renderFooterSection, renderHeroSection, renderPoolOverviewSection, renderPrimaryButton, renderProfessionalServicesSection, renderSecondaryButton, renderToasts) as RU
 import Components.NavBar as NavBar
 import Components.Portfolio as Portfolio
 import Control.Monad.Reader.Class (class MonadAsk, ask, asks)
@@ -16,6 +16,7 @@ import Control.Monad.Rec.Class (forever)
 import Data.Array (cons, filter)
 import Data.DateTime.Instant (unInstant)
 import Data.Either (Either(..))
+import Data.HTTP.Method (Method(..))
 import Data.Maybe (Maybe(..))
 import Data.Newtype (unwrap)
 import Data.Time.Duration (Milliseconds(..))
@@ -24,12 +25,17 @@ import Effect.Aff (error, throwError)
 import Effect.Aff as Aff
 import Effect.Aff.Class (class MonadAff)
 import Effect.Now (now)
+import Foreign (ForeignError(..), unsafeFromForeign)
 import Halogen as H
 import Halogen.HTML as HH
 import Halogen.Store.Monad (class MonadStore)
 import Halogen.Subscription as HS
 import Store as Store
 import Test.Unit.Console (consoleLog)
+import Affjax as AX
+import Affjax.ResponseFormat as AXRF
+import Affjax.Web as AXW
+import Data.Argonaut.Decode (decodeJson)
 
 --------------------------------------------------------------------------------
 -- * Utils
@@ -81,6 +87,7 @@ type State
   = { toasts :: Array Toast
     , currentPage :: Page
     , currentTime :: Number
+    , poolInfo :: Maybe PoolInfo
     }
 
 data Action
@@ -94,6 +101,8 @@ data Action
   | LetUsBeYourDRepButton
   | BothButton
   | Tick
+  | FetchPoolInfo
+  | PoolInfoReceived (Either String PoolInfo)
 
 component ::
   forall query output m.
@@ -119,7 +128,7 @@ component =
 -- * Component Evaluation Logic
 --------------------------------------------------------------------------------
 initialState :: Input -> State
-initialState _i = { currentPage: MainPage, toasts: [], currentTime: 0.0 }
+initialState _i = { currentPage: MainPage, toasts: [], currentTime: 0.0, poolInfo: Nothing }
 
 handleAction ::
   forall output m.
@@ -133,7 +142,8 @@ handleAction action = case action of
   Initialize -> do
     -- Subscribe to get the current time at a regular interval
     void $ H.subscribe =<< createTimerEmitter Tick
-    pure unit
+    -- Fetch pool info
+    handleAction FetchPoolInfo
     where
     createTimerEmitter :: forall a n. MonadAff n => a -> n (HS.Emitter a)
     createTimerEmitter val = do
@@ -144,6 +154,39 @@ handleAction action = case action of
               Aff.delay $ Milliseconds 1000.0
               H.liftEffect $ HS.notify listener val
       pure emitter
+  FetchPoolInfo -> do
+    env <- ask
+    let url = env.poolInfoURL <> "/" <> env.myPoolId
+    let req = 
+          { url: url
+          , method: Left GET
+          , responseFormat: AXRF.json
+          , headers: []
+          , content: Nothing
+          , password: Nothing
+          , username: Nothing
+          , timeout: Just $ Milliseconds 10_000_000.0
+          , withCredentials: true
+          }
+    result <- H.liftAff $ AXW.request req
+    case result of
+      Right success -> do
+        case decodeJson success.body of
+          Right poolInfo -> do
+            handleAction $ PoolInfoReceived $ Right poolInfo
+          Left decodeErr -> do
+            H.liftEffect $ consoleLog $ "Failed to decode pool info: " <> show decodeErr
+            handleAction $ PoolInfoReceived $ Left $ "Failed to decode pool info"
+      Left (AX.ResponseBodyError (ForeignError _msg) resp) -> do
+        handleAction $ PoolInfoReceived $ Left $ unsafeFromForeign resp.body
+      Left e -> do
+        handleAction $ PoolInfoReceived $ Left $ AX.printError e
+  PoolInfoReceived (Right poolInfo) -> do
+    H.modify_ _ { poolInfo = Just poolInfo }
+    H.liftEffect $ consoleLog $ "Pool info received successfully"
+  PoolInfoReceived (Left err) -> do
+    H.liftEffect $ consoleLog $ "Failed to fetch pool info: " <> err
+    -- Don't show error to user, just log it
   Tick -> do
     ct <- unwrap <<< unInstant <$> H.liftEffect now
     ts <- H.gets _.toasts
@@ -258,8 +301,8 @@ renderBodyContent s = case s.currentPage of
     HH.div_ [    
       RU.renderHeroSection heroButtonsList
     , RU.renderProfessionalServicesSection professionalServicesButtonsList
-    , RU.renderPoolOverviewSection
-    , RU.renderCexplorerPoolGraphSection
+    , RU.renderPoolOverviewSection s.poolInfo
+    -- , RU.renderCexplorerPoolGraphSection
     ]
   PortfolioPage -> renderPortfolioWidgetSlot
 
@@ -275,7 +318,7 @@ heroButtonsList = [ RU.renderSecondaryButton "Start Earning Rewards" StartEarnin
               ]
 
 professionalServicesButtonsList :: forall w. Array (HH.HTML w Action)
-professionalServicesButtonsList = [RU.renderPrimaryButton "Security Audits" (ChangePage PortfolioPage)]
+professionalServicesButtonsList = [RU.renderAccentButton "Check out our portfolio" (ChangePage PortfolioPage)]
 
 txBuildSuccessToast ∷ { alertType ∷ String, message ∷ String, remainingSeconds ∷ Int }
 txBuildSuccessToast = { remainingSeconds: 5, alertType: "info alert-dash", message: "Transaction built successfully. Please review and sign the transaction." }

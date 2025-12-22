@@ -18,4 +18,7 @@ export const services = {
   // }
 };
 
+// Gomaestro API configuration
+export const gomaestroApiKey = process.env.GOMAESTRO_API_KEY || 'pq3Tj9JhuOvhSqOfG4i7Rj1KRSYmu4gm';
+
 

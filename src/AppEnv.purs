@@ -10,6 +10,7 @@ type Env
     , allowedNetworkId :: Int
     , myPoolId :: String
     , myDRepHash :: String
+    , poolInfoURL :: String
     }
 
 --------------------------------------------------------------------------------}
@@ -20,6 +21,7 @@ defaultEnv =
   , allowedNetworkId: 1 -- Mainnet
   , myPoolId: "pool1sj3gnahsms73uxxu43rgwczdw596en7dtsfcqf6297vzgcedquv"
   , myDRepHash: "70687a06149aafc3c89492b06e743a10a051327371d14f8f95e3c605"
+  , poolInfoURL: "/api/pool-info"
   }
 
 -- { buildTxURL: "/api/delegation-service/build-tx"

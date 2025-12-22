@@ -60,3 +60,7 @@ scrollByXY :: Int -> Int -> Effect Unit
 scrollByXY x y = do
   win <- window
   scrollBy x y win
+
+
+lovelaceToAda :: Number -> Number
+lovelaceToAda n = n / 1_000_000.0

@@ -1,11 +1,15 @@
 module Components.HTML.RenderUtils.App where
 
 import Prelude
+import AppTypes (PoolInfo(..))
 import Components.HTML.Icons (activeSvgIcon, downSvgIcon, errorSvgIcon, finalSvgIcon, infoSvgIcon, successSvgIcon, upSvgIcon, warningSvgIcon)
 import DOM.HTML.Indexed (HTMLinput, HTMLtextarea)
+import Data.Array (mapMaybe, length)
 import Data.Either (Either(..))
+import Data.Int (toNumber)
 import Data.Maybe (Maybe(..))
-import Data.String (take, length)
+import Data.Number (floor)
+import Data.String (take, length) as String
 import Data.Tuple (Tuple(..))
 import Formless as F
 import Halogen as H
@@ -17,6 +21,7 @@ import Halogen.Svg.Attributes.Color (Color(..))
 import Halogen.Svg.Attributes.StrokeLineCap (StrokeLineCap(..))
 import Halogen.Svg.Attributes.StrokeLineJoin (StrokeLineJoin(..))
 import Halogen.Svg.Elements as SE
+import App.Utils (lovelaceToAda)
 
 -- ==============================================================================
 -- INPUT DATA
@@ -373,7 +378,7 @@ renderPrimaryButton ∷ ∀ w i. String → i -> HH.HTML w i
 renderPrimaryButton = renderButton "btn-primary btn-sm sm:btn-md w-full sm:w-auto"
 
 renderAccentButton ∷ ∀ w i. String → i -> HH.HTML w i
-renderAccentButton = renderButton "btn-accent"
+renderAccentButton = renderButton "btn-accent btn-sm sm:btn-md w-full sm:w-auto"
 
 -- <button class="btn">
 --   Button
@@ -596,8 +601,8 @@ renderFooter aside navs =
 
 stringLimitBy :: Int -> String -> String
 stringLimitBy limit content =
-  if length content > limit then
-    (take limit $ content) <> "..."
+  if String.length content > limit then
+    (String.take limit $ content) <> "..."
   else
     content
 
@@ -821,8 +826,8 @@ renderHoverGallery imageUrls =
 -- ==============================================================================
 -- POOL OVERVIEW (Static Section)
 -- ==============================================================================
-renderPoolOverviewSection :: forall w i. HH.HTML w i
-renderPoolOverviewSection =
+renderPoolOverviewSection :: forall w i. Maybe PoolInfo -> HH.HTML w i
+renderPoolOverviewSection maybePoolInfo =
   HH.section
     [ HP.id "pool"
     , HP.classes [ HH.ClassName "w-full max-w-6xl mx-auto px-4 sm:px-6 py-8 sm:py-12" ]
@@ -834,10 +839,7 @@ renderPoolOverviewSection =
             ]
         ]
     , HH.div [ HP.classes [ HH.ClassName "grid grid-cols-1 md:grid-cols-3 gap-4" ] ]
-        [ stat "99.9%" "Uptime target"
-        , stat "Competitive Fees" "More rewards in your wallet"
-        , stat "Secured" "Best practices operations"
-        ]
+        (extractPoolStats maybePoolInfo)
     , HH.div [ HP.classes [ HH.ClassName "mt-6 flex flex-col sm:flex-row justify-center gap-2" ] ]
         [ HH.a
             [ HP.classes [ HH.ClassName "btn btn-primary btn-sm sm:btn-md w-full sm:w-auto" ]
@@ -855,12 +857,102 @@ renderPoolOverviewSection =
   where
   stat :: forall w' i'. String -> String -> HH.HTML w' i'
   stat value desc =
-    HH.div [ HP.classes [ HH.ClassName "card bg-base-200 shadow" ] ]
+    HH.div [ HP.classes [ HH.ClassName "card bg-base-200 shadow-lg hover:shadow-xl transition-shadow" ] ]
       [ HH.div [ HP.classes [ HH.ClassName "card-body items-center text-center" ] ]
           [ HH.div [ HP.classes [ HH.ClassName "text-2xl sm:text-3xl md:text-4xl font-bold" ] ] [ HH.text value ]
           , HH.div [ HP.classes [ HH.ClassName "opacity-80 text-sm sm:text-base" ] ] [ HH.text desc ]
           ]
       ]
+
+  extractPoolStats :: Maybe PoolInfo -> Array (HH.HTML w i)
+  extractPoolStats Nothing = 
+    [ stat "99.9%" "Uptime target"
+    , stat "Competitive Fees" "More rewards in your wallet"
+    , stat "Secured" "Best practices operations"
+    ]
+  extractPoolStats (Just (PoolInfo poolInfo)) = 
+    let
+      -- Format values for display
+      formatAda :: Maybe Number -> String
+      formatAda (Just n) 
+        | n >= 1_000_000.0 = 
+            let millions = n / 1_000_000.0
+            in if millions >= 100.0 then
+              show (floor millions) <> "M ₳"
+            else
+              let rounded = floor (millions * 10.0) / 10.0
+              in show rounded <> "M ₳"
+        | n >= 1_000.0 = 
+            let thousands = n / 1_000.0
+            in if thousands >= 100.0 then
+              show (floor thousands) <> "K ₳"
+            else
+              let rounded = floor (thousands * 10.0) / 10.0
+              in show rounded <> "K ₳"
+        | otherwise = show (floor n) <> " ₳"
+      formatAda Nothing = "—"
+      
+      
+      formatPercent :: Maybe Number -> String
+      formatPercent (Just n) 
+        | n >= 1.0 = show (n) <> "%"
+        | otherwise = 
+            let rounded = floor (n * 100.0) / 100.0
+            in show rounded <> "%"
+      formatPercent Nothing = "—"
+      
+      formatNumber :: Maybe Int -> String
+      formatNumber (Just n) 
+        | n >= 1_000_000 = show (floor (toNumber n / 1_000_000.0)) <> "M"
+        | n >= 1_000 = show (floor (toNumber n / 1_000.0)) <> "K"
+        | otherwise = show n
+      formatNumber Nothing = "—"
+      
+      -- Build array of all available stats, filtering out Nothing values
+      allStats = 
+        [ case poolInfo.margin of
+            Just m -> Just $ stat (formatPercent $ Just (m * 100.0)) "Margin"
+            Nothing -> Nothing
+        , case poolInfo.pledge of
+            Just _ -> Just $ stat (formatAda $ lovelaceToAda <$> poolInfo.pledge) "Pledge"
+            Nothing -> Nothing
+        , case poolInfo.fixed_cost of
+            Just _ -> Just $ stat (formatAda $ lovelaceToAda <$> poolInfo.fixed_cost) "Fixed Cost"
+            Nothing -> Nothing
+        , case poolInfo.live_stake of
+            Just _ -> Just $ stat (formatAda $ lovelaceToAda <$> poolInfo.live_stake) "Live Stake"
+            Nothing -> Nothing
+        , case poolInfo.active_stake of
+            Just _ -> Just $ stat (formatAda $ lovelaceToAda <$> poolInfo.active_stake) "Active Stake"
+            Nothing -> Nothing
+        , case poolInfo.delegators of
+            Just _ -> Just $ stat (formatNumber poolInfo.delegators) "Delegators"
+            Nothing -> Nothing
+        , case poolInfo.blocks of
+            Just _ -> Just $ stat (formatNumber poolInfo.blocks) "Blocks Minted"
+            Nothing -> Nothing
+        , case poolInfo.saturation of
+            Just s -> Just $ stat (formatPercent $ Just (s )) "Saturation"
+            Nothing -> Nothing
+        , case poolInfo.name of
+            Just n -> Just $ stat n "Pool Name"
+            Nothing -> Nothing
+        , case poolInfo.ticker of
+            Just t -> Just $ stat t "Ticker"
+            Nothing -> Nothing
+        ]
+      
+      -- Filter out Nothing values and extract Just values
+      availableStats = mapMaybe identity allStats
+    in
+      if length availableStats > 0 then
+        availableStats
+      else
+        -- Fallback to static stats if no data available
+        [ stat "99.9%" "Uptime target"
+        , stat "Competitive Fees" "More rewards in your wallet"
+        , stat "Secured" "Best practices operations"
+        ]
 
 -- ==============================================================================
 -- FOOTER (Static Section)
@@ -942,28 +1034,28 @@ renderFabFlower =
             [ HH.text "✕" ]
         ]
     , HH.div_
-        [ HH.text "Raffleize Art"
+        [ HH.span [ HP.classes [ HH.ClassName "text-accent" ] ] [ HH.text "BJJ Belts" ]
         , HH.a
-            [ HP.classes [ HH.ClassName "btn btn-lg btn-circle" ]
-            , HP.href "https://www.raffleize.art"
-            , HP.target "_blank"
-            ]
-            [ paletteIcon ]
-        ]
-    , HH.div_
-        [ HH.text "BJJ Belts"
-        , HH.a
-            [ HP.classes [ HH.ClassName "btn btn-lg btn-circle" ]
-            , HP.href "https://www.bjj-belts.org"
+            [ HP.classes [ HH.ClassName "btn btn-lg btn-circle bg-accent text-accent-content" ]
+            , HP.href "https://bjj.cardano.vip"
             , HP.target "_blank"
             ]
             [ medalIcon ]
         ]
     , HH.div_
-        [ HH.text "Cardano Ticker"
+        [ HH.span [ HP.classes [ HH.ClassName "text-accent" ] ] [ HH.text "Raffleize Art" ]
         , HH.a
-            [ HP.classes [ HH.ClassName "btn btn-lg btn-circle" ]
-            , HP.href "https://www.ticker.cardano.vip"
+            [ HP.classes [ HH.ClassName "btn btn-lg btn-circle bg-accent text-accent-content" ]
+            , HP.href "https://github.com/mariusgeorgescu/raffleize"
+            , HP.target "_blank"
+            ]
+            [ paletteIcon ]
+        ]
+    , HH.div_
+        [ HH.span [ HP.classes [ HH.ClassName "text-accent" ] ] [ HH.text "Cardano Ticker" ]
+        , HH.a
+            [ HP.classes [ HH.ClassName "btn btn-lg btn-circle bg-accent text-accent-content" ]
+            , HP.href "https://github.com/en7angled/CardanoTicker/tree/main"
             , HP.target "_blank"
             ]
             [ chartIcon ]
