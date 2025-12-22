@@ -1,0 +1,55 @@
+# Node modules
+node_modules/
+npm-debug.log
+
+# Build outputs (keep dist for simple Dockerfile)
+# dist/
+output/
+public/index.js
+public/output.css
+
+# Git
+.git/
+.gitignore
+
+# IDE and editor files
+.vscode/
+.cursor/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Documentation
+*.md
+README.md
+
+# Docker files (not needed in image)
+Dockerfile
+.dockerignore
+docker-compose.yml
+
+# Logs
+logs/
+*.log
+
+# Test files
+test/
+*.test.js
+*.spec.js
+
+# Cache
+.cache/
+.parcel-cache/
+
+# Lock files (we copy them explicitly)
+# package-lock.json
+
+# Misc
+.env
+.env.*
+

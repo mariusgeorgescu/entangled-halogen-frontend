@@ -1,0 +1,36 @@
+version: '3.8'
+
+services:
+  entangled-frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: production
+    image: entangled-halogen-frontend:latest
+    container_name: entangled-frontend
+    ports:
+      - "8080:80"      # Fastify server (serves frontend + BFF)
+    restart: unless-stopped
+    environment:
+      - NODE_ENV=production
+      - PORT=80
+      - BFF_HOST=0.0.0.0
+      # Required environment variables - must be set via .env file or environment
+      - DELEGATION_SERVICE=${DELEGATION_SERVICE}
+      - BASIC_USER=${BASIC_USER}
+      - BASIC_PASS=${BASIC_PASS}
+      - GOMAESTRO_ENV=${GOMAESTRO_ENV}
+      - GOMAESTRO_API_KEY=${GOMAESTRO_API_KEY}
+    healthcheck:
+      test: ["CMD-SHELL", "wget --quiet --tries=1 --spider http://localhost/health"]
+      interval: 30s
+      timeout: 3s
+      retries: 3
+      start_period: 10s
+    networks:
+      - frontend-network
+
+networks:
+  frontend-network:
+    driver: bridge
+

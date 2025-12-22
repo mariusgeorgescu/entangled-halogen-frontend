@@ -9,6 +9,8 @@ import Halogen.Aff as HA
 import Halogen.VDom.Driver (runUI)
 import Store (initialStore)
 
+
+
 main :: Effect Unit
 main = do
   HA.runHalogenAff do
