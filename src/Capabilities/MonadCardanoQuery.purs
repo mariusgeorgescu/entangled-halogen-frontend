@@ -6,7 +6,6 @@ module Capabilities.MonadCardanoQuery
   ) where
 
 import Prelude
-
 import Affjax as AX
 import Affjax.ResponseFormat as AXRF
 import Affjax.Web as AXW
@@ -30,32 +29,34 @@ import Halogen as H
 -- This is the extracted/processed version we use in the UI
 newtype PoolInfo
   = PoolInfo
-    { margin :: Maybe Number
-    , fixed_cost :: Maybe Number
-    , pledge :: Maybe Number
-    , live_stake :: Maybe Number
-    , active_stake :: Maybe Number
-    , delegators :: Maybe Int
-    , blocks :: Maybe Int
-    , saturation :: Maybe Number
-    , pool_id :: Maybe String
-    , ticker :: Maybe String
-    , name :: Maybe String
-    }
+  { margin :: Maybe Number
+  , fixed_cost :: Maybe Number
+  , pledge :: Maybe Number
+  , live_stake :: Maybe Number
+  , active_stake :: Maybe Number
+  , delegators :: Maybe Int
+  , blocks :: Maybe Int
+  , saturation :: Maybe Number
+  , pool_id :: Maybe String
+  , ticker :: Maybe String
+  , name :: Maybe String
+  }
 
 derive instance genericPoolInfo :: Generic PoolInfo _
+
 derive instance newtypePoolInfo :: Newtype PoolInfo _
 
 -- Raw API response types
 newtype PoolMetaJson
   = PoolMetaJson
-    { name :: Maybe String
-    , ticker :: Maybe String
-    , homepage :: Maybe String
-    , description :: Maybe String
-    }
+  { name :: Maybe String
+  , ticker :: Maybe String
+  , homepage :: Maybe String
+  , description :: Maybe String
+  }
 
 derive instance genericPoolMetaJson :: Generic PoolMetaJson _
+
 derive instance newtypePoolMetaJson :: Newtype PoolMetaJson _
 
 instance decodeJsonPoolMetaJson :: DecodeJson PoolMetaJson where
@@ -63,19 +64,20 @@ instance decodeJsonPoolMetaJson :: DecodeJson PoolMetaJson where
 
 newtype PoolData
   = PoolData
-    { pool_id_bech32 :: Maybe String
-    , margin :: Maybe Number
-    , fixed_cost :: Maybe Number
-    , pledge :: Maybe Number
-    , live_stake :: Maybe Number
-    , active_stake :: Maybe Number
-    , block_count :: Maybe Int
-    , live_delegators :: Maybe Int
-    , live_saturation :: Maybe String
-    , meta_json :: Maybe PoolMetaJson
-    }
+  { pool_id_bech32 :: Maybe String
+  , margin :: Maybe Number
+  , fixed_cost :: Maybe Number
+  , pledge :: Maybe Number
+  , live_stake :: Maybe Number
+  , active_stake :: Maybe Number
+  , block_count :: Maybe Int
+  , live_delegators :: Maybe Int
+  , live_saturation :: Maybe String
+  , meta_json :: Maybe PoolMetaJson
+  }
 
 derive instance genericPoolData :: Generic PoolData _
+
 derive instance newtypePoolData :: Newtype PoolData _
 
 instance decodeJsonPoolData :: DecodeJson PoolData where
@@ -83,10 +85,11 @@ instance decodeJsonPoolData :: DecodeJson PoolData where
 
 newtype PoolInfoMaestroResponse
   = PoolInfoMaestroResponse
-    { data :: Maybe PoolData
-    }
+  { data :: Maybe PoolData
+  }
 
 derive instance genericPoolInfoMaestroResponse :: Generic PoolInfoMaestroResponse _
+
 derive instance newtypePoolInfoMaestroResponse :: Newtype PoolInfoMaestroResponse _
 
 instance decodeJsonPoolInfoMaestroResponse :: DecodeJson PoolInfoMaestroResponse where
@@ -94,27 +97,29 @@ instance decodeJsonPoolInfoMaestroResponse :: DecodeJson PoolInfoMaestroResponse
 
 -- Custom decoder that extracts nested data
 instance decodeJsonPoolInfo :: DecodeJson PoolInfo where
-  decodeJson json = 
-    case genericDecodeAeson Argonaut.defaultOptions json :: Either _ PoolInfoMaestroResponse of
-      Right (PoolInfoMaestroResponse poolResponse) -> 
-        case poolResponse.data of
-          Just (PoolData poolData) -> 
-            let
-              meta = poolData.meta_json
-              name = case meta of
-                Just (PoolMetaJson m) -> m.name
-                Nothing -> Nothing
-              ticker = case meta of
-                Just (PoolMetaJson m) -> m.ticker
-                Nothing -> Nothing
-              -- Parse live_saturation from String to Number
-              saturation = case poolData.live_saturation of
-                Just s -> case Number.fromString s of
-                  Just n -> Just n
-                  Nothing -> Nothing
-                Nothing -> Nothing
-            in
-              Right $ PoolInfo
+  decodeJson json = case genericDecodeAeson Argonaut.defaultOptions json :: Either _ PoolInfoMaestroResponse of
+    Right (PoolInfoMaestroResponse poolResponse) -> case poolResponse.data of
+      Just (PoolData poolData) ->
+        let
+          meta = poolData.meta_json
+
+          name = case meta of
+            Just (PoolMetaJson m) -> m.name
+            Nothing -> Nothing
+
+          ticker = case meta of
+            Just (PoolMetaJson m) -> m.ticker
+            Nothing -> Nothing
+
+          -- Parse live_saturation from String to Number
+          saturation = case poolData.live_saturation of
+            Just s -> case Number.fromString s of
+              Just n -> Just n
+              Nothing -> Nothing
+            Nothing -> Nothing
+        in
+          Right
+            $ PoolInfo
                 { margin: poolData.margin
                 , fixed_cost: poolData.fixed_cost
                 , pledge: poolData.pledge
@@ -127,8 +132,9 @@ instance decodeJsonPoolInfo :: DecodeJson PoolInfo where
                 , ticker: ticker
                 , name: name
                 }
-          Nothing -> 
-            Right $ PoolInfo
+      Nothing ->
+        Right
+          $ PoolInfo
               { margin: Nothing
               , fixed_cost: Nothing
               , pledge: Nothing
@@ -141,35 +147,38 @@ instance decodeJsonPoolInfo :: DecodeJson PoolInfo where
               , ticker: Nothing
               , name: Nothing
               }
-      Left err -> Left err
+    Left err -> Left err
 
-type HasPoolInfoEnv r = { poolInfoURL :: String | r }
+type HasPoolInfoEnv r
+  = { poolInfoURL :: String -> String | r }
 
 class
   ( Monad m
   , MonadAff m
   ) <= MonadCardanoQuery m where
-  fetchPoolInfo :: forall r. MonadAsk { poolInfoURL :: String | r } m => String -> m (Either String PoolInfo)
+  fetchPoolInfo :: forall r. MonadAsk { poolInfoURL :: String -> String | r } m => String -> m (Either String PoolInfo)
 
 fetchPoolInfoDefault ::
   forall m r.
   MonadAff m =>
-  MonadAsk { poolInfoURL :: String | r } m =>
+  MonadAsk { poolInfoURL :: String -> String | r } m =>
   String -> m (Either String PoolInfo)
 fetchPoolInfoDefault poolId = do
   env <- ask
-  let url = env.poolInfoURL <> "/" <> poolId
-  let req = 
-        { url: url
-        , method: Left GET
-        , responseFormat: AXRF.json
-        , headers: []
-        , content: Nothing
-        , password: Nothing
-        , username: Nothing
-        , timeout: Just $ Milliseconds 10_000_000.0
-        , withCredentials: true
-        }
+  let
+    url = env.poolInfoURL poolId
+  let
+    req =
+      { url: url
+      , method: Left GET
+      , responseFormat: AXRF.json
+      , headers: []
+      , content: Nothing
+      , password: Nothing
+      , username: Nothing
+      , timeout: Just $ Milliseconds 10_000_000.0
+      , withCredentials: true
+      }
   result <- H.liftAff $ AXW.request req
   case result of
     Right success -> do
@@ -184,7 +193,7 @@ fetchPoolInfoDefault poolId = do
 -- Instance for HalogenM that lifts from the underlying monad
 instance monadCardanoQueryHalogenM ::
   ( MonadCardanoQuery m
-  , MonadAsk { poolInfoURL :: String | r } m
+  , MonadAsk { poolInfoURL :: String -> String | r } m
   ) =>
   MonadCardanoQuery (H.HalogenM state action slots output m) where
-  fetchPoolInfo poolId = H.lift $ fetchPoolInfo poolId
+  fetchPoolInfo poolId = H.lift $ fetchPoolInfoDefault poolId

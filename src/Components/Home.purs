@@ -83,6 +83,7 @@ type State
     , currentPage :: Page
     , currentTime :: Number
     , poolInfo :: Maybe PoolInfo
+    , myPoolId :: String
     }
 
 data Action
@@ -124,7 +125,7 @@ component =
 -- * Component Evaluation Logic
 --------------------------------------------------------------------------------
 initialState :: Input -> State
-initialState _i = { currentPage: MainPage, toasts: [], currentTime: 0.0, poolInfo: Nothing }
+initialState _i = { currentPage: MainPage, toasts: [], currentTime: 0.0, poolInfo: Nothing, myPoolId: "" }
 
 handleAction ::
   forall output m.
@@ -137,6 +138,9 @@ handleAction ::
   Action -> H.HalogenM State Action Slots output m Unit
 handleAction action = case action of
   Initialize -> do
+    -- Store poolId from environment in state
+    env <- ask
+    H.modify_ _ { myPoolId = env.myPoolId }
     -- Subscribe to get the current time at a regular interval
     void $ H.subscribe =<< createTimerEmitter Tick
     -- Fetch pool info
@@ -248,8 +252,7 @@ render ::
   MonadStore Store.Action Store.Store m =>
   MonadAsk Env m =>
   State -> H.ComponentHTML Action Slots m
-render s =
-  HH.div_
+render s = HH.div_
     [ renderWalletWidgetSlot
     , renderBodyContent s
     , RU.renderFooterSection
@@ -280,8 +283,8 @@ renderBodyContent s = case s.currentPage of
     HH.div_ [    
       RU.renderHeroSection heroButtonsList
     , RU.renderProfessionalServicesSection professionalServicesButtonsList
-    , RU.renderPoolOverviewSection s.poolInfo
-    -- , RU.renderCexplorerPoolGraphSection
+    ,       RU.renderPoolOverviewSection s.poolInfo
+    -- , RU.renderCexplorerPoolGraphSection s.poolInfo
     ]
   PortfolioPage -> renderPortfolioWidgetSlot
 

@@ -7,7 +7,9 @@ var defaultEnv = {
   allowedNetworkId: 1,
   myPoolId: "pool1sj3gnahsms73uxxu43rgwczdw596en7dtsfcqf6297vzgcedquv",
   myDRepHash: "70687a06149aafc3c89492b06e743a10a051327371d14f8f95e3c605",
-  poolInfoURL: "/api/pool-info"
+  poolInfoURL: function(poolId) {
+    return "/api/gomaestro-api/v1/pools/" + (poolId + "/info");
+  }
 };
 
 // output/Affjax/foreign.js
@@ -7804,7 +7806,6 @@ var bindHalogenM = freeBind;
 var applicativeHalogenM = freeApplicative;
 
 // output/Capabilities.MonadCardanoQuery/index.js
-var lift5 = /* @__PURE__ */ lift(monadTransHalogenM);
 var gDecodeJsonCons2 = /* @__PURE__ */ gDecodeJsonCons(/* @__PURE__ */ decodeFieldMaybe(decodeJsonString));
 var gDecodeJsonCons1 = /* @__PURE__ */ gDecodeJsonCons2(gDecodeJsonNil);
 var decodeRepArgsArgument2 = /* @__PURE__ */ decodeRepArgsArgument(/* @__PURE__ */ decodeRecord(/* @__PURE__ */ gDecodeJsonCons2(/* @__PURE__ */ gDecodeJsonCons2(/* @__PURE__ */ gDecodeJsonCons2(/* @__PURE__ */ gDecodeJsonCons1({
@@ -7843,6 +7844,7 @@ var PoolInfoMaestroResponseIsSymbol = {
   }
 };
 var show5 = /* @__PURE__ */ show(showJsonDecodeError);
+var lift5 = /* @__PURE__ */ lift(monadTransHalogenM);
 var genericPoolMetaJson = {
   to: function(x) {
     return x;
@@ -7869,27 +7871,6 @@ var genericPoolData = {
 };
 var fetchPoolInfo = function(dict) {
   return dict.fetchPoolInfo;
-};
-var monadCardanoQueryHalogenM = function(dictMonadCardanoQuery) {
-  var fetchPoolInfo1 = fetchPoolInfo(dictMonadCardanoQuery);
-  var monadAffHalogenM2 = monadAffHalogenM(dictMonadCardanoQuery.MonadAff1());
-  return function(dictMonadAsk) {
-    var lift1 = lift5(dictMonadAsk.Monad0());
-    var fetchPoolInfo2 = fetchPoolInfo1(dictMonadAsk);
-    return {
-      fetchPoolInfo: function(dictMonadAsk1) {
-        return function(poolId) {
-          return lift1(fetchPoolInfo2(poolId));
-        };
-      },
-      Monad0: function() {
-        return monadHalogenM;
-      },
-      MonadAff1: function() {
-        return monadAffHalogenM2;
-      }
-    };
-  };
 };
 var decodeJsonPoolMetaJson = {
   decodeJson: /* @__PURE__ */ genericDecodeAeson(genericPoolMetaJson)(/* @__PURE__ */ decodeAesonConstructor(decodeRepArgsArgument2)(PoolMetaJsonIsSymbol)(areAllConstructorsNullary_Constructor2)(isSingleConstructor_Constructor)(/* @__PURE__ */ decodeAesonConstructor$prime(PoolMetaJsonIsSymbol)(decodeRepArgsArgument2)))(defaultOptions)
@@ -7960,14 +7941,14 @@ var decodeJsonPoolInfo = {
               return Nothing.value;
             }
             ;
-            throw new Error("Failed pattern match at Capabilities.MonadCardanoQuery (line 112, column 27 - line 114, column 37): " + [v1.constructor.name]);
+            throw new Error("Failed pattern match at Capabilities.MonadCardanoQuery (line 116, column 23 - line 118, column 33): " + [v1.constructor.name]);
           }
           ;
           if (v2.value0.data.value0.live_saturation instanceof Nothing) {
             return Nothing.value;
           }
           ;
-          throw new Error("Failed pattern match at Capabilities.MonadCardanoQuery (line 111, column 28 - line 115, column 35): " + [v2.value0.data.value0.live_saturation.constructor.name]);
+          throw new Error("Failed pattern match at Capabilities.MonadCardanoQuery (line 115, column 24 - line 119, column 31): " + [v2.value0.data.value0.live_saturation.constructor.name]);
         })();
         var name17 = (function() {
           if (v2.value0.data.value0.meta_json instanceof Just) {
@@ -7978,7 +7959,7 @@ var decodeJsonPoolInfo = {
             return Nothing.value;
           }
           ;
-          throw new Error("Failed pattern match at Capabilities.MonadCardanoQuery (line 104, column 22 - line 106, column 35): " + [v2.value0.data.value0.meta_json.constructor.name]);
+          throw new Error("Failed pattern match at Capabilities.MonadCardanoQuery (line 106, column 18 - line 108, column 31): " + [v2.value0.data.value0.meta_json.constructor.name]);
         })();
         var ticker = (function() {
           if (v2.value0.data.value0.meta_json instanceof Just) {
@@ -7989,7 +7970,7 @@ var decodeJsonPoolInfo = {
             return Nothing.value;
           }
           ;
-          throw new Error("Failed pattern match at Capabilities.MonadCardanoQuery (line 107, column 24 - line 109, column 35): " + [v2.value0.data.value0.meta_json.constructor.name]);
+          throw new Error("Failed pattern match at Capabilities.MonadCardanoQuery (line 110, column 20 - line 112, column 31): " + [v2.value0.data.value0.meta_json.constructor.name]);
         })();
         return new Right({
           margin: v2.value0.data.value0.margin,
@@ -8022,14 +8003,14 @@ var decodeJsonPoolInfo = {
         });
       }
       ;
-      throw new Error("Failed pattern match at Capabilities.MonadCardanoQuery (line 100, column 9 - line 143, column 16): " + [v2.value0.data.constructor.name]);
+      throw new Error("Failed pattern match at Capabilities.MonadCardanoQuery (line 101, column 53 - line 149, column 16): " + [v2.value0.data.constructor.name]);
     }
     ;
     if (v2 instanceof Left) {
       return new Left(v2.value0);
     }
     ;
-    throw new Error("Failed pattern match at Capabilities.MonadCardanoQuery (line 98, column 5 - line 144, column 27): " + [v2.constructor.name]);
+    throw new Error("Failed pattern match at Capabilities.MonadCardanoQuery (line 100, column 21 - line 150, column 25): " + [v2.constructor.name]);
   }
 };
 var decodeJson2 = /* @__PURE__ */ decodeJson(decodeJsonPoolInfo);
@@ -8042,7 +8023,7 @@ var fetchPoolInfoDefault = function(dictMonadAff) {
     var ask2 = ask(dictMonadAsk);
     return function(poolId) {
       return bind20(ask2)(function(env) {
-        var url = env.poolInfoURL + ("/" + poolId);
+        var url = env.poolInfoURL(poolId);
         var req = {
           url,
           method: new Left(GET.value),
@@ -8065,7 +8046,7 @@ var fetchPoolInfoDefault = function(dictMonadAff) {
               return pure23(new Left("Failed to decode pool info: " + show5(v2.value0)));
             }
             ;
-            throw new Error("Failed pattern match at Capabilities.MonadCardanoQuery (line 176, column 7 - line 178, column 89): " + [v2.constructor.name]);
+            throw new Error("Failed pattern match at Capabilities.MonadCardanoQuery (line 185, column 7 - line 187, column 89): " + [v2.constructor.name]);
           }
           ;
           if (result instanceof Left && (result.value0 instanceof ResponseBodyError && result.value0.value0 instanceof ForeignError)) {
@@ -8076,9 +8057,31 @@ var fetchPoolInfoDefault = function(dictMonadAff) {
             return pure23(new Left(printError(result.value0)));
           }
           ;
-          throw new Error("Failed pattern match at Capabilities.MonadCardanoQuery (line 174, column 3 - line 182, column 36): " + [result.constructor.name]);
+          throw new Error("Failed pattern match at Capabilities.MonadCardanoQuery (line 183, column 3 - line 191, column 36): " + [result.constructor.name]);
         });
       });
+    };
+  };
+};
+var monadCardanoQueryHalogenM = function(dictMonadCardanoQuery) {
+  var MonadAff1 = dictMonadCardanoQuery.MonadAff1();
+  var fetchPoolInfoDefault1 = fetchPoolInfoDefault(MonadAff1);
+  var monadAffHalogenM2 = monadAffHalogenM(MonadAff1);
+  return function(dictMonadAsk) {
+    var lift1 = lift5(dictMonadAsk.Monad0());
+    var fetchPoolInfoDefault22 = fetchPoolInfoDefault1(dictMonadAsk);
+    return {
+      fetchPoolInfo: function(dictMonadAsk1) {
+        return function(poolId) {
+          return lift1(fetchPoolInfoDefault22(poolId));
+        };
+      },
+      Monad0: function() {
+        return monadHalogenM;
+      },
+      MonadAff1: function() {
+        return monadAffHalogenM2;
+      }
     };
   };
 };
@@ -12488,7 +12491,7 @@ var renderPoolOverviewSection = function(maybePoolInfo) {
           return "\u2014";
         }
         ;
-        throw new Error("Failed pattern match at Components.HTML.RenderUtils.App (line 896, column 7 - line 896, column 46): " + [v1.constructor.name]);
+        throw new Error("Failed pattern match at Components.HTML.RenderUtils.App (line 904, column 7 - line 904, column 46): " + [v1.constructor.name]);
       };
       var formatNumber2 = function(v1) {
         if (v1 instanceof Just) {
@@ -12510,7 +12513,7 @@ var renderPoolOverviewSection = function(maybePoolInfo) {
           return "\u2014";
         }
         ;
-        throw new Error("Failed pattern match at Components.HTML.RenderUtils.App (line 904, column 7 - line 904, column 42): " + [v1.constructor.name]);
+        throw new Error("Failed pattern match at Components.HTML.RenderUtils.App (line 912, column 7 - line 912, column 42): " + [v1.constructor.name]);
       };
       var formatAda = function(v1) {
         if (v1 instanceof Just) {
@@ -12546,7 +12549,7 @@ var renderPoolOverviewSection = function(maybePoolInfo) {
           return "\u2014";
         }
         ;
-        throw new Error("Failed pattern match at Components.HTML.RenderUtils.App (line 876, column 7 - line 876, column 42): " + [v1.constructor.name]);
+        throw new Error("Failed pattern match at Components.HTML.RenderUtils.App (line 884, column 7 - line 884, column 42): " + [v1.constructor.name]);
       };
       var allStats = [(function() {
         if (v2.value0.margin instanceof Just) {
@@ -12557,7 +12560,7 @@ var renderPoolOverviewSection = function(maybePoolInfo) {
           return Nothing.value;
         }
         ;
-        throw new Error("Failed pattern match at Components.HTML.RenderUtils.App (line 913, column 11 - line 915, column 31): " + [v2.value0.margin.constructor.name]);
+        throw new Error("Failed pattern match at Components.HTML.RenderUtils.App (line 921, column 11 - line 923, column 31): " + [v2.value0.margin.constructor.name]);
       })(), (function() {
         if (v2.value0.pledge instanceof Just) {
           return new Just(stat(formatAda(map114(lovelaceToAda)(v2.value0.pledge)))("Pledge"));
@@ -12567,7 +12570,7 @@ var renderPoolOverviewSection = function(maybePoolInfo) {
           return Nothing.value;
         }
         ;
-        throw new Error("Failed pattern match at Components.HTML.RenderUtils.App (line 916, column 11 - line 918, column 31): " + [v2.value0.pledge.constructor.name]);
+        throw new Error("Failed pattern match at Components.HTML.RenderUtils.App (line 924, column 11 - line 926, column 31): " + [v2.value0.pledge.constructor.name]);
       })(), (function() {
         if (v2.value0.fixed_cost instanceof Just) {
           return new Just(stat(formatAda(map114(lovelaceToAda)(v2.value0.fixed_cost)))("Fixed Cost"));
@@ -12577,7 +12580,7 @@ var renderPoolOverviewSection = function(maybePoolInfo) {
           return Nothing.value;
         }
         ;
-        throw new Error("Failed pattern match at Components.HTML.RenderUtils.App (line 919, column 11 - line 921, column 31): " + [v2.value0.fixed_cost.constructor.name]);
+        throw new Error("Failed pattern match at Components.HTML.RenderUtils.App (line 927, column 11 - line 929, column 31): " + [v2.value0.fixed_cost.constructor.name]);
       })(), (function() {
         if (v2.value0.live_stake instanceof Just) {
           return new Just(stat(formatAda(map114(lovelaceToAda)(v2.value0.live_stake)))("Live Stake"));
@@ -12587,7 +12590,7 @@ var renderPoolOverviewSection = function(maybePoolInfo) {
           return Nothing.value;
         }
         ;
-        throw new Error("Failed pattern match at Components.HTML.RenderUtils.App (line 922, column 11 - line 924, column 31): " + [v2.value0.live_stake.constructor.name]);
+        throw new Error("Failed pattern match at Components.HTML.RenderUtils.App (line 930, column 11 - line 932, column 31): " + [v2.value0.live_stake.constructor.name]);
       })(), (function() {
         if (v2.value0.active_stake instanceof Just) {
           return new Just(stat(formatAda(map114(lovelaceToAda)(v2.value0.active_stake)))("Active Stake"));
@@ -12597,7 +12600,7 @@ var renderPoolOverviewSection = function(maybePoolInfo) {
           return Nothing.value;
         }
         ;
-        throw new Error("Failed pattern match at Components.HTML.RenderUtils.App (line 925, column 11 - line 927, column 31): " + [v2.value0.active_stake.constructor.name]);
+        throw new Error("Failed pattern match at Components.HTML.RenderUtils.App (line 933, column 11 - line 935, column 31): " + [v2.value0.active_stake.constructor.name]);
       })(), (function() {
         if (v2.value0.delegators instanceof Just) {
           return new Just(stat(formatNumber2(v2.value0.delegators))("Delegators"));
@@ -12607,7 +12610,7 @@ var renderPoolOverviewSection = function(maybePoolInfo) {
           return Nothing.value;
         }
         ;
-        throw new Error("Failed pattern match at Components.HTML.RenderUtils.App (line 928, column 11 - line 930, column 31): " + [v2.value0.delegators.constructor.name]);
+        throw new Error("Failed pattern match at Components.HTML.RenderUtils.App (line 936, column 11 - line 938, column 31): " + [v2.value0.delegators.constructor.name]);
       })(), (function() {
         if (v2.value0.blocks instanceof Just) {
           return new Just(stat(formatNumber2(v2.value0.blocks))("Blocks Minted"));
@@ -12617,7 +12620,7 @@ var renderPoolOverviewSection = function(maybePoolInfo) {
           return Nothing.value;
         }
         ;
-        throw new Error("Failed pattern match at Components.HTML.RenderUtils.App (line 931, column 11 - line 933, column 31): " + [v2.value0.blocks.constructor.name]);
+        throw new Error("Failed pattern match at Components.HTML.RenderUtils.App (line 939, column 11 - line 941, column 31): " + [v2.value0.blocks.constructor.name]);
       })(), (function() {
         if (v2.value0.saturation instanceof Just) {
           return new Just(stat(formatPercent(new Just(v2.value0.saturation.value0)))("Saturation"));
@@ -12627,7 +12630,7 @@ var renderPoolOverviewSection = function(maybePoolInfo) {
           return Nothing.value;
         }
         ;
-        throw new Error("Failed pattern match at Components.HTML.RenderUtils.App (line 934, column 11 - line 936, column 31): " + [v2.value0.saturation.constructor.name]);
+        throw new Error("Failed pattern match at Components.HTML.RenderUtils.App (line 942, column 11 - line 944, column 31): " + [v2.value0.saturation.constructor.name]);
       })(), (function() {
         if (v2.value0.name instanceof Just) {
           return new Just(stat(v2.value0.name.value0)("Pool Name"));
@@ -12637,7 +12640,7 @@ var renderPoolOverviewSection = function(maybePoolInfo) {
           return Nothing.value;
         }
         ;
-        throw new Error("Failed pattern match at Components.HTML.RenderUtils.App (line 937, column 11 - line 939, column 31): " + [v2.value0.name.constructor.name]);
+        throw new Error("Failed pattern match at Components.HTML.RenderUtils.App (line 945, column 11 - line 947, column 31): " + [v2.value0.name.constructor.name]);
       })(), (function() {
         if (v2.value0.ticker instanceof Just) {
           return new Just(stat(v2.value0.ticker.value0)("Ticker"));
@@ -12647,7 +12650,7 @@ var renderPoolOverviewSection = function(maybePoolInfo) {
           return Nothing.value;
         }
         ;
-        throw new Error("Failed pattern match at Components.HTML.RenderUtils.App (line 940, column 11 - line 942, column 31): " + [v2.value0.ticker.constructor.name]);
+        throw new Error("Failed pattern match at Components.HTML.RenderUtils.App (line 948, column 11 - line 950, column 31): " + [v2.value0.ticker.constructor.name]);
       })()];
       var availableStats = mapMaybe(identity13)(allStats);
       var $98 = length(availableStats) > 0;
@@ -12658,9 +12661,30 @@ var renderPoolOverviewSection = function(maybePoolInfo) {
       return [stat("99.9%")("Uptime target"), stat("Competitive Fees")("More rewards in your wallet"), stat("Secured")("Best practices operations")];
     }
     ;
-    throw new Error("Failed pattern match at Components.HTML.RenderUtils.App (line 867, column 3 - line 867, column 60): " + [v2.constructor.name]);
+    throw new Error("Failed pattern match at Components.HTML.RenderUtils.App (line 875, column 3 - line 875, column 60): " + [v2.constructor.name]);
   };
-  return section([id3("pool"), classes(["w-full max-w-6xl mx-auto px-4 sm:px-6 py-8 sm:py-12"])])([div3([classes(["text-center mb-6"])])([h2([classes(["text-2xl sm:text-3xl font-bold"])])([text("E7D Cardano Staking Pool")]), p([classes(["opacity-80 mt-2 text-sm sm:text-base px-2"])])([text("Secure, reliable, and community-focused staking. As a single pool operator, we're 100% dedicated to our delegators' success.")])]), div3([classes(["grid grid-cols-1 md:grid-cols-3 gap-4"])])(extractPoolStats(maybePoolInfo)), div3([classes(["mt-6 flex flex-col sm:flex-row justify-center gap-2"])])([a2([classes(["btn btn-primary btn-sm sm:btn-md w-full sm:w-auto"]), href4("https://cexplorer.io/pool/pool1sj3gnahsms73uxxu43rgwczdw596en7dtsfcqf6297vzgcedquv"), target5("_blank")])([text("See Pool Performance")]), a2([classes(["btn btn-sm sm:btn-md w-full sm:w-auto"]), href4("#hero")])([text("Join us")])])]);
+  var maybePoolId = (function() {
+    if (maybePoolInfo instanceof Just) {
+      return maybePoolInfo.value0.pool_id;
+    }
+    ;
+    if (maybePoolInfo instanceof Nothing) {
+      return Nothing.value;
+    }
+    ;
+    throw new Error("Failed pattern match at Components.HTML.RenderUtils.App (line 832, column 19 - line 834, column 25): " + [maybePoolInfo.constructor.name]);
+  })();
+  return section([id3("pool"), classes(["w-full max-w-6xl mx-auto px-4 sm:px-6 py-8 sm:py-12"])])([div3([classes(["text-center mb-6"])])([h2([classes(["text-2xl sm:text-3xl font-bold"])])([text("Cardano Staking Pool")]), p([classes(["opacity-80 mt-2 text-sm sm:text-base px-2"])])([text("Secure, reliable, and community-focused staking. As a single pool operator, we're 100% dedicated to our delegators' success.")])]), div3([classes(["grid grid-cols-1 md:grid-cols-3 gap-4"])])(extractPoolStats(maybePoolInfo)), (function() {
+    if (maybePoolId instanceof Just) {
+      return div3([classes(["mt-6 flex flex-col sm:flex-row justify-center gap-2"])])([a2([classes(["btn btn-primary btn-sm sm:btn-md w-full sm:w-auto"]), href4("https://cexplorer.io/pool/" + maybePoolId.value0), target5("_blank")])([text("See Pool Performance")]), a2([classes(["btn btn-sm sm:btn-md w-full sm:w-auto"]), href4("#hero")])([text("Join us")])]);
+    }
+    ;
+    if (maybePoolId instanceof Nothing) {
+      return text("");
+    }
+    ;
+    throw new Error("Failed pattern match at Components.HTML.RenderUtils.App (line 848, column 9 - line 863, column 32): " + [maybePoolId.constructor.name]);
+  })()]);
 };
 var renderHoverGallery = function(imageUrls) {
   return figure([classes(["hover-gallery max-w-[200px] sm:max-w-60 w-full"])])(map31(function(url) {
@@ -12676,7 +12700,7 @@ var renderFabFlower = /* @__PURE__ */ (function() {
   var paletteIcon = svg([class_("h-6 w-6 shrink-0 stroke-current"), fill(NoColor.value), viewBox(0)(0)(24)(24)])([path([strokeLineCap(LineCapRound.value), strokeLineJoin(LineJoinRound.value), strokeWidth(2), attr2("d")("M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01")])]);
   var medalIcon = svg([class_("h-6 w-6 shrink-0 stroke-current"), fill(NoColor.value), viewBox(0)(0)(24)(24)])([path([strokeLineCap(LineCapRound.value), strokeLineJoin(LineJoinRound.value), strokeWidth(2), attr2("d")("M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z")])]);
   var chartIcon = svg([class_("h-6 w-6 shrink-0 stroke-current"), fill(NoColor.value), viewBox(0)(0)(24)(24)])([path([strokeLineCap(LineCapRound.value), strokeLineJoin(LineJoinRound.value), strokeWidth(2), attr2("d")("M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z")])]);
-  return div3([classes(["fab"])])([div3([tabIndex2(0), attr2("role")("button"), classes(["btn btn-lg btn-circle btn-accent"])])([starIcon]), div3([classes(["fab-close"])])([text("Close "), span4([classes(["btn btn-circle btn-lg btn-error"])])([text("\u2715")])]), div_([span4([classes(["text-accent"])])([text("BJJ Belts")]), a2([classes(["btn btn-lg btn-circle bg-accent text-accent-content"]), href4("https://bjj.cardano.vip"), target5("_blank")])([medalIcon])]), div_([span4([classes(["text-accent"])])([text("Raffleize Art")]), a2([classes(["btn btn-lg btn-circle bg-accent text-accent-content"]), href4("https://github.com/mariusgeorgescu/raffleize"), target5("_blank")])([paletteIcon])]), div_([span4([classes(["text-accent"])])([text("Cardano Ticker")]), a2([classes(["btn btn-lg btn-circle bg-accent text-accent-content"]), href4("https://github.com/en7angled/CardanoTicker/tree/main"), target5("_blank")])([chartIcon])])]);
+  return div3([classes(["fab"])])([div3([tabIndex2(0), attr2("role")("button"), classes(["btn btn-lg btn-circle btn-accent"])])([starIcon]), div3([classes(["fab-close"])])([text("Close "), span4([classes(["btn btn-circle btn-lg btn-error"])])([text("\u2715")])]), div_([span4([classes(["bg-base-100 text-accent"])])([text("BJJ Belts")]), a2([classes(["btn btn-lg btn-circle bg-accent text-accent-content"]), href4("https://bjj.cardano.vip"), target5("_blank")])([medalIcon])]), div_([span4([classes(["bg-base-100 text-accent"])])([text("Raffleize Art")]), a2([classes(["btn btn-lg btn-circle bg-accent text-accent-content"]), href4("https://github.com/mariusgeorgescu/raffleize"), target5("_blank")])([paletteIcon])]), div_([span4([classes(["bg-base-100 text-accent"])])([text("Cardano Ticker")]), a2([classes(["btn btn-lg btn-circle bg-accent text-accent-content"]), href4("https://github.com/en7angled/CardanoTicker/tree/main"), target5("_blank")])([chartIcon])])]);
 })();
 var renderButton = function(classes2) {
   return function(text6) {
@@ -13656,11 +13680,11 @@ var forever2 = /* @__PURE__ */ forever(monadRecAff);
 var discard7 = /* @__PURE__ */ discard(discardUnit);
 var discard1 = /* @__PURE__ */ discard7(bindAff);
 var liftEffect6 = /* @__PURE__ */ liftEffect(monadEffectAff);
+var bind13 = /* @__PURE__ */ bind(bindHalogenM);
 var discard22 = /* @__PURE__ */ discard7(bindHalogenM);
+var modify_6 = /* @__PURE__ */ modify_2(monadStateHalogenM);
 var $$void7 = /* @__PURE__ */ $$void(functorHalogenM);
 var bindFlipped6 = /* @__PURE__ */ bindFlipped(bindHalogenM);
-var bind13 = /* @__PURE__ */ bind(bindHalogenM);
-var modify_6 = /* @__PURE__ */ modify_2(monadStateHalogenM);
 var map116 = /* @__PURE__ */ map(functorHalogenM);
 var unwrap6 = /* @__PURE__ */ unwrap();
 var gets5 = /* @__PURE__ */ gets(monadStateHalogenM);
@@ -13890,7 +13914,8 @@ var initialState4 = function(_i) {
     currentPage: MainPage.value,
     toasts: [],
     currentTime: 0,
-    poolInfo: Nothing.value
+    poolInfo: Nothing.value,
+    myPoolId: ""
   };
 };
 var heroButtonsList = /* @__PURE__ */ (function() {
@@ -13909,7 +13934,7 @@ var renderBodyContent = function(dictMonadAff) {
             return renderPortfolioWidgetSlot;
           }
           ;
-          throw new Error("Failed pattern match at Components.Home (line 278, column 23 - line 286, column 45): " + [s2.currentPage.constructor.name]);
+          throw new Error("Failed pattern match at Components.Home (line 281, column 23 - line 289, column 45): " + [s2.currentPage.constructor.name]);
         };
       };
     };
@@ -13943,12 +13968,12 @@ var decrementToats = function(ts) {
   })(ts);
 };
 var clearToasts = function(ts) {
-  return filter(function($229) {
+  return filter(function($233) {
     return (function(v2) {
       return v2 > 0;
     })((function(v2) {
       return v2.remainingSeconds;
-    })($229));
+    })($233));
   })(ts);
 };
 var handleAction4 = function(dictMonadAff) {
@@ -13989,8 +14014,24 @@ var handleAction4 = function(dictMonadAff) {
                     });
                   };
                 };
-                return discard22($$void7(bindFlipped6(subscribe2)(createTimerEmitter(monadAffHalogenM2)(Tick.value))))(function() {
-                  return handleAction4(dictMonadAff)(dictMonadCIP30)(dictMonadStore)(dictMonadAsk)(dictMonadInteraction)(dictMonadCardanoQuery)(FetchPoolInfo.value);
+                var createTimerEmitter1 = createTimerEmitter(monadAffHalogenM2);
+                return bind13(ask2)(function(env) {
+                  return discard22(modify_6(function(v2) {
+                    var $154 = {};
+                    for (var $155 in v2) {
+                      if ({}.hasOwnProperty.call(v2, $155)) {
+                        $154[$155] = v2[$155];
+                      }
+                      ;
+                    }
+                    ;
+                    $154.myPoolId = env.myPoolId;
+                    return $154;
+                  }))(function() {
+                    return discard22($$void7(bindFlipped6(subscribe2)(createTimerEmitter1(Tick.value))))(function() {
+                      return handleAction4(dictMonadAff)(dictMonadCIP30)(dictMonadStore)(dictMonadAsk)(dictMonadInteraction)(dictMonadCardanoQuery)(FetchPoolInfo.value);
+                    });
+                  });
                 });
               }
               ;
@@ -14007,23 +14048,23 @@ var handleAction4 = function(dictMonadAff) {
                       });
                     }
                     ;
-                    throw new Error("Failed pattern match at Components.Home (line 157, column 5 - line 162, column 51): " + [result.constructor.name]);
+                    throw new Error("Failed pattern match at Components.Home (line 161, column 5 - line 166, column 51): " + [result.constructor.name]);
                   });
                 });
               }
               ;
               if (action2 instanceof PoolInfoReceived && action2.value0 instanceof Right) {
                 return discard22(modify_6(function(v2) {
-                  var $156 = {};
-                  for (var $157 in v2) {
-                    if ({}.hasOwnProperty.call(v2, $157)) {
-                      $156[$157] = v2[$157];
+                  var $160 = {};
+                  for (var $161 in v2) {
+                    if ({}.hasOwnProperty.call(v2, $161)) {
+                      $160[$161] = v2[$161];
                     }
                     ;
                   }
                   ;
-                  $156.poolInfo = new Just(action2.value0.value0);
-                  return $156;
+                  $160.poolInfo = new Just(action2.value0.value0);
+                  return $160;
                 }))(function() {
                   return liftEffect12(consoleLog("Pool info received successfully"));
                 });
@@ -14034,25 +14075,25 @@ var handleAction4 = function(dictMonadAff) {
               }
               ;
               if (action2 instanceof Tick) {
-                return bind13(map116(function($230) {
-                  return unwrap6(unInstant($230));
+                return bind13(map116(function($234) {
+                  return unwrap6(unInstant($234));
                 })(liftEffect12(now)))(function(ct) {
                   return bind13(gets5(function(v2) {
                     return v2.toasts;
                   }))(function(ts) {
                     var newTs = clearToasts(decrementToats(ts));
                     return modify_6(function(v2) {
-                      var $163 = {};
-                      for (var $164 in v2) {
-                        if ({}.hasOwnProperty.call(v2, $164)) {
-                          $163[$164] = v2[$164];
+                      var $167 = {};
+                      for (var $168 in v2) {
+                        if ({}.hasOwnProperty.call(v2, $168)) {
+                          $167[$168] = v2[$168];
                         }
                         ;
                       }
                       ;
-                      $163.currentTime = ct;
-                      $163.toasts = newTs;
-                      return $163;
+                      $167.currentTime = ct;
+                      $167.toasts = newTs;
+                      return $167;
                     });
                   });
                 });
@@ -14063,23 +14104,6 @@ var handleAction4 = function(dictMonadAff) {
                   return discard22((function() {
                     if (signedTxResult instanceof Right) {
                       return discard22(modify_6(function(s2) {
-                        var $167 = {};
-                        for (var $168 in s2) {
-                          if ({}.hasOwnProperty.call(s2, $168)) {
-                            $167[$168] = s2[$168];
-                          }
-                          ;
-                        }
-                        ;
-                        $167.toasts = cons(txSubmitSuccessToast)(s2.toasts);
-                        return $167;
-                      }))(function() {
-                        return handleAction4(dictMonadAff)(dictMonadCIP30)(dictMonadStore)(dictMonadAsk)(dictMonadInteraction)(dictMonadCardanoQuery)(new SubmitTransaction(action2.value1, signedTxResult.value0));
-                      });
-                    }
-                    ;
-                    if (signedTxResult instanceof Left) {
-                      return modify_6(function(s2) {
                         var $171 = {};
                         for (var $172 in s2) {
                           if ({}.hasOwnProperty.call(s2, $172)) {
@@ -14088,12 +14112,29 @@ var handleAction4 = function(dictMonadAff) {
                           ;
                         }
                         ;
-                        $171.toasts = cons(txSubmitFailedToast(signedTxResult.value0))(s2.toasts);
+                        $171.toasts = cons(txSubmitSuccessToast)(s2.toasts);
                         return $171;
+                      }))(function() {
+                        return handleAction4(dictMonadAff)(dictMonadCIP30)(dictMonadStore)(dictMonadAsk)(dictMonadInteraction)(dictMonadCardanoQuery)(new SubmitTransaction(action2.value1, signedTxResult.value0));
                       });
                     }
                     ;
-                    throw new Error("Failed pattern match at Components.Home (line 177, column 5 - line 182, column 79): " + [signedTxResult.constructor.name]);
+                    if (signedTxResult instanceof Left) {
+                      return modify_6(function(s2) {
+                        var $175 = {};
+                        for (var $176 in s2) {
+                          if ({}.hasOwnProperty.call(s2, $176)) {
+                            $175[$176] = s2[$176];
+                          }
+                          ;
+                        }
+                        ;
+                        $175.toasts = cons(txSubmitFailedToast(signedTxResult.value0))(s2.toasts);
+                        return $175;
+                      });
+                    }
+                    ;
+                    throw new Error("Failed pattern match at Components.Home (line 181, column 5 - line 186, column 79): " + [signedTxResult.constructor.name]);
                   })())(function() {
                     return pure16(unit);
                   });
@@ -14106,21 +14147,6 @@ var handleAction4 = function(dictMonadAff) {
                     return discard22((function() {
                       if (submitResult instanceof Right) {
                         return modify_6(function(s2) {
-                          var $178 = {};
-                          for (var $179 in s2) {
-                            if ({}.hasOwnProperty.call(s2, $179)) {
-                              $178[$179] = s2[$179];
-                            }
-                            ;
-                          }
-                          ;
-                          $178.toasts = cons(txConfirmedSuccessToast(submitResult.value0))(s2.toasts);
-                          return $178;
-                        });
-                      }
-                      ;
-                      if (submitResult instanceof Left) {
-                        return modify_6(function(s2) {
                           var $182 = {};
                           for (var $183 in s2) {
                             if ({}.hasOwnProperty.call(s2, $183)) {
@@ -14129,12 +14155,27 @@ var handleAction4 = function(dictMonadAff) {
                             ;
                           }
                           ;
-                          $182.toasts = cons(txConfirmedFailedToast(submitResult.value0))(s2.toasts);
+                          $182.toasts = cons(txConfirmedSuccessToast(submitResult.value0))(s2.toasts);
                           return $182;
                         });
                       }
                       ;
-                      throw new Error("Failed pattern match at Components.Home (line 187, column 5 - line 192, column 82): " + [submitResult.constructor.name]);
+                      if (submitResult instanceof Left) {
+                        return modify_6(function(s2) {
+                          var $186 = {};
+                          for (var $187 in s2) {
+                            if ({}.hasOwnProperty.call(s2, $187)) {
+                              $186[$187] = s2[$187];
+                            }
+                            ;
+                          }
+                          ;
+                          $186.toasts = cons(txConfirmedFailedToast(submitResult.value0))(s2.toasts);
+                          return $186;
+                        });
+                      }
+                      ;
+                      throw new Error("Failed pattern match at Components.Home (line 191, column 5 - line 196, column 82): " + [submitResult.constructor.name]);
                     })())(function() {
                       return discard22(liftEffect12(consoleLog(show19(submitResult))))(function() {
                         return pure16(unit);
@@ -14157,23 +14198,6 @@ var handleAction4 = function(dictMonadAff) {
                           return discard22((function() {
                             if (buildResult instanceof Right) {
                               return discard22(modify_6(function(s2) {
-                                var $190 = {};
-                                for (var $191 in s2) {
-                                  if ({}.hasOwnProperty.call(s2, $191)) {
-                                    $190[$191] = s2[$191];
-                                  }
-                                  ;
-                                }
-                                ;
-                                $190.toasts = cons(txBuildSuccessToast)(s2.toasts);
-                                return $190;
-                              }))(function() {
-                                return handleAction4(dictMonadAff)(dictMonadCIP30)(dictMonadStore)(dictMonadAsk)(dictMonadInteraction)(dictMonadCardanoQuery)(new SignTransaction(action2.value0.value1, buildResult.value0));
-                              });
-                            }
-                            ;
-                            if (buildResult instanceof Left) {
-                              return modify_6(function(s2) {
                                 var $194 = {};
                                 for (var $195 in s2) {
                                   if ({}.hasOwnProperty.call(s2, $195)) {
@@ -14182,12 +14206,29 @@ var handleAction4 = function(dictMonadAff) {
                                   ;
                                 }
                                 ;
-                                $194.toasts = cons(txBuildFailedToast(buildResult.value0))(s2.toasts);
+                                $194.toasts = cons(txBuildSuccessToast)(s2.toasts);
                                 return $194;
+                              }))(function() {
+                                return handleAction4(dictMonadAff)(dictMonadCIP30)(dictMonadStore)(dictMonadAsk)(dictMonadInteraction)(dictMonadCardanoQuery)(new SignTransaction(action2.value0.value1, buildResult.value0));
                               });
                             }
                             ;
-                            throw new Error("Failed pattern match at Components.Home (line 203, column 7 - line 210, column 80): " + [buildResult.constructor.name]);
+                            if (buildResult instanceof Left) {
+                              return modify_6(function(s2) {
+                                var $198 = {};
+                                for (var $199 in s2) {
+                                  if ({}.hasOwnProperty.call(s2, $199)) {
+                                    $198[$199] = s2[$199];
+                                  }
+                                  ;
+                                }
+                                ;
+                                $198.toasts = cons(txBuildFailedToast(buildResult.value0))(s2.toasts);
+                                return $198;
+                              });
+                            }
+                            ;
+                            throw new Error("Failed pattern match at Components.Home (line 207, column 7 - line 214, column 80): " + [buildResult.constructor.name]);
                           })())(function() {
                             return pure16(unit);
                           });
@@ -14211,21 +14252,21 @@ var handleAction4 = function(dictMonadAff) {
                       message: "You are connected to the " + (show110(action2.value0.value0) + (" network, but the app is configured to use the " + (show110(cardanoNetwork) + " network")))
                     };
                     return modify_6(function(s2) {
-                      var $200 = {};
-                      for (var $201 in s2) {
-                        if ({}.hasOwnProperty.call(s2, $201)) {
-                          $200[$201] = s2[$201];
+                      var $204 = {};
+                      for (var $205 in s2) {
+                        if ({}.hasOwnProperty.call(s2, $205)) {
+                          $204[$205] = s2[$205];
                         }
                         ;
                       }
                       ;
-                      $200.toasts = cons(newToast)(s2.toasts);
-                      return $200;
+                      $204.toasts = cons(newToast)(s2.toasts);
+                      return $204;
                     });
                   });
                 }
                 ;
-                throw new Error("Failed pattern match at Components.Home (line 195, column 35 - line 217, column 62): " + [action2.value0.constructor.name]);
+                throw new Error("Failed pattern match at Components.Home (line 199, column 35 - line 221, column 62): " + [action2.value0.constructor.name]);
               }
               ;
               if (action2 instanceof StartEarningRewardsButton) {
@@ -14235,16 +14276,16 @@ var handleAction4 = function(dictMonadAff) {
                   }
                   ;
                   return modify_6(function(s2) {
-                    var $208 = {};
-                    for (var $209 in s2) {
-                      if ({}.hasOwnProperty.call(s2, $209)) {
-                        $208[$209] = s2[$209];
+                    var $212 = {};
+                    for (var $213 in s2) {
+                      if ({}.hasOwnProperty.call(s2, $213)) {
+                        $212[$213] = s2[$213];
                       }
                       ;
                     }
                     ;
-                    $208.toasts = cons(walletNotConnectedToast)(s2.toasts);
-                    return $208;
+                    $212.toasts = cons(walletNotConnectedToast)(s2.toasts);
+                    return $212;
                   });
                 });
               }
@@ -14256,16 +14297,16 @@ var handleAction4 = function(dictMonadAff) {
                   }
                   ;
                   return modify_6(function(s2) {
-                    var $214 = {};
-                    for (var $215 in s2) {
-                      if ({}.hasOwnProperty.call(s2, $215)) {
-                        $214[$215] = s2[$215];
+                    var $218 = {};
+                    for (var $219 in s2) {
+                      if ({}.hasOwnProperty.call(s2, $219)) {
+                        $218[$219] = s2[$219];
                       }
                       ;
                     }
                     ;
-                    $214.toasts = cons(walletNotConnectedToast)(s2.toasts);
-                    return $214;
+                    $218.toasts = cons(walletNotConnectedToast)(s2.toasts);
+                    return $218;
                   });
                 });
               }
@@ -14277,16 +14318,16 @@ var handleAction4 = function(dictMonadAff) {
                   }
                   ;
                   return modify_6(function(s2) {
-                    var $220 = {};
-                    for (var $221 in s2) {
-                      if ({}.hasOwnProperty.call(s2, $221)) {
-                        $220[$221] = s2[$221];
+                    var $224 = {};
+                    for (var $225 in s2) {
+                      if ({}.hasOwnProperty.call(s2, $225)) {
+                        $224[$225] = s2[$225];
                       }
                       ;
                     }
                     ;
-                    $220.toasts = cons(walletNotConnectedToast)(s2.toasts);
-                    return $220;
+                    $224.toasts = cons(walletNotConnectedToast)(s2.toasts);
+                    return $224;
                   });
                 });
               }
@@ -14294,16 +14335,16 @@ var handleAction4 = function(dictMonadAff) {
               if (action2 instanceof ChangePage) {
                 return discard22(liftEffect12(scrollToTop))(function() {
                   return modify_6(function(v2) {
-                    var $223 = {};
-                    for (var $224 in v2) {
-                      if ({}.hasOwnProperty.call(v2, $224)) {
-                        $223[$224] = v2[$224];
+                    var $227 = {};
+                    for (var $228 in v2) {
+                      if ({}.hasOwnProperty.call(v2, $228)) {
+                        $227[$228] = v2[$228];
                       }
                       ;
                     }
                     ;
-                    $223.currentPage = action2.value0;
-                    return $223;
+                    $227.currentPage = action2.value0;
+                    return $227;
                   });
                 });
               }
@@ -14312,7 +14353,7 @@ var handleAction4 = function(dictMonadAff) {
                 return handleAction4(dictMonadAff)(dictMonadCIP30)(dictMonadStore)(dictMonadAsk)(dictMonadInteraction)(dictMonadCardanoQuery)(new ChangePage(MainPage.value));
               }
               ;
-              throw new Error("Failed pattern match at Components.Home (line 138, column 23 - line 240, column 67): " + [action2.constructor.name]);
+              throw new Error("Failed pattern match at Components.Home (line 139, column 23 - line 244, column 67): " + [action2.constructor.name]);
             };
           };
         };

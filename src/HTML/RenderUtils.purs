@@ -828,32 +828,40 @@ renderHoverGallery imageUrls =
 -- ==============================================================================
 renderPoolOverviewSection :: forall w i. Maybe PoolInfo -> HH.HTML w i
 renderPoolOverviewSection maybePoolInfo =
-  HH.section
-    [ HP.id "pool"
-    , HP.classes [ HH.ClassName "w-full max-w-6xl mx-auto px-4 sm:px-6 py-8 sm:py-12" ]
-    ]
-    [ HH.div [ HP.classes [ HH.ClassName "text-center mb-6" ] ]
-        [ HH.h2 [ HP.classes [ HH.ClassName "text-2xl sm:text-3xl font-bold" ] ] [ HH.text "Cardano Staking Pool" ]
-        , HH.p [ HP.classes [ HH.ClassName "opacity-80 mt-2 text-sm sm:text-base px-2" ] ]
-            [ HH.text "Secure, reliable, and community-focused staking. As a single pool operator, we're 100% dedicated to our delegators' success."
-            ]
-        ]
-    , HH.div [ HP.classes [ HH.ClassName "grid grid-cols-1 md:grid-cols-3 gap-4" ] ]
-        (extractPoolStats maybePoolInfo)
-    , HH.div [ HP.classes [ HH.ClassName "mt-6 flex flex-col sm:flex-row justify-center gap-2" ] ]
-        [ HH.a
-            [ HP.classes [ HH.ClassName "btn btn-primary btn-sm sm:btn-md w-full sm:w-auto" ]
-            , HP.href "https://cexplorer.io/pool/pool1sj3gnahsms73uxxu43rgwczdw596en7dtsfcqf6297vzgcedquv"
-            , HP.target "_blank"
-            ]
-            [ HH.text "See Pool Performance" ]
-        , HH.a
-            [ HP.classes [ HH.ClassName "btn btn-sm sm:btn-md w-full sm:w-auto" ]
-            , HP.href "#hero"
-            ]
-            [ HH.text "Join us" ]
-        ]
-    ]
+  let
+    maybePoolId = case maybePoolInfo of
+      Just (PoolInfo info) -> info.pool_id
+      Nothing -> Nothing
+  in
+    HH.section
+      [ HP.id "pool"
+      , HP.classes [ HH.ClassName "w-full max-w-6xl mx-auto px-4 sm:px-6 py-8 sm:py-12" ]
+      ]
+      [ HH.div [ HP.classes [ HH.ClassName "text-center mb-6" ] ]
+          [ HH.h2 [ HP.classes [ HH.ClassName "text-2xl sm:text-3xl font-bold" ] ] [ HH.text "Cardano Staking Pool" ]
+          , HH.p [ HP.classes [ HH.ClassName "opacity-80 mt-2 text-sm sm:text-base px-2" ] ]
+              [ HH.text "Secure, reliable, and community-focused staking. As a single pool operator, we're 100% dedicated to our delegators' success."
+              ]
+          ]
+      , HH.div [ HP.classes [ HH.ClassName "grid grid-cols-1 md:grid-cols-3 gap-4" ] ]
+          (extractPoolStats maybePoolInfo)
+      , case maybePoolId of
+          Just poolId ->
+            HH.div [ HP.classes [ HH.ClassName "mt-6 flex flex-col sm:flex-row justify-center gap-2" ] ]
+              [ HH.a
+                  [ HP.classes [ HH.ClassName "btn btn-primary btn-sm sm:btn-md w-full sm:w-auto" ]
+                  , HP.href $ "https://cexplorer.io/pool/" <> poolId
+                  , HP.target "_blank"
+                  ]
+                  [ HH.text "See Pool Performance" ]
+              , HH.a
+                  [ HP.classes [ HH.ClassName "btn btn-sm sm:btn-md w-full sm:w-auto" ]
+                  , HP.href "#hero"
+                  ]
+                  [ HH.text "Join us" ]
+              ]
+          Nothing -> HH.text ""
+      ]
   where
   stat :: forall w' i'. String -> String -> HH.HTML w' i'
   stat value desc =
@@ -983,38 +991,46 @@ renderFooterSection =
 -- ==============================================================================
 -- CEXPLORER POOL GRAPH (Static Section)
 -- ==============================================================================
-renderCexplorerPoolGraphSection :: forall w i. HH.HTML w i
-renderCexplorerPoolGraphSection =
-  HH.section
-    [ HP.classes [ HH.ClassName "w-full max-w-6xl mx-auto px-4 sm:px-6 py-8 sm:py-12" ] ]
-    [ HH.div [ HP.classes [ HH.ClassName "text-center mb-6" ] ]
-        [ HH.h2 [ HP.classes [ HH.ClassName "text-2xl sm:text-3xl font-bold" ] ] [ HH.text "Stake Pool Graph" ]
-        , HH.p [ HP.classes [ HH.ClassName "opacity-80 mt-2 text-sm sm:text-base px-2" ] ] [ HH.text "Real-time performance metrics and block production history" ]
-        ]
-    , HH.div [ HP.classes [ HH.ClassName "flex justify-center" ] ]
-        [ HH.div [ HP.classes [ HH.ClassName "w-full max-w-4xl" ] ]
-            [ HH.div
-                [ HP.classes [ HH.ClassName "relative w-full" ]
-                , HP.style "padding-top: 52.8%" -- 530x280 ≈ 1.89 ratio => 52.8% height
-                ]
-                [ HH.iframe
-                    [ HP.src "https://img.cexplorer.io/w/widget-graph.html?pool=pool1sj3gnahsms73uxxu43rgwczdw596en7dtsfcqf6297vzgcedquv&theme=dark"
-                    , HP.attr (HH.AttrName "frameborder") "0"
-                    , HP.attr (HH.AttrName "allowtransparency") "true"
-                    , HP.attr (HH.AttrName "style") "position:absolute;top:0;left:0;width:100%;height:100%;background:transparent !important;"
-                    ]
-                ]
-            ]
-        ]
-    , HH.div [ HP.classes [ HH.ClassName "text-center mt-3" ] ]
-        [ HH.a
-            [ HP.href "https://cexplorer.io/pool/pool1sj3gnahsms73uxxu43rgwczdw596en7dtsfcqf6297vzgcedquv"
-            , HP.target "_blank"
-            , HP.classes [ HH.ClassName "link link-hover text-sm sm:text-base" ]
-            ]
-            [ HH.text "View detailed pool statistics →" ]
-        ]
-    ]
+renderCexplorerPoolGraphSection :: forall w i. Maybe PoolInfo -> HH.HTML w i
+renderCexplorerPoolGraphSection maybePoolInfo =
+  let
+    maybePoolId = case maybePoolInfo of
+      Just (PoolInfo info) -> info.pool_id
+      Nothing -> Nothing
+  in
+    case maybePoolId of
+      Just poolId ->
+        HH.section
+          [ HP.classes [ HH.ClassName "w-full max-w-6xl mx-auto px-4 sm:px-6 py-8 sm:py-12" ] ]
+          [ HH.div [ HP.classes [ HH.ClassName "text-center mb-6" ] ]
+              [ HH.h2 [ HP.classes [ HH.ClassName "text-2xl sm:text-3xl font-bold" ] ] [ HH.text "Stake Pool Graph" ]
+              , HH.p [ HP.classes [ HH.ClassName "opacity-80 mt-2 text-sm sm:text-base px-2" ] ] [ HH.text "Real-time performance metrics and block production history" ]
+              ]
+          , HH.div [ HP.classes [ HH.ClassName "flex justify-center" ] ]
+              [ HH.div [ HP.classes [ HH.ClassName "w-full max-w-4xl" ] ]
+                  [ HH.div
+                      [ HP.classes [ HH.ClassName "relative w-full" ]
+                      , HP.style "padding-top: 52.8%" -- 530x280 ≈ 1.89 ratio => 52.8% height
+                      ]
+                      [ HH.iframe
+                          [ HP.src $ "https://img.cexplorer.io/w/widget-graph.html?pool=" <> poolId <> "&theme=dark"
+                          , HP.attr (HH.AttrName "frameborder") "0"
+                          , HP.attr (HH.AttrName "allowtransparency") "true"
+                          , HP.attr (HH.AttrName "style") "position:absolute;top:0;left:0;width:100%;height:100%;background:transparent !important;"
+                          ]
+                      ]
+                  ]
+              ]
+          , HH.div [ HP.classes [ HH.ClassName "text-center mt-3" ] ]
+              [ HH.a
+                  [ HP.href $ "https://cexplorer.io/pool/" <> poolId
+                  , HP.target "_blank"
+                  , HP.classes [ HH.ClassName "link link-hover text-sm sm:text-base" ]
+                  ]
+                  [ HH.text "View detailed pool statistics →" ]
+              ]
+          ]
+      Nothing -> HH.text ""
 
 -- ==============================================================================
 -- FAB Speed Dial (Floating Action Button)
@@ -1034,7 +1050,7 @@ renderFabFlower =
             [ HH.text "✕" ]
         ]
     , HH.div_
-        [ HH.span [ HP.classes [ HH.ClassName "text-accent" ] ] [ HH.text "BJJ Belts" ]
+        [ HH.span [ HP.classes [ HH.ClassName "bg-base-100 text-accent" ] ] [ HH.text "BJJ Belts" ]
         , HH.a
             [ HP.classes [ HH.ClassName "btn btn-lg btn-circle bg-accent text-accent-content" ]
             , HP.href "https://bjj.cardano.vip"
@@ -1043,7 +1059,7 @@ renderFabFlower =
             [ medalIcon ]
         ]
     , HH.div_
-        [ HH.span [ HP.classes [ HH.ClassName "text-accent" ] ] [ HH.text "Raffleize Art" ]
+        [ HH.span [ HP.classes [ HH.ClassName "bg-base-100 text-accent" ] ] [ HH.text "Raffleize Art" ]
         , HH.a
             [ HP.classes [ HH.ClassName "btn btn-lg btn-circle bg-accent text-accent-content" ]
             , HP.href "https://github.com/mariusgeorgescu/raffleize"
@@ -1052,7 +1068,7 @@ renderFabFlower =
             [ paletteIcon ]
         ]
     , HH.div_
-        [ HH.span [ HP.classes [ HH.ClassName "text-accent" ] ] [ HH.text "Cardano Ticker" ]
+        [ HH.span [ HP.classes [ HH.ClassName "bg-base-100 text-accent" ] ] [ HH.text "Cardano Ticker" ]
         , HH.a
             [ HP.classes [ HH.ClassName "btn btn-lg btn-circle bg-accent text-accent-content" ]
             , HP.href "https://github.com/en7angled/CardanoTicker/tree/main"
