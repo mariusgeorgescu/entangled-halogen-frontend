@@ -4,8 +4,9 @@ import Prelude
 
 import App.Utils (scrollToTop)
 import AppEnv (Env)
-import AppTypes (DelegationAction(..), PoolInfo)
+import AppTypes (DelegationAction(..))
 import Capabilities.MonadCIP30 (class MonadCIP30)
+import Capabilities.MonadCardanoQuery (PoolInfo, class MonadCardanoQuery, fetchPoolInfo)
 import Capabilities.MonadInteraction (class MonadInteraction, buildTransaction, signTransaction, submitTransaction)
 import Cardano.Wallet.Cip30 as Cardano.Wallet.Cip30
 import Components.HTML.RenderUtils.App (renderAccentButton, renderCexplorerPoolGraphSection, renderFabFlower, renderFooterSection, renderHeroSection, renderPoolOverviewSection, renderPrimaryButton, renderProfessionalServicesSection, renderSecondaryButton, renderToasts) as RU
@@ -16,7 +17,6 @@ import Control.Monad.Rec.Class (forever)
 import Data.Array (cons, filter)
 import Data.DateTime.Instant (unInstant)
 import Data.Either (Either(..))
-import Data.HTTP.Method (Method(..))
 import Data.Maybe (Maybe(..))
 import Data.Newtype (unwrap)
 import Data.Time.Duration (Milliseconds(..))
@@ -25,17 +25,12 @@ import Effect.Aff (error, throwError)
 import Effect.Aff as Aff
 import Effect.Aff.Class (class MonadAff)
 import Effect.Now (now)
-import Foreign (ForeignError(..), unsafeFromForeign)
 import Halogen as H
 import Halogen.HTML as HH
 import Halogen.Store.Monad (class MonadStore)
 import Halogen.Subscription as HS
 import Store as Store
 import Test.Unit.Console (consoleLog)
-import Affjax as AX
-import Affjax.ResponseFormat as AXRF
-import Affjax.Web as AXW
-import Data.Argonaut.Decode (decodeJson)
 
 --------------------------------------------------------------------------------
 -- * Utils
@@ -111,6 +106,7 @@ component ::
   MonadStore Store.Action Store.Store m =>
   MonadAsk Env m =>
   MonadInteraction DelegationAction m =>
+  MonadCardanoQuery m =>
   H.Component query Input output m
 component =
   H.mkComponent
@@ -137,6 +133,7 @@ handleAction ::
   MonadStore Store.Action Store.Store m =>
   MonadAsk Env m =>
   MonadInteraction DelegationAction m =>
+  MonadCardanoQuery m =>
   Action -> H.HalogenM State Action Slots output m Unit
 handleAction action = case action of
   Initialize -> do
@@ -156,31 +153,13 @@ handleAction action = case action of
       pure emitter
   FetchPoolInfo -> do
     env <- ask
-    let url = env.poolInfoURL <> "/" <> env.myPoolId
-    let req = 
-          { url: url
-          , method: Left GET
-          , responseFormat: AXRF.json
-          , headers: []
-          , content: Nothing
-          , password: Nothing
-          , username: Nothing
-          , timeout: Just $ Milliseconds 10_000_000.0
-          , withCredentials: true
-          }
-    result <- H.liftAff $ AXW.request req
+    result <- fetchPoolInfo env.myPoolId
     case result of
-      Right success -> do
-        case decodeJson success.body of
-          Right poolInfo -> do
-            handleAction $ PoolInfoReceived $ Right poolInfo
-          Left decodeErr -> do
-            H.liftEffect $ consoleLog $ "Failed to decode pool info: " <> show decodeErr
-            handleAction $ PoolInfoReceived $ Left $ "Failed to decode pool info"
-      Left (AX.ResponseBodyError (ForeignError _msg) resp) -> do
-        handleAction $ PoolInfoReceived $ Left $ unsafeFromForeign resp.body
-      Left e -> do
-        handleAction $ PoolInfoReceived $ Left $ AX.printError e
+      Right poolInfo -> do
+        handleAction $ PoolInfoReceived $ Right poolInfo
+      Left err -> do
+        H.liftEffect $ consoleLog $ "Failed to fetch pool info: " <> err
+        handleAction $ PoolInfoReceived $ Left err
   PoolInfoReceived (Right poolInfo) -> do
     H.modify_ _ { poolInfo = Just poolInfo }
     H.liftEffect $ consoleLog $ "Pool info received successfully"
