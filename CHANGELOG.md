@@ -5,29 +5,21 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [0.3.0] - 2024-12-22
-
-### Added
-- Real-time pool information integration with Gomaestro API
-- New `MonadCardanoQuery` capability for Cardano blockchain queries
-- Dynamic pool stats display showing all available metrics (margin, pledge, fixed cost, live stake, active stake, delegators, blocks, saturation, pool name, ticker)
-- BFF endpoint `/api/pool-info/:poolId` for proxying pool information requests
-- Environment variable `GOMAESTRO_API_KEY` support in BFF configuration
+## [Unreleased]
 
 ### Changed
-- Pool overview section now fetches and displays real-time data from Gomaestro API
-- `fetchPoolInfo` now accepts `poolId` as a parameter for flexible pool queries
-- Moved `PoolInfo` type and related types to `MonadCardanoQuery` capability module
-- Renamed `PoolInfoResponse` to `PoolInfoMaestroResponse` for clarity
-- Pool stats display dynamically shows all available fields, hiding missing data gracefully
-- Improved number formatting with proper ADA (₳) symbol and K/M suffixes
+- BFF configuration now requires all environment variables (no default values)
+- Environment variable validation with error messages on startup if values are missing
+- Added environment variable debugging output at startup (sensitive values are masked)
 
-### Technical Details
-- Created `MonadCardanoQuery` type class following PureScript capability pattern
-- Implemented custom JSON decoder for nested Gomaestro API response structure
-- Added proper type definitions for `PoolInfo`, `PoolMetaJson`, `PoolData`, and `PoolInfoMaestroResponse`
-- All pool-related types and operations are now co-located in the capability module
-- Maintains backward compatibility with fallback to static stats when API data is unavailable
+### Added
+- Support for API key authentication in proxy routes (in addition to Basic Auth)
+- Integrated gomaestro-api service into proxy system with API key authentication
+- Environment variable logging at server startup for debugging purposes
+
+### Removed
+- Default fallback values for environment variables in BFF config
+- Manual `/api/pool-info/:poolId` endpoint (now handled by proxy system)
 
 ## [0.2.0] - 2024-12-19
 

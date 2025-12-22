@@ -4,7 +4,7 @@ import staticFiles from '@fastify/static';
 import { readdir, readFile } from 'fs/promises';
 import { join, dirname } from 'path';
 import { fileURLToPath } from 'url';
-import { services, gomaestroApiKey } from './config.js';
+import { services } from './config.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -73,18 +73,39 @@ fastify.addHook('onError', async (request, reply, error) => {
  * IMPORTANT: Proxy must be registered BEFORE static files to avoid conflicts
  */
 for (const [serviceName, serviceConfig] of Object.entries(services)) {
-  const { target, username, password } = serviceConfig;
-  const authHeader = createBasicAuthHeader(username, password);
+  const { target } = serviceConfig;
   
+  // Determine authentication method
+  const hasBasicAuth = serviceConfig.username && serviceConfig.password;
+  const hasApiKey = serviceConfig.apiKey;
+  
+  if (!hasBasicAuth && !hasApiKey) {
+    fastify.log.warn(`[Proxy Config] Skipping ${serviceName} - no authentication method configured`);
+    continue;
+  }
+
+  // Prepare authentication header
+  let authHeader = null;
+  let authHeaderName = 'Authorization';
+  
+  if (hasBasicAuth) {
+    const { username, password } = serviceConfig;
+    authHeader = createBasicAuthHeader(username, password);
+  } else if (hasApiKey) {
+    authHeader = serviceConfig.apiKey;
+    authHeaderName = 'api-key';
+  }
+
   // Register proxy for this service
   const undiciConfig = {
     connectTimeout: 600000, // Time to establish connection: 600 seconds (default is 10s)
     headersTimeout: 600000, // Time to receive headers: 600 seconds
     bodyTimeout: 600000, // Time to receive body: 600 seconds
   };
-  
-  fastify.log.info(`[Proxy Config] Registering ${serviceName} with connectTimeout: ${undiciConfig.connectTimeout}ms`);
-  
+
+  const authMethod = hasBasicAuth ? 'Basic Auth' : 'API Key';
+  fastify.log.info(`[Proxy Config] Registering ${serviceName} with ${authMethod} and connectTimeout: ${undiciConfig.connectTimeout}ms`);
+
   await fastify.register(proxy, {
     upstream: target,
     prefix: `/api/${serviceName}`,
@@ -121,17 +142,18 @@ for (const [serviceName, serviceConfig] of Object.entries(services)) {
         // So the final URL will be target + /build-tx
         const rewrittenPath = originalReq.url.replace(`/api/${serviceName}`, '');
         fastify.log.info(`[Proxy] ${originalReq.method} ${originalReq.url} -> ${target}${rewrittenPath}`);
-        // Remove any existing authorization header and add our own
-        const { authorization, ...restHeaders } = headers;
+        
+        // Remove any existing authorization/api-key headers and add our own
+        const { authorization, 'api-key': apiKey, ...restHeaders } = headers;
         return {
           ...restHeaders,
-          Authorization: authHeader
+          [authHeaderName]: authHeader
         };
       }
     }
   });
-  
-  fastify.log.info(`Registered proxy for ${serviceName} -> ${target} with 600s timeout`);
+
+  fastify.log.info(`Registered proxy for ${serviceName} -> ${target} with ${authMethod} and 600s timeout`);
 }
 
 /**
@@ -147,8 +169,8 @@ fastify.get('/health', async (request, reply) => {
  */
 fastify.get('/api/test', async (request, reply) => {
   fastify.log.info(`[API Test] GET /api/test reached the server`);
-  return { 
-    status: 'ok', 
+  return {
+    status: 'ok',
     message: 'API routes are working',
     url: request.url,
     method: request.method,
@@ -156,51 +178,19 @@ fastify.get('/api/test', async (request, reply) => {
   };
 });
 
-/**
- * Pool info endpoint - proxies to Gomaestro API
- */
-fastify.get('/api/pool-info/:poolId', async (request, reply) => {
-  const { poolId } = request.params;
-  const url = `https://mainnet.gomaestro-api.org/v1/pools/${poolId}/info`;
-  
-  fastify.log.info(`[Pool Info] Fetching pool info for ${poolId}`);
-  
-  try {
-    const response = await fetch(url, {
-      method: 'GET',
-      headers: {
-        'api-key': gomaestroApiKey
-      }
-    });
-    
-    if (!response.ok) {
-      fastify.log.error(`[Pool Info] Error fetching pool info: ${response.status} ${response.statusText}`);
-      return reply.code(response.status).send({
-        error: 'Failed to fetch pool information',
-        status: response.status,
-        statusText: response.statusText
-      });
-    }
-    
-    const data = await response.json();
-    fastify.log.info(`[Pool Info] Successfully fetched pool info for ${poolId}`);
-    return reply.send(data);
-  } catch (error) {
-    fastify.log.error(`[Pool Info] Error: ${error.message}`);
-    return reply.code(500).send({
-      error: 'Internal server error',
-      message: error.message
-    });
-  }
-});
 
 /**
  * Test connectivity to backend services
  */
 fastify.get('/test-connectivity', async (request, reply) => {
   const results = {};
-  
+
   for (const [serviceName, serviceConfig] of Object.entries(services)) {
+    // Skip services without target
+    if (!serviceConfig.target) {
+      continue;
+    }
+    
     const { target } = serviceConfig;
     try {
       // Try to resolve DNS and connect
@@ -219,7 +209,7 @@ fastify.get('/test-connectivity', async (request, reply) => {
       };
     }
   }
-  
+
   return { connectivity: results };
 });
 
@@ -263,7 +253,7 @@ const start = async () => {
   try {
     const port = process.env.PORT || process.env.BFF_PORT || 80;
     const host = process.env.BFF_HOST || '0.0.0.0';
-    
+
     await fastify.listen({ port, host });
     fastify.log.info(`Server listening on http://${host}:${port}`);
     fastify.log.info(`Available services: ${Object.keys(services).join(', ')}`);
