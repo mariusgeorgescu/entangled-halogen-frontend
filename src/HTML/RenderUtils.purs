@@ -722,9 +722,9 @@ renderProfessionalServicesSection buttonsList =
             [ HH.text "We transform blockchain ideas into production-ready solutions. Our team specializes in Cardano development, from smart contracts to full-stack dApps, with security and performance at the core."
             ]
         , HH.div [ HP.classes [ HH.ClassName "flex flex-wrap justify-center gap-2 mt-4" ] ]
-            [ badge "badge-secondary" "Fixed budget"
-            , badge "badge-secondary" "Team augmentation"
-            , badge "badge-secondary" "Time and materials"
+            [ badge "badge-info" "Fixed budget"
+            , badge "badge-info" "Team augmentation"
+            , badge "badge-info" "Time and materials"
             ]
         ]
     , HH.div [ HP.classes [ HH.ClassName "grid grid-cols-1 md:grid-cols-2 gap-4" ] ]

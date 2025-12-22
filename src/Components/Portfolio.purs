@@ -133,19 +133,19 @@ renderProjectCatalystSection =
             "Decentralized Belt System for Brazilian Jiu-Jitsu (BJJ)"
             "A DApp to standardize BJJ belt rankings and lineages, ensuring global consistency and transparency in the BJJ community."
             "https://projectcatalyst.io/funds/13/cardano-use-cases-concept/decentralized-belt-system-for-brazilian-jiu-jitsu-bjj"
-            "40,000 $ADA"
+            "40,000 ₳"
             "Fund 13"
         , catalystCard
             "CardanoTicker (DIY assembly instructions and 3D printed case)"
             "A Cardano Desk Watch with e-ink display for node operators, SPOs, and DReps to monitor key blockchain metrics in real-time."
             "https://projectcatalyst.io/funds/13/cardano-use-cases-concept/cardanoticker-diy-assembly-instructions-and-3dprinted-case"
-            "15,000 $ADA"
+            "15,000 ₳"
             "Fund 13"
         , catalystCard
             "Development of a Cardano DApp and extensive documentation"
             "An educational DApp with comprehensive documentation, serving as a learning resource for Cardano developers."
             "https://projectcatalyst.io/funds/10/developer-ecosystem-the-evolution/development-of-a-cardano-dapp-and-extensive-documentation-of-each-step-along-the-way"
-            "20,000 $ADA"
+            "20,000 ₳"
             "Fund 10"
         ]
     ]
@@ -157,7 +157,7 @@ renderProjectCatalystSection =
           [ HH.div [ HP.classes [ HH.ClassName "flex items-center justify-between mb-2" ] ]
               [ HH.span [ HP.classes [ HH.ClassName "badge badge-primary badge-sm" ] ]
                   [ HH.text fund ]
-              , HH.span [ HP.classes [ HH.ClassName "badge badge-secondary badge-sm" ] ]
+              , HH.span [ HP.classes [ HH.ClassName "badge badge-info badge-sm" ] ]
                   [ HH.text funding ]
               ]
           , HH.h3 [ HP.classes [ HH.ClassName "card-title text-lg sm:text-xl" ] ]
