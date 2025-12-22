@@ -15,9 +15,12 @@ services:
       - NODE_ENV=production
       - PORT=80
       - BFF_HOST=0.0.0.0
-      - DELEGATION_SERVICE=${DELEGATION_SERVICE:-https://dev-delegation-service.cardano.vip}
-      - BASIC_USER=${BASIC_USER:-charles}
-      - BASIC_PASS=${BASIC_PASS:-hoskinson}
+      # Required environment variables - must be set via .env file or environment
+      - DELEGATION_SERVICE=${DELEGATION_SERVICE}
+      - BASIC_USER=${BASIC_USER}
+      - BASIC_PASS=${BASIC_PASS}
+      - GOMAESTRO_ENV=${GOMAESTRO_ENV}
+      - GOMAESTRO_API_KEY=${GOMAESTRO_API_KEY}
     healthcheck:
       test: ["CMD-SHELL", "wget --quiet --tries=1 --spider http://localhost/health"]
       interval: 30s

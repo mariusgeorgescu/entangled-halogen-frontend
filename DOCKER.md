@@ -11,7 +11,18 @@ This guide explains how to build and run the Entangled Halogen Frontend using Do
 
 ### Using Docker Compose (Recommended)
 
-1. **Build and start the container:**
+1. **Set up environment variables:**
+   
+   Create a `.env` file in the project root with required variables:
+   ```bash
+   DELEGATION_SERVICE=https://api.example.com
+   BASIC_USER=myuser
+   BASIC_PASS=mypassword
+   GOMAESTRO_ENV=preprod
+   GOMAESTRO_API_KEY=your-api-key-here
+   ```
+
+2. **Build and start the container:**
    ```bash
    docker-compose up -d
    ```
@@ -37,11 +48,29 @@ This guide explains how to build and run the Entangled Halogen Frontend using Do
    ```
 
 2. **Run the container:**
+   
+   **Important:** You must provide all required environment variables. Example:
+   
    ```bash
    docker run -d \
      --name entangled-frontend \
      -p 8080:80 \
      --restart unless-stopped \
+     -e DELEGATION_SERVICE=https://api.example.com \
+     -e BASIC_USER=myuser \
+     -e BASIC_PASS=mypassword \
+     -e GOMAESTRO_ENV=preprod \
+     -e GOMAESTRO_API_KEY=your-api-key-here \
+     entangled-halogen-frontend:latest
+   ```
+   
+   Or use an `.env` file:
+   ```bash
+   docker run -d \
+     --name entangled-frontend \
+     -p 8080:80 \
+     --restart unless-stopped \
+     --env-file .env \
      entangled-halogen-frontend:latest
    ```
 
@@ -88,11 +117,50 @@ The Dockerfile uses a multi-stage build for optimal image size:
 
 ### Environment Variables
 
-Currently, no environment variables are required. Add them in `docker-compose.yml` if needed:
+The BFF server requires the following environment variables to be set (no default values are provided):
+
+**Required variables:**
+- `DELEGATION_SERVICE` - URL-ul backend-ului delegation-service
+- `BASIC_USER` - Username pentru Basic Auth
+- `BASIC_PASS` - Password pentru Basic Auth
+- `GOMAESTRO_ENV` - Environment-ul Gomaestro API (ex: preprod, preview, mainnet)
+- `GOMAESTRO_API_KEY` - API key pentru Gomaestro API
+
+**Optional variables:**
+- `PORT` sau `BFF_PORT` - Portul serverului (default: 80)
+- `BFF_HOST` - Host-ul serverului (default: 0.0.0.0)
+- `NODE_ENV` - Environment mode (ex: production, development)
+
+Example `docker-compose.yml` configuration:
 
 ```yaml
 environment:
-  - CUSTOM_VAR=value
+  - NODE_ENV=production
+  - PORT=80
+  - BFF_HOST=0.0.0.0
+  - DELEGATION_SERVICE=https://api.example.com
+  - BASIC_USER=myuser
+  - BASIC_PASS=mypassword
+  - GOMAESTRO_ENV=preprod
+  - GOMAESTRO_API_KEY=your-api-key-here
+```
+
+Or use environment file (`.env`):
+
+```bash
+# .env file
+DELEGATION_SERVICE=https://api.example.com
+BASIC_USER=myuser
+BASIC_PASS=mypassword
+GOMAESTRO_ENV=preprod
+GOMAESTRO_API_KEY=your-api-key-here
+```
+
+Then reference it in `docker-compose.yml`:
+
+```yaml
+env_file:
+  - .env
 ```
 
 ## Deployment
@@ -135,6 +203,16 @@ Check logs:
 ```bash
 docker logs entangled-frontend
 ```
+
+**Common issue: Missing environment variables**
+
+If the container exits immediately after starting, check for error messages about missing environment variables:
+
+```bash
+ERROR: Required environment variable DELEGATION_SERVICE is not set
+```
+
+Ensure all required environment variables are set in `docker-compose.yml` or via `.env` file. The container will exit with an error if any required variable is missing.
 
 ### Health check fails
 
