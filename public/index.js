@@ -12039,25 +12039,25 @@ var renderProfessionalServicesSection = function(buttonsList) {
       return div3([classes(["badge " + cls])])([text(label5)]);
     };
   };
-  return section([id3("services"), classes(["w-full max-w-6xl mx-auto px-4 py-12"])])([div3([classes(["text-center mb-8"])])([h2([classes(["text-4xl md:text-4xl font-bold"])])([text("Professional Services")]), p([classes(["opacity-80 mt-2"])])([text("We transform blockchain ideas into production-ready solutions. Our team specializes in Cardano development, from smart contracts to full-stack dApps, with security and performance at the core.")]), div3([classes(["flex flex-wrap justify-center gap-2 mt-4"])])([badge("badge-secondary")("Fixed budget"), badge("badge-secondary")("Team augmentation"), badge("badge-secondary")("Time and materials")])]), div3([classes(["grid grid-cols-1 md:grid-cols-2 gap-4"])])([serviceCard("Smart Contracts")(["Battle-tested smart contract development", "NFTs, DeFi, DAOs, and custom solutions", "Optimized for efficiency and cost"]), serviceCard("Audits")(["Comprehensive security analysis", "Gas optimization recommendations", "Detailed audit reports with actionable insights"]), serviceCard("Backend & Frontend")(["Haskell, PureScript, and modern frameworks", "Web3-native user experiences", "Secure API design and integration"]), serviceCard("Infrastructure")(["24/7 monitoring and support", "Cloud-native Kubernetes deployments", "Disaster recovery and backup solutions"])]), div3([classes(["mt-6 flex justify-center gap-2"])])(buttonsList)]);
+  return section([id3("services"), classes(["w-full max-w-6xl mx-auto px-4 sm:px-6 py-8 sm:py-12"])])([div3([classes(["text-center mb-6 sm:mb-8"])])([h2([classes(["text-2xl sm:text-3xl md:text-4xl font-bold"])])([text("Professional Services")]), p([classes(["opacity-80 mt-2 text-sm sm:text-base px-2"])])([text("We transform blockchain ideas into production-ready solutions. Our team specializes in Cardano development, from smart contracts to full-stack dApps, with security and performance at the core.")]), div3([classes(["flex flex-wrap justify-center gap-2 mt-4"])])([badge("badge-secondary")("Fixed budget"), badge("badge-secondary")("Team augmentation"), badge("badge-secondary")("Time and materials")])]), div3([classes(["grid grid-cols-1 md:grid-cols-2 gap-4"])])([serviceCard("Smart Contracts")(["Battle-tested smart contract development", "NFTs, DeFi, DAOs, and custom solutions", "Optimized for efficiency and cost"]), serviceCard("Audits")(["Comprehensive security analysis", "Gas optimization recommendations", "Detailed audit reports with actionable insights"]), serviceCard("Backend & Frontend")(["Haskell, PureScript, and modern frameworks", "Web3-native user experiences", "Secure API design and integration"]), serviceCard("Infrastructure")(["24/7 monitoring and support", "Cloud-native Kubernetes deployments", "Disaster recovery and backup solutions"])]), div3([classes(["mt-6 flex flex-col sm:flex-row justify-center gap-2"])])(buttonsList)]);
 };
 var renderPoolOverviewSection = /* @__PURE__ */ (function() {
   var stat = function(value1) {
     return function(desc) {
-      return div3([classes(["card bg-base-200 shadow"])])([div3([classes(["card-body items-center text-center"])])([div3([classes(["text-4xl font-bold"])])([text(value1)]), div3([classes(["opacity-80"])])([text(desc)])])]);
+      return div3([classes(["card bg-base-200 shadow"])])([div3([classes(["card-body items-center text-center"])])([div3([classes(["text-2xl sm:text-3xl md:text-4xl font-bold"])])([text(value1)]), div3([classes(["opacity-80 text-sm sm:text-base"])])([text(desc)])])]);
     };
   };
-  return section([id3("pool"), classes(["w-full max-w-6xl mx-auto px-4 py-12"])])([div3([classes(["text-center mb-6"])])([h2([classes(["text-3xl font-bold"])])([text("E7D Cardano Staking Pool")]), p([classes(["opacity-80 mt-2"])])([text("Secure, reliable, and community-focused staking. As a single pool operator, we're 100% dedicated to our delegators' success.")])]), div3([classes(["grid grid-cols-1 md:grid-cols-3 gap-4"])])([stat("99.9%")("Uptime target"), stat("Competitive Fees")("More rewards in your wallet"), stat("Secured")("Best practices operations")]), div3([classes(["mt-6 flex justify-center gap-2"])])([a2([classes(["btn btn-primary"]), href4("https://cexplorer.io/pool/pool1sj3gnahsms73uxxu43rgwczdw596en7dtsfcqf6297vzgcedquv"), target5("_blank")])([text("See Pool Performance")]), a2([classes(["btn"]), href4("#hero")])([text("Join us")])])]);
+  return section([id3("pool"), classes(["w-full max-w-6xl mx-auto px-4 sm:px-6 py-8 sm:py-12"])])([div3([classes(["text-center mb-6"])])([h2([classes(["text-2xl sm:text-3xl font-bold"])])([text("E7D Cardano Staking Pool")]), p([classes(["opacity-80 mt-2 text-sm sm:text-base px-2"])])([text("Secure, reliable, and community-focused staking. As a single pool operator, we're 100% dedicated to our delegators' success.")])]), div3([classes(["grid grid-cols-1 md:grid-cols-3 gap-4"])])([stat("99.9%")("Uptime target"), stat("Competitive Fees")("More rewards in your wallet"), stat("Secured")("Best practices operations")]), div3([classes(["mt-6 flex flex-col sm:flex-row justify-center gap-2"])])([a2([classes(["btn btn-primary btn-sm sm:btn-md w-full sm:w-auto"]), href4("https://cexplorer.io/pool/pool1sj3gnahsms73uxxu43rgwczdw596en7dtsfcqf6297vzgcedquv"), target5("_blank")])([text("See Pool Performance")]), a2([classes(["btn btn-sm sm:btn-md w-full sm:w-auto"]), href4("#hero")])([text("Join us")])])]);
 })();
 var renderHoverGallery = function(imageUrls) {
-  return figure([classes(["hover-gallery max-w-60"])])(map32(function(url) {
-    return img([src9(url), classes(["w-60 h-90 object-contain"])]);
+  return figure([classes(["hover-gallery max-w-[200px] sm:max-w-60 w-full"])])(map32(function(url) {
+    return img([src9(url), classes(["w-full sm:w-60 h-auto sm:h-90 object-contain"])]);
   })(imageUrls));
 };
 var renderHeroSection = function(buttonsList) {
-  return section([id3("hero"), classes(["w-full bg-base-200"])])([div3([classes(["hero min-h-svh"])])([div3([classes(["hero-content flex-col lg:flex-row gap-8"])])([div3([classes([""])])([div_([img([src9("./images/E7D/SVG Vector Files/Transparent Logo.svg"), alt9("ENTANGLED Labs Logo"), classes(["max-w-xs"])]), h3([classes(["text-3xl md:text-3xl font-bold"])])([span_([text("We "), renderTextRotate("text-4xl text-success")([" DESIGN \u{1F4D0} ", " DEVELOP \u2328\uFE0F ", " DEPLOY \u{1F30E} ", " SCALE \u2B06\uFE0F ", " MAINTAIN \u{1F527} "]), text(" for you.")])])]), div3([classes(["flex flex-wrap justify-center gap-2 mt-4"])])([renderHoverGallery(["./images/logos/Cardano-RGB_Logo-Stack-Black.svg", "./images/logos/Cardano-RGB_Logo-Stack-White.svg", "./images/logos/Midnight-RGB_Logo-Stacked-White.svg", "./images/logos/Midnight-RGB_Logo-Stacked-Black.svg", "./images/logos/Cardano-RGB_Logo-Stack-Black.svg", "./images/logos/Cardano-RGB_Logo-Stack-White.svg", "./images/logos/bitcoin-btc-logo.svg", "./images/logos/Cardano-RGB_Logo-Stack-Blue.svg"])]), div_([h1([classes(["text-4xl md:text-5xl font-bold"])])([text("ENTANGLED Labs")]), p([classes(["py-4 opacity-80"])])([text("Your trusted Cardano infrastructure & development partner")]), div3([classes(["flex gap-2"])])(buttonsList)])])])])]);
+  return section([id3("hero"), classes(["w-full bg-base-200"])])([div3([classes(["hero min-h-svh"])])([div3([classes(["hero-content flex-col lg:flex-row gap-4 sm:gap-8 px-4 sm:px-6"])])([div3([classes(["w-full lg:w-auto"])])([div_([img([src9("./images/E7D/SVG Vector Files/Transparent Logo.svg"), alt9("ENTANGLED Labs Logo"), classes(["max-w-[200px] sm:max-w-xs w-full h-auto"])]), h3([classes(["text-xl sm:text-2xl md:text-3xl font-bold mt-2"])])([span_([text("We "), renderTextRotate("text-2xl sm:text-3xl md:text-4xl text-success")([" DESIGN \u{1F4D0} ", " DEVELOP \u2328\uFE0F ", " DEPLOY \u{1F30E} ", " SCALE \u2B06\uFE0F ", " MAINTAIN \u{1F527} "]), text(" for you.")])])]), div3([classes(["flex flex-wrap justify-center gap-2 mt-4"])])([renderHoverGallery(["./images/logos/Cardano-RGB_Logo-Icon-Black.svg", "./images/logos/Cardano-RGB_Logo-Icon-White.svg", "./images/logos/Midnight-RGB_Symbol-White.svg", "./images/logos/Midnight-RGB_Symbol-Black.svg", "./images/logos/Cardano-RGB_Logo-Icon-Blue.svg", "./images/logos/bitcoin-btc-logo.svg"])]), div_([h1([classes(["text-3xl sm:text-4xl md:text-5xl font-bold"])])([text("ENTANGLED Labs")]), p([classes(["py-2 sm:py-4 opacity-80 text-sm sm:text-base"])])([text("Your trusted Cardano infrastructure & development partner")]), div3([classes(["flex flex-col sm:flex-row gap-2 w-full sm:w-auto"])])(buttonsList)])])])])]);
 };
-var renderFooterSection = /* @__PURE__ */ footer([/* @__PURE__ */ classes(["footer footer-horizontal  bg-base-200 text-base-content p-10 mt-12"])])([/* @__PURE__ */ aside_([/* @__PURE__ */ img([/* @__PURE__ */ src9("./images/E7D/PNG Logo Files/Transparent Logo.png"), /* @__PURE__ */ alt9("ENTANGLED Labs"), /* @__PURE__ */ classes(["w-16"])]), /* @__PURE__ */ p_([/* @__PURE__ */ text("ENTANGLED Labs"), br_, /* @__PURE__ */ text("Secure staking \u2022 Expert development \u2022 Trusted partner")])]), /* @__PURE__ */ nav_([/* @__PURE__ */ h6([/* @__PURE__ */ classes(["footer-title"])])([/* @__PURE__ */ text("Company")]), /* @__PURE__ */ a2([/* @__PURE__ */ classes(["link link-hover"]), /* @__PURE__ */ href4("#about")])([/* @__PURE__ */ text("About")]), /* @__PURE__ */ a2([/* @__PURE__ */ classes(["link link-hover"]), /* @__PURE__ */ href4("#services")])([/* @__PURE__ */ text("Services")]), /* @__PURE__ */ a2([/* @__PURE__ */ classes(["link link-hover"]), /* @__PURE__ */ href4("#pool")])([/* @__PURE__ */ text("Pool")])]), /* @__PURE__ */ nav_([/* @__PURE__ */ h6([/* @__PURE__ */ classes(["footer-title"])])([/* @__PURE__ */ text("Links")]), /* @__PURE__ */ a2([/* @__PURE__ */ classes(["link link-hover"]), /* @__PURE__ */ target5("_blank"), /* @__PURE__ */ href4("https://github.com/en7angled/")])([/* @__PURE__ */ text("GitHub")])])]);
+var renderFooterSection = /* @__PURE__ */ footer([/* @__PURE__ */ classes(["footer footer-vertical sm:footer-horizontal bg-base-200 text-base-content p-6 sm:p-10 mt-12"])])([/* @__PURE__ */ aside_([/* @__PURE__ */ img([/* @__PURE__ */ src9("./images/E7D/PNG Logo Files/Transparent Logo.png"), /* @__PURE__ */ alt9("ENTANGLED Labs"), /* @__PURE__ */ classes(["w-12 sm:w-16"])]), /* @__PURE__ */ p([/* @__PURE__ */ classes(["text-sm sm:text-base"])])([/* @__PURE__ */ text("ENTANGLED Labs"), br_, /* @__PURE__ */ text("Secure staking \u2022 Expert development \u2022 Trusted partner")])]), /* @__PURE__ */ nav_([/* @__PURE__ */ h6([/* @__PURE__ */ classes(["footer-title text-sm sm:text-base"])])([/* @__PURE__ */ text("Company")]), /* @__PURE__ */ a2([/* @__PURE__ */ classes(["link link-hover text-sm sm:text-base"]), /* @__PURE__ */ href4("#about")])([/* @__PURE__ */ text("About")]), /* @__PURE__ */ a2([/* @__PURE__ */ classes(["link link-hover text-sm sm:text-base"]), /* @__PURE__ */ href4("#services")])([/* @__PURE__ */ text("Services")]), /* @__PURE__ */ a2([/* @__PURE__ */ classes(["link link-hover text-sm sm:text-base"]), /* @__PURE__ */ href4("#pool")])([/* @__PURE__ */ text("Pool")])]), /* @__PURE__ */ nav_([/* @__PURE__ */ h6([/* @__PURE__ */ classes(["footer-title text-sm sm:text-base"])])([/* @__PURE__ */ text("Links")]), /* @__PURE__ */ a2([/* @__PURE__ */ classes(["link link-hover text-sm sm:text-base"]), /* @__PURE__ */ target5("_blank"), /* @__PURE__ */ href4("https://github.com/en7angled/")])([/* @__PURE__ */ text("GitHub")])])]);
 var renderFabFlower = /* @__PURE__ */ (function() {
   var starIcon = svg([class_("h-6 w-6 shrink-0 stroke-current"), fill(NoColor.value), viewBox(0)(0)(24)(24)])([path([strokeLineCap(LineCapRound.value), strokeLineJoin(LineJoinRound.value), strokeWidth(2), attr2("d")("M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z")])]);
   var paletteIcon = svg([class_("h-6 w-6 shrink-0 stroke-current"), fill(NoColor.value), viewBox(0)(0)(24)(24)])([path([strokeLineCap(LineCapRound.value), strokeLineJoin(LineJoinRound.value), strokeWidth(2), attr2("d")("M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01")])]);
@@ -12065,7 +12065,7 @@ var renderFabFlower = /* @__PURE__ */ (function() {
   var chartIcon = svg([class_("h-6 w-6 shrink-0 stroke-current"), fill(NoColor.value), viewBox(0)(0)(24)(24)])([path([strokeLineCap(LineCapRound.value), strokeLineJoin(LineJoinRound.value), strokeWidth(2), attr2("d")("M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z")])]);
   return div3([classes(["fab"])])([div3([tabIndex2(0), attr2("role")("button"), classes(["btn btn-lg btn-circle btn-accent"])])([starIcon]), div3([classes(["fab-close"])])([text("Close "), span4([classes(["btn btn-circle btn-lg btn-error"])])([text("\u2715")])]), div_([text("Raffleize Art"), a2([classes(["btn btn-lg btn-circle"]), href4("https://www.raffleize.art"), target5("_blank")])([paletteIcon])]), div_([text("BJJ Belts"), a2([classes(["btn btn-lg btn-circle"]), href4("https://www.bjj-belts.org"), target5("_blank")])([medalIcon])]), div_([text("Cardano Ticker"), a2([classes(["btn btn-lg btn-circle"]), href4("https://www.ticker.cardano.vip"), target5("_blank")])([chartIcon])])]);
 })();
-var renderCexplorerPoolGraphSection = /* @__PURE__ */ section([/* @__PURE__ */ classes(["w-full max-w-6xl mx-auto px-4 py-12"])])([/* @__PURE__ */ div3([/* @__PURE__ */ classes(["text-center mb-6"])])([/* @__PURE__ */ h2([/* @__PURE__ */ classes(["text-2xl md:text-3xl font-bold"])])([/* @__PURE__ */ text("Stake Pool Graph")]), /* @__PURE__ */ p([/* @__PURE__ */ classes(["opacity-80 mt-2"])])([/* @__PURE__ */ text("Real-time performance metrics and block production history")])]), /* @__PURE__ */ div3([/* @__PURE__ */ classes(["flex justify-center"])])([/* @__PURE__ */ div3([/* @__PURE__ */ classes(["w-full max-w-4xl"])])([/* @__PURE__ */ div3([/* @__PURE__ */ classes(["relative w-full"]), /* @__PURE__ */ style("padding-top: 52.8%")])([/* @__PURE__ */ iframe([/* @__PURE__ */ src9("https://img.cexplorer.io/w/widget-graph.html?pool=pool1sj3gnahsms73uxxu43rgwczdw596en7dtsfcqf6297vzgcedquv&theme=dark"), /* @__PURE__ */ attr2("frameborder")("0"), /* @__PURE__ */ attr2("allowtransparency")("true"), /* @__PURE__ */ attr2("style")("position:absolute;top:0;left:0;width:100%;height:100%;background:transparent !important;")])])])]), /* @__PURE__ */ div3([/* @__PURE__ */ classes(["text-center mt-3"])])([/* @__PURE__ */ a2([/* @__PURE__ */ href4("https://cexplorer.io/pool/pool1sj3gnahsms73uxxu43rgwczdw596en7dtsfcqf6297vzgcedquv"), /* @__PURE__ */ target5("_blank"), /* @__PURE__ */ classes(["link link-hover"])])([/* @__PURE__ */ text("View detailed pool statistics \u2192")])])]);
+var renderCexplorerPoolGraphSection = /* @__PURE__ */ section([/* @__PURE__ */ classes(["w-full max-w-6xl mx-auto px-4 sm:px-6 py-8 sm:py-12"])])([/* @__PURE__ */ div3([/* @__PURE__ */ classes(["text-center mb-6"])])([/* @__PURE__ */ h2([/* @__PURE__ */ classes(["text-2xl sm:text-3xl font-bold"])])([/* @__PURE__ */ text("Stake Pool Graph")]), /* @__PURE__ */ p([/* @__PURE__ */ classes(["opacity-80 mt-2 text-sm sm:text-base px-2"])])([/* @__PURE__ */ text("Real-time performance metrics and block production history")])]), /* @__PURE__ */ div3([/* @__PURE__ */ classes(["flex justify-center"])])([/* @__PURE__ */ div3([/* @__PURE__ */ classes(["w-full max-w-4xl"])])([/* @__PURE__ */ div3([/* @__PURE__ */ classes(["relative w-full"]), /* @__PURE__ */ style("padding-top: 52.8%")])([/* @__PURE__ */ iframe([/* @__PURE__ */ src9("https://img.cexplorer.io/w/widget-graph.html?pool=pool1sj3gnahsms73uxxu43rgwczdw596en7dtsfcqf6297vzgcedquv&theme=dark"), /* @__PURE__ */ attr2("frameborder")("0"), /* @__PURE__ */ attr2("allowtransparency")("true"), /* @__PURE__ */ attr2("style")("position:absolute;top:0;left:0;width:100%;height:100%;background:transparent !important;")])])])]), /* @__PURE__ */ div3([/* @__PURE__ */ classes(["text-center mt-3"])])([/* @__PURE__ */ a2([/* @__PURE__ */ href4("https://cexplorer.io/pool/pool1sj3gnahsms73uxxu43rgwczdw596en7dtsfcqf6297vzgcedquv"), /* @__PURE__ */ target5("_blank"), /* @__PURE__ */ classes(["link link-hover text-sm sm:text-base"])])([/* @__PURE__ */ text("View detailed pool statistics \u2192")])])]);
 var renderButton = function(classes2) {
   return function(text6) {
     return function(action2) {
@@ -12075,8 +12075,8 @@ var renderButton = function(classes2) {
     };
   };
 };
-var renderPrimaryButton = /* @__PURE__ */ renderButton("btn-primary");
-var renderSecondaryButton = /* @__PURE__ */ renderButton("btn-secondary");
+var renderPrimaryButton = /* @__PURE__ */ renderButton("btn-primary btn-sm sm:btn-md w-full sm:w-auto");
+var renderSecondaryButton = /* @__PURE__ */ renderButton("btn-secondary btn-sm sm:btn-md w-full sm:w-auto");
 
 // output/Components.HTML.RenderUtils/index.js
 var renderLink = function(classes2) {
@@ -12244,11 +12244,11 @@ var render = function(s2) {
       return [text("Connected"), div3([classes(["mask mask-hexagon bg-base-100 w-8"])])([img([src9(s2.connectedWalletInfo.value0.connectedWalletIcon)])])];
     }
     ;
-    throw new Error("Failed pattern match at Components.WalletConnectComponent (line 184, column 26 - line 196, column 8): " + [s2.connectedWalletInfo.constructor.name]);
+    throw new Error("Failed pattern match at Components.WalletConnectComponent (line 183, column 26 - line 195, column 8): " + [s2.connectedWalletInfo.constructor.name]);
   })();
   var buttonColour = (function() {
-    var $47 = isJust(s2.connectedWalletInfo);
-    if ($47) {
+    var $46 = isJust(s2.connectedWalletInfo);
+    if ($46) {
       return "primary";
     }
     ;
@@ -12268,21 +12268,21 @@ var render = function(s2) {
       })])([a_([div3([classes(["mask mask-hexagon  w-8"])])([img([src9(b2.iconSrc)])]), text(b2.label)])]);
     };
     if (v2.connectedWalletInfo instanceof Just) {
-      return ul([tabIndex2(0), classes(["menu dropdown-content bg-" + (buttonColour + ("  text-" + (buttonColour + "-content rounded-box z-40 min-w-64 w-fit p-2 ")))])])([li_([div3([classes(["flex items-center gap-2"])])([span4([classes(["font-bold"])])([text("Network:")]), span_([text(v2.connectedWalletInfo.value0.connectedWalletNetwork)])]), div3([classes(["flex items-center gap-2"])])([span4([classes(["font-bold"])])([text("Address:")]), span_([text(shortString(10)(v2.connectedWalletInfo.value0.connectedWalletAddress))])]), div3([classes(["flex items-center gap-2"])])([span4([classes(["font-bold"])])([text("Balance:")]), span_([text(formatNumberFromStr(v2.connectedWalletInfo.value0.connectedWalletNativeCoinBalance))])])]), renderDevider("neutral"), div_(map33(renderCustomDropdownButton)(v2.customButtons)), li([onClick(function(v1) {
+      return ul([tabIndex2(0), classes(["menu dropdown-content bg-" + (buttonColour + ("  text-" + (buttonColour + "-content rounded-box z-40 min-w-64 w-fit p-2 ")))])])([li_([div3([classes(["flex items-center gap-2"])])([span4([classes(["font-bold"])])([text("Network:")]), span_([text(v2.connectedWalletInfo.value0.connectedWalletNetwork)])]), div3([classes(["flex items-center gap-2"])])([span4([classes(["font-bold"])])([text("Address:")]), span_([text(shortString(10)(v2.connectedWalletInfo.value0.connectedWalletAddress))])]), div3([classes(["flex items-center gap-2"])])([span4([classes(["font-bold"])])([text("Balance:")]), span_([text(formatNumberFromStr(v2.connectedWalletInfo.value0.connectedWalletNativeCoinBalance) + " \u20B3")])])]), renderDevider("neutral"), div_(map33(renderCustomDropdownButton)(v2.customButtons)), li([onClick(function(v1) {
         return DisconnectWallet.value;
       })])([a_([div3([classes(["mask mask-hexagon  w-8"])])([img([src9(s2.assets.disconnectIcon)])]), text("Disconnect " + v2.connectedWalletInfo.value0.connectedWalletName)])])]);
     }
     ;
     if (v2.connectedWalletInfo instanceof Nothing) {
-      var $51 = $$null2(v2.availableWalletExtensions);
-      if ($51) {
+      var $50 = $$null2(v2.availableWalletExtensions);
+      if ($50) {
         return div3([classes(["dropdown-content z-40 card card-compact w-64 p-2  bg-" + (buttonColour + ("  text-" + (buttonColour + "-content")))])])([div3([classes(["card-body"])])([h4([classes(["card-title"])])([text("You do not have any wallet installed yet !")]), p_([div3([classes(["mask mask-hexagon  w-8"])])([img([src9(s2.assets.connectIcon)])]), renderLink("")("Try Lace")("http://www.lace.io")])])]);
       }
       ;
       return ul([tabIndex2(0), classes(["dropdown-content menu  bg-" + (buttonColour + ("  text-" + (buttonColour + "-content rounded-box z-40 w-64 p-2 ")))])])(map33(renderWalletListItem)(v2.availableWalletExtensions));
     }
     ;
-    throw new Error("Failed pattern match at Components.WalletConnectComponent (line 198, column 97 - line 250, column 63): " + [v2.connectedWalletInfo.constructor.name]);
+    throw new Error("Failed pattern match at Components.WalletConnectComponent (line 197, column 97 - line 249, column 63): " + [v2.connectedWalletInfo.constructor.name]);
   };
   return div3([classes(["flex justify-end", "dropdown dropdown-hover dropdown-bottom dropdown-end"])])([div3([tabIndex2(0), role("button"), classes(["btn btn-" + (buttonColour + ("  text-" + (buttonColour + "-content min-w-40")))])])(printConnectedWallet), renderWalletWidgetDetails(s2)]);
 };
@@ -12302,7 +12302,6 @@ var handleAction = function(dictMonadAff) {
   var getName3 = getName2(monadCip30HalogenM2);
   var getIcon3 = getIcon2(monadCip30HalogenM2);
   var getNativeCoinBalanceString2 = getNativeCoinBalanceString(monadCip30HalogenM2);
-  var getUserAddresses2 = getUserAddresses(monadCip30HalogenM2);
   var getUserFirstAddressBech322 = getUserFirstAddressBech32(monadCip30HalogenM2);
   return function(dictMonadCIP30) {
     return function(v2) {
@@ -12312,30 +12311,28 @@ var handleAction = function(dictMonadAff) {
             return bind9(getName3(v2.value0))(function(name17) {
               return bind9(getIcon3(v2.value0))(function(icon) {
                 return bind9(getNativeCoinBalanceString2(api))(function(adaBalance) {
-                  return bind9(getUserAddresses2(api))(function(userAddresses) {
-                    return bind9(getUserFirstAddressBech322(api))(function(firstAddrBech32) {
-                      var cw = new Just({
-                        connectedWalletName: name17,
-                        connectedWalletNetwork: network,
-                        connectedWalletAddress: firstAddrBech32,
-                        connectedWalletNativeCoinBalance: adaBalance,
-                        connectedWalletIcon: icon
-                      });
-                      return discard4(modify_3(function(v1) {
-                        var $56 = {};
-                        for (var $57 in v1) {
-                          if ({}.hasOwnProperty.call(v1, $57)) {
-                            $56[$57] = v1[$57];
-                          }
-                          ;
+                  return bind9(getUserFirstAddressBech322(api))(function(firstAddrBech32) {
+                    var cw = new Just({
+                      connectedWalletName: name17,
+                      connectedWalletNetwork: network,
+                      connectedWalletAddress: firstAddrBech32,
+                      connectedWalletNativeCoinBalance: adaBalance,
+                      connectedWalletIcon: icon
+                    });
+                    return discard4(modify_3(function(v1) {
+                      var $55 = {};
+                      for (var $56 in v1) {
+                        if ({}.hasOwnProperty.call(v1, $56)) {
+                          $55[$56] = v1[$56];
                         }
                         ;
-                        $56.walletApi = new Just(api);
-                        $56.connectedWalletInfo = cw;
-                        return $56;
-                      }))(function() {
-                        return raise(WalletConnectedEvent.value);
-                      });
+                      }
+                      ;
+                      $55.walletApi = new Just(api);
+                      $55.connectedWalletInfo = cw;
+                      return $55;
+                    }))(function() {
+                      return raise(WalletConnectedEvent.value);
                     });
                   });
                 });
@@ -12347,17 +12344,17 @@ var handleAction = function(dictMonadAff) {
       ;
       if (v2 instanceof DisconnectWallet) {
         return discard4(modify_3(function(v1) {
-          var $60 = {};
-          for (var $61 in v1) {
-            if ({}.hasOwnProperty.call(v1, $61)) {
-              $60[$61] = v1[$61];
+          var $59 = {};
+          for (var $60 in v1) {
+            if ({}.hasOwnProperty.call(v1, $60)) {
+              $59[$60] = v1[$60];
             }
             ;
           }
           ;
-          $60.walletApi = Nothing.value;
-          $60.connectedWalletInfo = Nothing.value;
-          return $60;
+          $59.walletApi = Nothing.value;
+          $59.connectedWalletInfo = Nothing.value;
+          return $59;
         }))(function() {
           return raise(WalletDisconnectedEvent.value);
         });
@@ -12365,17 +12362,17 @@ var handleAction = function(dictMonadAff) {
       ;
       if (v2 instanceof Receive2) {
         return modify_3(function(v1) {
-          var $63 = {};
-          for (var $64 in v1) {
-            if ({}.hasOwnProperty.call(v1, $64)) {
-              $63[$64] = v1[$64];
+          var $62 = {};
+          for (var $63 in v1) {
+            if ({}.hasOwnProperty.call(v1, $63)) {
+              $62[$63] = v1[$63];
             }
             ;
           }
           ;
-          $63.customButtons = v2.value0.buttons;
-          $63.assets = v2.value0.assets;
-          return $63;
+          $62.customButtons = v2.value0.buttons;
+          $62.assets = v2.value0.assets;
+          return $62;
         });
       }
       ;
@@ -12383,7 +12380,7 @@ var handleAction = function(dictMonadAff) {
         return raise(new CustomButtonEvent(v2.value0));
       }
       ;
-      throw new Error("Failed pattern match at Components.WalletConnectComponent (line 139, column 16 - line 165, column 36): " + [v2.constructor.name]);
+      throw new Error("Failed pattern match at Components.WalletConnectComponent (line 139, column 16 - line 164, column 36): " + [v2.constructor.name]);
     };
   };
 };
@@ -12396,17 +12393,17 @@ var handleQuery = function(dictMonadAff) {
       if (v2 instanceof SetWalletApi) {
         return bind9(getTheAvailableWallets2)(function(ws) {
           return discard4(modify_3(function(v1) {
-            var $69 = {};
-            for (var $70 in v1) {
-              if ({}.hasOwnProperty.call(v1, $70)) {
-                $69[$70] = v1[$70];
+            var $68 = {};
+            for (var $69 in v1) {
+              if ({}.hasOwnProperty.call(v1, $69)) {
+                $68[$69] = v1[$69];
               }
               ;
             }
             ;
-            $69.walletApi = v2.value0;
-            $69.availableWalletExtensions = ws;
-            return $69;
+            $68.walletApi = v2.value0;
+            $68.availableWalletExtensions = ws;
+            return $68;
           }))(function() {
             return pure10(new Just(v2.value1));
           });
@@ -12459,8 +12456,8 @@ var component = function(dictMonadAff) {
         handleAction: handleAction1(dictMonadCIP30),
         initialize: Nothing.value,
         handleQuery: handleQuery1(dictMonadCIP30),
-        receive: function($78) {
-          return Just.create(Receive2.create($78));
+        receive: function($77) {
+          return Just.create(Receive2.create($77));
         }
       })
     });
@@ -12795,9 +12792,9 @@ var render2 = function(dictMonadAff) {
         iconSrc: "./images/verified-check.svg",
         classes: ["btn-primary"]
       }];
-      return div3([classes(["bg-base-100 text-base-content sticky top-0 z-30 flex h-16 w-full justify-center bg-opacity-90 backdrop-blur transition-shadow duration-100 [transform:translate3d(0,0,0)] shadow-sm"])])([div3([classes(["navbar bg-neutral text-neutral-content gap-4"])])([div3([classes(["flex-1"])])([button([classes(["btn btn-lg btn-ghost"]), onClick(function(v2) {
+      return div3([classes(["bg-base-100 text-base-content sticky top-0 z-30 flex h-16 w-full justify-center bg-opacity-90 backdrop-blur transition-shadow duration-100 [transform:translate3d(0,0,0)] shadow-sm"])])([div3([classes(["navbar bg-neutral text-neutral-content gap-2 sm:gap-4 px-2 sm:px-4"])])([div3([classes(["flex-1 min-w-0"])])([button([classes(["btn btn-sm sm:btn-md md:btn-lg btn-ghost p-1 sm:p-2"]), onClick(function(v2) {
         return HomeButton.value;
-      })])([img([src9("./images/E7D/SVG Vector Files/Transparent Logo.svg"), alt9("E7D Logo"), classes(["h-20"])])])]), div3([classes(["flex-2 flex justify-end"])])([slot3(walletConnectProxy)(unit)(component22)({
+      })])([img([src9("./images/E7D/SVG Vector Files/Transparent Logo.svg"), alt9("E7D Logo"), classes(["h-12 sm:h-16 md:h-20 w-auto"])])])]), div3([classes(["flex-2 flex justify-end min-w-0"])])([slot3(walletConnectProxy)(unit)(component22)({
         buttons: customButtons,
         assets: {
           connectIcon: "./images/walletsymbol.svg",
@@ -12981,11 +12978,11 @@ var renderSecurityAuditsSection = /* @__PURE__ */ (function() {
   var auditCard = function(title4) {
     return function(description) {
       return function(pdfPath) {
-        return div3([classes(["card bg-base-200 shadow-lg hover:shadow-xl transition-shadow"])])([div3([classes(["card-body"])])([h3([classes(["card-title text-xl"])])([text(title4)]), p([classes(["opacity-90 mb-4"])])([text(description)]), a2([classes(["btn btn-primary"]), href4(pdfPath), target5("_blank"), rel4("noopener noreferrer")])([text("View Audit Report")])])]);
+        return div3([classes(["card bg-base-200 shadow-lg hover:shadow-xl transition-shadow"])])([div3([classes(["card-body"])])([h3([classes(["card-title text-lg sm:text-xl"])])([text(title4)]), p([classes(["opacity-90 mb-4 text-sm sm:text-base"])])([text(description)]), a2([classes(["btn btn-primary btn-sm sm:btn-md w-full sm:w-auto"]), href4(pdfPath), target5("_blank"), rel4("noopener noreferrer")])([text("View Audit Report")])])]);
       };
     };
   };
-  return section([id3("security-audits"), classes(["w-full min-h-screen max-w-6xl mx-auto px-4 py-12"])])([div3([classes(["text-center mb-8"])])([h2([classes(["text-3xl md:text-4xl font-bold"])])([text("Security Audits")]), p([classes(["opacity-80 mt-2"])])([text("We take security seriously. All our projects undergo rigorous security audits to ensure the highest standards of safety and reliability.")])]), div3([classes(["grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"])])([auditCard("Hydra Pay Audit Report")("Comprehensive security audit of the Hydra Pay protocol")("/doc/hydra-pay-audit-report-signed.pdf")])]);
+  return section([id3("security-audits"), classes(["w-full min-h-screen max-w-6xl mx-auto px-4 sm:px-6 py-8 sm:py-12"])])([div3([classes(["text-center mb-6 sm:mb-8"])])([h2([classes(["text-2xl sm:text-3xl md:text-4xl font-bold"])])([text("Security Audits")]), p([classes(["opacity-80 mt-2 text-sm sm:text-base px-2"])])([text("We take security seriously. All our projects undergo rigorous security audits to ensure the highest standards of safety and reliability.")])]), div3([classes(["grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6"])])([auditCard("Hydra Pay Audit Report")("Comprehensive security audit of the Hydra Pay protocol")("/doc/hydra-pay-audit-report-signed.pdf")])]);
 })();
 var render3 = function(v2) {
   return div_([renderSecurityAuditsSection]);

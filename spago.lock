@@ -735,7 +735,7 @@
       },
       "halogen-cardano-wallet-connect-component": {
         "git": "https://github.com/mariusgeorgescu/halogen-cardano-wallet-connect-component.git",
-        "ref": "main"
+        "ref": "v1.0.2"
       }
     }
   },
@@ -1405,7 +1405,7 @@
     "halogen-cardano-wallet-connect-component": {
       "type": "git",
       "url": "https://github.com/mariusgeorgescu/halogen-cardano-wallet-connect-component.git",
-      "rev": "c37f2d5ed74c8e1b11c2d316448c5a5ebf6726c1",
+      "rev": "feb930728e2d99f63ad58cd55180ce049c291496",
       "dependencies": [
         "arrays",
         "cardano-serialization-lib",

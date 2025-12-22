@@ -367,10 +367,10 @@ renderButton classes text action =
     [ HH.text text ]
 
 renderSecondaryButton ∷ ∀ w i. String → i -> HH.HTML w i
-renderSecondaryButton = renderButton "btn-secondary"
+renderSecondaryButton = renderButton "btn-secondary btn-sm sm:btn-md w-full sm:w-auto"
 
 renderPrimaryButton ∷ ∀ w i. String → i -> HH.HTML w i
-renderPrimaryButton = renderButton "btn-primary"
+renderPrimaryButton = renderButton "btn-primary btn-sm sm:btn-md w-full sm:w-auto"
 
 renderAccentButton ∷ ∀ w i. String → i -> HH.HTML w i
 renderAccentButton = renderButton "btn-accent"
@@ -709,11 +709,11 @@ renderProfessionalServicesSection :: forall w i. Array (HH.HTML w i) -> HH.HTML 
 renderProfessionalServicesSection buttonsList =
   HH.section
     [ HP.id "services"
-    , HP.classes [ HH.ClassName "w-full max-w-6xl mx-auto px-4 py-12" ]
+    , HP.classes [ HH.ClassName "w-full max-w-6xl mx-auto px-4 sm:px-6 py-8 sm:py-12" ]
     ]
-    [ HH.div [ HP.classes [ HH.ClassName "text-center mb-8" ] ]
-        [ HH.h2 [ HP.classes [ HH.ClassName "text-4xl md:text-4xl font-bold" ] ] [ HH.text "Professional Services" ]
-        , HH.p [ HP.classes [ HH.ClassName "opacity-80 mt-2" ] ]
+    [ HH.div [ HP.classes [ HH.ClassName "text-center mb-6 sm:mb-8" ] ]
+        [ HH.h2 [ HP.classes [ HH.ClassName "text-2xl sm:text-3xl md:text-4xl font-bold" ] ] [ HH.text "Professional Services" ]
+        , HH.p [ HP.classes [ HH.ClassName "opacity-80 mt-2 text-sm sm:text-base px-2" ] ]
             [ HH.text "We transform blockchain ideas into production-ready solutions. Our team specializes in Cardano development, from smart contracts to full-stack dApps, with security and performance at the core."
             ]
         , HH.div [ HP.classes [ HH.ClassName "flex flex-wrap justify-center gap-2 mt-4" ] ]
@@ -744,7 +744,7 @@ renderProfessionalServicesSection buttonsList =
             , "Disaster recovery and backup solutions"
             ]
         ]
-    , HH.div [ HP.classes [ HH.ClassName "mt-6 flex justify-center gap-2" ] ] buttonsList
+    , HH.div [ HP.classes [ HH.ClassName "mt-6 flex flex-col sm:flex-row justify-center gap-2" ] ] buttonsList
     ]
   where
   badge :: forall w' i'. String -> String -> HH.HTML w' i'
@@ -770,39 +770,37 @@ renderHeroSection buttonsList =
     , HP.classes [ HH.ClassName "w-full bg-base-200" ]
     ]
     [ HH.div [ HP.classes [ HH.ClassName "hero min-h-svh" ] ]
-        [ HH.div [ HP.classes [ HH.ClassName "hero-content flex-col lg:flex-row gap-8" ] ]
-            [ HH.div [ HP.classes [ HH.ClassName "" ] ]
+        [ HH.div [ HP.classes [ HH.ClassName "hero-content flex-col lg:flex-row gap-4 sm:gap-8 px-4 sm:px-6" ] ]
+            [ HH.div [ HP.classes [ HH.ClassName "w-full lg:w-auto" ] ]
                 [ HH.div_
                     [ HH.img
                         [ HP.src "./images/E7D/SVG Vector Files/Transparent Logo.svg"
                         , HP.alt "ENTANGLED Labs Logo"
-                        , HP.classes [ HH.ClassName "max-w-xs" ]
+                        , HP.classes [ HH.ClassName "max-w-[200px] sm:max-w-xs w-full h-auto" ]
                         ]
-                    , HH.h3 [ HP.classes [ HH.ClassName "text-3xl md:text-3xl font-bold" ] ]
+                    , HH.h3 [ HP.classes [ HH.ClassName "text-xl sm:text-2xl md:text-3xl font-bold mt-2" ] ]
                         [ HH.span_
                             [ HH.text "We "
-                            , renderTextRotate "text-4xl text-success" [ " DESIGN 📐 ", " DEVELOP ⌨️ ", " DEPLOY 🌎 ", " SCALE ⬆️ ", " MAINTAIN 🔧 " ]
+                            , renderTextRotate "text-2xl sm:text-3xl md:text-4xl text-success" [ " DESIGN 📐 ", " DEVELOP ⌨️ ", " DEPLOY 🌎 ", " SCALE ⬆️ ", " MAINTAIN 🔧 " ]
                             , HH.text " for you."
                             ]
                         ]
                     ]
                 , HH.div [ HP.classes [ HH.ClassName "flex flex-wrap justify-center gap-2 mt-4" ] ]
                     [ renderHoverGallery
-                        [ "./images/logos/Cardano-RGB_Logo-Stack-Black.svg"
-                        , "./images/logos/Cardano-RGB_Logo-Stack-White.svg"
-                        , "./images/logos/Midnight-RGB_Logo-Stacked-White.svg"
-                        , "./images/logos/Midnight-RGB_Logo-Stacked-Black.svg"
-                        , "./images/logos/Cardano-RGB_Logo-Stack-Black.svg"
-                        , "./images/logos/Cardano-RGB_Logo-Stack-White.svg"
+                        [ "./images/logos/Cardano-RGB_Logo-Icon-Black.svg"
+                        , "./images/logos/Cardano-RGB_Logo-Icon-White.svg"
+                        , "./images/logos/Midnight-RGB_Symbol-White.svg"
+                        , "./images/logos/Midnight-RGB_Symbol-Black.svg"
+                        , "./images/logos/Cardano-RGB_Logo-Icon-Blue.svg"
                         , "./images/logos/bitcoin-btc-logo.svg"
-                        , "./images/logos/Cardano-RGB_Logo-Stack-Blue.svg"
                         ]
                     ]
                 , HH.div_
-                    [ HH.h1 [ HP.classes [ HH.ClassName "text-4xl md:text-5xl font-bold" ] ] [ HH.text "ENTANGLED Labs" ]
-                    , HH.p [ HP.classes [ HH.ClassName "py-4 opacity-80" ] ]
+                    [ HH.h1 [ HP.classes [ HH.ClassName "text-3xl sm:text-4xl md:text-5xl font-bold" ] ] [ HH.text "ENTANGLED Labs" ]
+                    , HH.p [ HP.classes [ HH.ClassName "py-2 sm:py-4 opacity-80 text-sm sm:text-base" ] ]
                         [ HH.text "Your trusted Cardano infrastructure & development partner" ]
-                    , HH.div [ HP.classes [ HH.ClassName "flex gap-2" ] ] buttonsList
+                    , HH.div [ HP.classes [ HH.ClassName "flex flex-col sm:flex-row gap-2 w-full sm:w-auto" ] ] buttonsList
                     ]
                 ]
             ]
@@ -817,8 +815,8 @@ renderHeroSection buttonsList =
 -- </figure>
 renderHoverGallery :: forall w i. Array String -> HH.HTML w i
 renderHoverGallery imageUrls =
-  HH.figure [ HP.classes [ HH.ClassName "hover-gallery max-w-60" ] ]
-    (map (\url -> HH.img [ HP.src url, HP.classes [ HH.ClassName "w-60 h-90 object-contain" ] ]) imageUrls)
+  HH.figure [ HP.classes [ HH.ClassName "hover-gallery max-w-[200px] sm:max-w-60 w-full" ] ]
+    (map (\url -> HH.img [ HP.src url, HP.classes [ HH.ClassName "w-full sm:w-60 h-auto sm:h-90 object-contain" ] ]) imageUrls)
 
 -- ==============================================================================
 -- POOL OVERVIEW (Static Section)
@@ -827,11 +825,11 @@ renderPoolOverviewSection :: forall w i. HH.HTML w i
 renderPoolOverviewSection =
   HH.section
     [ HP.id "pool"
-    , HP.classes [ HH.ClassName "w-full max-w-6xl mx-auto px-4 py-12" ]
+    , HP.classes [ HH.ClassName "w-full max-w-6xl mx-auto px-4 sm:px-6 py-8 sm:py-12" ]
     ]
     [ HH.div [ HP.classes [ HH.ClassName "text-center mb-6" ] ]
-        [ HH.h2 [ HP.classes [ HH.ClassName "text-3xl font-bold" ] ] [ HH.text "E7D Cardano Staking Pool" ]
-        , HH.p [ HP.classes [ HH.ClassName "opacity-80 mt-2" ] ]
+        [ HH.h2 [ HP.classes [ HH.ClassName "text-2xl sm:text-3xl font-bold" ] ] [ HH.text "E7D Cardano Staking Pool" ]
+        , HH.p [ HP.classes [ HH.ClassName "opacity-80 mt-2 text-sm sm:text-base px-2" ] ]
             [ HH.text "Secure, reliable, and community-focused staking. As a single pool operator, we're 100% dedicated to our delegators' success."
             ]
         ]
@@ -840,15 +838,15 @@ renderPoolOverviewSection =
         , stat "Competitive Fees" "More rewards in your wallet"
         , stat "Secured" "Best practices operations"
         ]
-    , HH.div [ HP.classes [ HH.ClassName "mt-6 flex justify-center gap-2" ] ]
+    , HH.div [ HP.classes [ HH.ClassName "mt-6 flex flex-col sm:flex-row justify-center gap-2" ] ]
         [ HH.a
-            [ HP.classes [ HH.ClassName "btn btn-primary" ]
+            [ HP.classes [ HH.ClassName "btn btn-primary btn-sm sm:btn-md w-full sm:w-auto" ]
             , HP.href "https://cexplorer.io/pool/pool1sj3gnahsms73uxxu43rgwczdw596en7dtsfcqf6297vzgcedquv"
             , HP.target "_blank"
             ]
             [ HH.text "See Pool Performance" ]
         , HH.a
-            [ HP.classes [ HH.ClassName "btn" ]
+            [ HP.classes [ HH.ClassName "btn btn-sm sm:btn-md w-full sm:w-auto" ]
             , HP.href "#hero"
             ]
             [ HH.text "Join us" ]
@@ -859,8 +857,8 @@ renderPoolOverviewSection =
   stat value desc =
     HH.div [ HP.classes [ HH.ClassName "card bg-base-200 shadow" ] ]
       [ HH.div [ HP.classes [ HH.ClassName "card-body items-center text-center" ] ]
-          [ HH.div [ HP.classes [ HH.ClassName "text-4xl font-bold" ] ] [ HH.text value ]
-          , HH.div [ HP.classes [ HH.ClassName "opacity-80" ] ] [ HH.text desc ]
+          [ HH.div [ HP.classes [ HH.ClassName "text-2xl sm:text-3xl md:text-4xl font-bold" ] ] [ HH.text value ]
+          , HH.div [ HP.classes [ HH.ClassName "opacity-80 text-sm sm:text-base" ] ] [ HH.text desc ]
           ]
       ]
 
@@ -869,24 +867,24 @@ renderPoolOverviewSection =
 -- ==============================================================================
 renderFooterSection :: forall w i. HH.HTML w i
 renderFooterSection =
-  HH.footer [ HP.classes [ HH.ClassName "footer footer-horizontal  bg-base-200 text-base-content p-10 mt-12" ] ]
+  HH.footer [ HP.classes [ HH.ClassName "footer footer-vertical sm:footer-horizontal bg-base-200 text-base-content p-6 sm:p-10 mt-12" ] ]
     [ HH.aside_
-        [ HH.img [ HP.src "./images/E7D/PNG Logo Files/Transparent Logo.png", HP.alt "ENTANGLED Labs", HP.classes [ HH.ClassName "w-16" ] ]
-        , HH.p_
+        [ HH.img [ HP.src "./images/E7D/PNG Logo Files/Transparent Logo.png", HP.alt "ENTANGLED Labs", HP.classes [ HH.ClassName "w-12 sm:w-16" ] ]
+        , HH.p [ HP.classes [ HH.ClassName "text-sm sm:text-base" ] ]
             [ HH.text "ENTANGLED Labs"
             , HH.br_
             , HH.text "Secure staking • Expert development • Trusted partner"
             ]
         ]
     , HH.nav_
-        [ HH.h6 [ HP.classes [ HH.ClassName "footer-title" ] ] [ HH.text "Company" ]
-        , HH.a [ HP.classes [ HH.ClassName "link link-hover" ], HP.href "#about" ] [ HH.text "About" ]
-        , HH.a [ HP.classes [ HH.ClassName "link link-hover" ], HP.href "#services" ] [ HH.text "Services" ]
-        , HH.a [ HP.classes [ HH.ClassName "link link-hover" ], HP.href "#pool" ] [ HH.text "Pool" ]
+        [ HH.h6 [ HP.classes [ HH.ClassName "footer-title text-sm sm:text-base" ] ] [ HH.text "Company" ]
+        , HH.a [ HP.classes [ HH.ClassName "link link-hover text-sm sm:text-base" ], HP.href "#about" ] [ HH.text "About" ]
+        , HH.a [ HP.classes [ HH.ClassName "link link-hover text-sm sm:text-base" ], HP.href "#services" ] [ HH.text "Services" ]
+        , HH.a [ HP.classes [ HH.ClassName "link link-hover text-sm sm:text-base" ], HP.href "#pool" ] [ HH.text "Pool" ]
         ]
     , HH.nav_
-        [ HH.h6 [ HP.classes [ HH.ClassName "footer-title" ] ] [ HH.text "Links" ]
-        , HH.a [ HP.classes [ HH.ClassName "link link-hover" ], HP.target "_blank", HP.href "https://github.com/en7angled/" ] [ HH.text "GitHub" ]
+        [ HH.h6 [ HP.classes [ HH.ClassName "footer-title text-sm sm:text-base" ] ] [ HH.text "Links" ]
+        , HH.a [ HP.classes [ HH.ClassName "link link-hover text-sm sm:text-base" ], HP.target "_blank", HP.href "https://github.com/en7angled/" ] [ HH.text "GitHub" ]
         ]
     ]
 
@@ -896,10 +894,10 @@ renderFooterSection =
 renderCexplorerPoolGraphSection :: forall w i. HH.HTML w i
 renderCexplorerPoolGraphSection =
   HH.section
-    [ HP.classes [ HH.ClassName "w-full max-w-6xl mx-auto px-4 py-12" ] ]
+    [ HP.classes [ HH.ClassName "w-full max-w-6xl mx-auto px-4 sm:px-6 py-8 sm:py-12" ] ]
     [ HH.div [ HP.classes [ HH.ClassName "text-center mb-6" ] ]
-        [ HH.h2 [ HP.classes [ HH.ClassName "text-2xl md:text-3xl font-bold" ] ] [ HH.text "Stake Pool Graph" ]
-        , HH.p [ HP.classes [ HH.ClassName "opacity-80 mt-2" ] ] [ HH.text "Real-time performance metrics and block production history" ]
+        [ HH.h2 [ HP.classes [ HH.ClassName "text-2xl sm:text-3xl font-bold" ] ] [ HH.text "Stake Pool Graph" ]
+        , HH.p [ HP.classes [ HH.ClassName "opacity-80 mt-2 text-sm sm:text-base px-2" ] ] [ HH.text "Real-time performance metrics and block production history" ]
         ]
     , HH.div [ HP.classes [ HH.ClassName "flex justify-center" ] ]
         [ HH.div [ HP.classes [ HH.ClassName "w-full max-w-4xl" ] ]
@@ -920,7 +918,7 @@ renderCexplorerPoolGraphSection =
         [ HH.a
             [ HP.href "https://cexplorer.io/pool/pool1sj3gnahsms73uxxu43rgwczdw596en7dtsfcqf6297vzgcedquv"
             , HP.target "_blank"
-            , HP.classes [ HH.ClassName "link link-hover" ]
+            , HP.classes [ HH.ClassName "link link-hover text-sm sm:text-base" ]
             ]
             [ HH.text "View detailed pool statistics →" ]
         ]

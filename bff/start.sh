@@ -5,3 +5,4 @@ set -e
 echo "Starting server..."
 exec node /app/bff/server.js
 
+

@@ -1,4 +1,6 @@
 {
+    "name": "entangled-frontend",
+    "version": "0.2.0",
     "type": "module",
     "engines": {
         "node": "v23.10.0"

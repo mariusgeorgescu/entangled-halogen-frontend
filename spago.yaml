@@ -55,4 +55,4 @@ workspace:
 
     halogen-cardano-wallet-connect-component:
       git: https://github.com/mariusgeorgescu/halogen-cardano-wallet-connect-component.git
-      ref: main
+      ref: v1.0.2

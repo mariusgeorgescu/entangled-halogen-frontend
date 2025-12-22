@@ -163,18 +163,18 @@ render _state =
     [ HP.classes [ HH.ClassName "bg-base-100 text-base-content sticky top-0 z-30 flex h-16 w-full justify-center bg-opacity-90 backdrop-blur transition-shadow duration-100 [transform:translate3d(0,0,0)] shadow-sm" ]
     ]
     [ HH.div
-        [ HP.classes [ HH.ClassName "navbar bg-neutral text-neutral-content gap-4" ] ]
-        [ HH.div [ HP.classes [ HH.ClassName "flex-1" ] ]
+        [ HP.classes [ HH.ClassName "navbar bg-neutral text-neutral-content gap-2 sm:gap-4 px-2 sm:px-4" ] ]
+        [ HH.div [ HP.classes [ HH.ClassName "flex-1 min-w-0" ] ]
             [ HH.button
-                ([ HP.classes [ HH.ClassName ("btn btn-lg btn-ghost") ], HE.onClick (\_ -> HomeButton) ])
+                ([ HP.classes [ HH.ClassName ("btn btn-sm sm:btn-md md:btn-lg btn-ghost p-1 sm:p-2") ], HE.onClick (\_ -> HomeButton) ])
                 [ HH.img
                     [ HP.src "./images/E7D/SVG Vector Files/Transparent Logo.svg"
                     , HP.alt "E7D Logo"
-                    , HP.classes [ HH.ClassName "h-20" ]
+                    , HP.classes [ HH.ClassName "h-12 sm:h-16 md:h-20 w-auto" ]
                     ]
                 ]
             ]
-        , HH.div [ HP.classes [ HH.ClassName "flex-2 flex justify-end" ] ]
+        , HH.div [ HP.classes [ HH.ClassName "flex-2 flex justify-end min-w-0" ] ]
             [ HH.slot WC.walletConnectProxy unit WC.component { buttons: customButtons, assets: { connectIcon: "./images/walletsymbol.svg", disconnectIcon: "./images/disconnectsymbol.svg" } } HandleWalletConnectOutput
             ]
         , HH.div [ HP.classes [ HH.ClassName "flex-none" ] ] []
