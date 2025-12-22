@@ -833,7 +833,7 @@ renderPoolOverviewSection maybePoolInfo =
     , HP.classes [ HH.ClassName "w-full max-w-6xl mx-auto px-4 sm:px-6 py-8 sm:py-12" ]
     ]
     [ HH.div [ HP.classes [ HH.ClassName "text-center mb-6" ] ]
-        [ HH.h2 [ HP.classes [ HH.ClassName "text-2xl sm:text-3xl font-bold" ] ] [ HH.text "E7D Cardano Staking Pool" ]
+        [ HH.h2 [ HP.classes [ HH.ClassName "text-2xl sm:text-3xl font-bold" ] ] [ HH.text "Cardano Staking Pool" ]
         , HH.p [ HP.classes [ HH.ClassName "opacity-80 mt-2 text-sm sm:text-base px-2" ] ]
             [ HH.text "Secure, reliable, and community-focused staking. As a single pool operator, we're 100% dedicated to our delegators' success."
             ]
