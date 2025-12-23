@@ -14,13 +14,18 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Simplified capability instance declarations (empty marker instances instead of verbose implementations)
 - Updated imports to use `Cardano.Capabilities` modules instead of local `Capabilities` modules
 - Updated wallet connect component import from `WalletConnect.Component` to `Components.WalletConnectComponent`
-- Refactored `App.Utils` to re-export utilities from `halogen-daisyui` library
+- Refactored `App.Utils` to only export used functions (`lovelaceToAda`, `scrollToTop`)
 - Refactored `Components.HTML.RenderUtils.App` to use library components and keep only app-specific sections
 - BFF configuration now requires all environment variables (no default values)
 - Environment variable validation with error messages on startup if values are missing
-- Added environment variable debugging output at startup (sensitive values are masked)
+- Replaced `Test.Unit.Console` with proper `Effect.Console` for runtime logging
 
 ### Added
+- SEO meta tags (title, description, keywords, author)
+- Open Graph meta tags for Facebook/LinkedIn sharing with brand cover images
+- Twitter Card meta tags for Twitter/X sharing with brand header images
+- Apple touch icon for iOS home screen
+- Theme color meta tag for mobile browser UI
 - New `purescript-halogen-daisyui` library with reusable daisyUI components:
   - Buttons (primary, secondary, accent)
   - Loading indicators (spinners, bars)
@@ -50,6 +55,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Duplicate component implementations (now in halogen-daisyui library)
 - Default fallback values for environment variables in BFF config
 - Manual `/api/pool-info/:poolId` endpoint (now handled by proxy system)
+- Unused form utilities (`withLabel`, `textInput`, `textarea`, `checkbox`, `swap`, `filter`)
+- Unused `Icons.purs` module (icons now in library or inlined)
+- `halogen-formless` dependency (no longer needed)
+- Redundant favicon links in index.html (5 → 3)
 
 ## [0.2.0] - 2024-12-19
 
