@@ -4,9 +4,9 @@
 var defaultEnv = {
   buildTxURL: "/api/delegation-service/build-tx",
   submitTxURL: "/api/delegation-service/submit-tx",
-  allowedNetworkId: 0,
-  myPoolId: "pool1rr53gk9vaxqhvm0uuvyu4yzcvuc5zxqktvcl39k9swhewvaf7t2",
-  myDRepHash: "6bec808ca4fae34548a6384e79bf18877914a04b57d5022d56007d1b",
+  allowedNetworkId: 1,
+  myPoolId: "pool1sj3gnahsms73uxxu43rgwczdw596en7dtsfcqf6297vzgcedquv",
+  myDRepHash: "70687a06149aafc3c89492b06e743a10a051327371d14f8f95e3c605",
   poolInfoURL: function(poolId) {
     return "/api/gomaestro-api/v1/pools/" + (poolId + "/info");
   }
@@ -11143,6 +11143,11 @@ var renderPrimaryButton = /* @__PURE__ */ renderButton("btn-primary btn-sm sm:bt
 var renderSecondaryButton = /* @__PURE__ */ renderButton("btn-secondary btn-sm sm:btn-md w-full sm:w-auto");
 var renderAccentButton = /* @__PURE__ */ renderButton("btn-accent btn-sm sm:btn-md w-full sm:w-auto");
 
+// output/Halogen.DaisyUI.Components.Cards/index.js
+var renderHover3DCard = function(content3) {
+  return div3([classes(["hover-3d"])])([content3, div_([]), div_([]), div_([]), div_([]), div_([]), div_([]), div_([]), div_([])]);
+};
+
 // output/Halogen.DaisyUI.Components.Carousels/index.js
 var map30 = /* @__PURE__ */ map(functorArray);
 var renderHoverGallery = function(imageUrls) {
@@ -11470,7 +11475,7 @@ var renderPoolOverviewSection = function(maybePoolInfo) {
           return "\u2014";
         }
         ;
-        throw new Error("Failed pattern match at Components.HTML.RenderUtils.App (line 210, column 7 - line 210, column 46): " + [v1.constructor.name]);
+        throw new Error("Failed pattern match at Components.HTML.RenderUtils.App (line 223, column 7 - line 223, column 46): " + [v1.constructor.name]);
       };
       var formatNumber2 = function(v1) {
         if (v1 instanceof Just) {
@@ -11492,7 +11497,7 @@ var renderPoolOverviewSection = function(maybePoolInfo) {
           return "\u2014";
         }
         ;
-        throw new Error("Failed pattern match at Components.HTML.RenderUtils.App (line 218, column 7 - line 218, column 42): " + [v1.constructor.name]);
+        throw new Error("Failed pattern match at Components.HTML.RenderUtils.App (line 234, column 7 - line 234, column 42): " + [v1.constructor.name]);
       };
       var formatAda = function(v1) {
         if (v1 instanceof Just) {
@@ -11528,7 +11533,7 @@ var renderPoolOverviewSection = function(maybePoolInfo) {
           return "\u2014";
         }
         ;
-        throw new Error("Failed pattern match at Components.HTML.RenderUtils.App (line 191, column 7 - line 191, column 42): " + [v1.constructor.name]);
+        throw new Error("Failed pattern match at Components.HTML.RenderUtils.App (line 195, column 7 - line 195, column 42): " + [v1.constructor.name]);
       };
       var allStats = [(function() {
         if (v2.value0.margin instanceof Just) {
@@ -11539,7 +11544,7 @@ var renderPoolOverviewSection = function(maybePoolInfo) {
           return Nothing.value;
         }
         ;
-        throw new Error("Failed pattern match at Components.HTML.RenderUtils.App (line 226, column 11 - line 228, column 31): " + [v2.value0.margin.constructor.name]);
+        throw new Error("Failed pattern match at Components.HTML.RenderUtils.App (line 243, column 11 - line 245, column 31): " + [v2.value0.margin.constructor.name]);
       })(), (function() {
         if (v2.value0.pledge instanceof Just) {
           return new Just(stat(formatAda(map34(lovelaceToAda)(v2.value0.pledge)))("Pledge"));
@@ -11549,7 +11554,7 @@ var renderPoolOverviewSection = function(maybePoolInfo) {
           return Nothing.value;
         }
         ;
-        throw new Error("Failed pattern match at Components.HTML.RenderUtils.App (line 229, column 11 - line 231, column 31): " + [v2.value0.pledge.constructor.name]);
+        throw new Error("Failed pattern match at Components.HTML.RenderUtils.App (line 246, column 11 - line 248, column 31): " + [v2.value0.pledge.constructor.name]);
       })(), (function() {
         if (v2.value0.fixed_cost instanceof Just) {
           return new Just(stat(formatAda(map34(lovelaceToAda)(v2.value0.fixed_cost)))("Fixed Cost"));
@@ -11559,7 +11564,7 @@ var renderPoolOverviewSection = function(maybePoolInfo) {
           return Nothing.value;
         }
         ;
-        throw new Error("Failed pattern match at Components.HTML.RenderUtils.App (line 232, column 11 - line 234, column 31): " + [v2.value0.fixed_cost.constructor.name]);
+        throw new Error("Failed pattern match at Components.HTML.RenderUtils.App (line 249, column 11 - line 251, column 31): " + [v2.value0.fixed_cost.constructor.name]);
       })(), (function() {
         if (v2.value0.live_stake instanceof Just) {
           return new Just(stat(formatAda(map34(lovelaceToAda)(v2.value0.live_stake)))("Live Stake"));
@@ -11569,7 +11574,7 @@ var renderPoolOverviewSection = function(maybePoolInfo) {
           return Nothing.value;
         }
         ;
-        throw new Error("Failed pattern match at Components.HTML.RenderUtils.App (line 235, column 11 - line 237, column 31): " + [v2.value0.live_stake.constructor.name]);
+        throw new Error("Failed pattern match at Components.HTML.RenderUtils.App (line 252, column 11 - line 254, column 31): " + [v2.value0.live_stake.constructor.name]);
       })(), (function() {
         if (v2.value0.active_stake instanceof Just) {
           return new Just(stat(formatAda(map34(lovelaceToAda)(v2.value0.active_stake)))("Active Stake"));
@@ -11579,7 +11584,7 @@ var renderPoolOverviewSection = function(maybePoolInfo) {
           return Nothing.value;
         }
         ;
-        throw new Error("Failed pattern match at Components.HTML.RenderUtils.App (line 238, column 11 - line 240, column 31): " + [v2.value0.active_stake.constructor.name]);
+        throw new Error("Failed pattern match at Components.HTML.RenderUtils.App (line 255, column 11 - line 257, column 31): " + [v2.value0.active_stake.constructor.name]);
       })(), (function() {
         if (v2.value0.delegators instanceof Just) {
           return new Just(stat(formatNumber2(v2.value0.delegators))("Delegators"));
@@ -11589,7 +11594,7 @@ var renderPoolOverviewSection = function(maybePoolInfo) {
           return Nothing.value;
         }
         ;
-        throw new Error("Failed pattern match at Components.HTML.RenderUtils.App (line 241, column 11 - line 243, column 31): " + [v2.value0.delegators.constructor.name]);
+        throw new Error("Failed pattern match at Components.HTML.RenderUtils.App (line 258, column 11 - line 260, column 31): " + [v2.value0.delegators.constructor.name]);
       })(), (function() {
         if (v2.value0.blocks instanceof Just) {
           return new Just(stat(formatNumber2(v2.value0.blocks))("Blocks Minted"));
@@ -11599,7 +11604,7 @@ var renderPoolOverviewSection = function(maybePoolInfo) {
           return Nothing.value;
         }
         ;
-        throw new Error("Failed pattern match at Components.HTML.RenderUtils.App (line 244, column 11 - line 246, column 31): " + [v2.value0.blocks.constructor.name]);
+        throw new Error("Failed pattern match at Components.HTML.RenderUtils.App (line 261, column 11 - line 263, column 31): " + [v2.value0.blocks.constructor.name]);
       })(), (function() {
         if (v2.value0.saturation instanceof Just) {
           return new Just(stat(formatPercent(new Just(v2.value0.saturation.value0)))("Saturation"));
@@ -11609,7 +11614,7 @@ var renderPoolOverviewSection = function(maybePoolInfo) {
           return Nothing.value;
         }
         ;
-        throw new Error("Failed pattern match at Components.HTML.RenderUtils.App (line 247, column 11 - line 249, column 31): " + [v2.value0.saturation.constructor.name]);
+        throw new Error("Failed pattern match at Components.HTML.RenderUtils.App (line 264, column 11 - line 266, column 31): " + [v2.value0.saturation.constructor.name]);
       })(), (function() {
         if (v2.value0.name instanceof Just) {
           return new Just(stat(v2.value0.name.value0)("Pool Name"));
@@ -11619,7 +11624,7 @@ var renderPoolOverviewSection = function(maybePoolInfo) {
           return Nothing.value;
         }
         ;
-        throw new Error("Failed pattern match at Components.HTML.RenderUtils.App (line 250, column 11 - line 252, column 31): " + [v2.value0.name.constructor.name]);
+        throw new Error("Failed pattern match at Components.HTML.RenderUtils.App (line 267, column 11 - line 269, column 31): " + [v2.value0.name.constructor.name]);
       })(), (function() {
         if (v2.value0.ticker instanceof Just) {
           return new Just(stat(v2.value0.ticker.value0)("Ticker"));
@@ -11629,7 +11634,7 @@ var renderPoolOverviewSection = function(maybePoolInfo) {
           return Nothing.value;
         }
         ;
-        throw new Error("Failed pattern match at Components.HTML.RenderUtils.App (line 253, column 11 - line 255, column 31): " + [v2.value0.ticker.constructor.name]);
+        throw new Error("Failed pattern match at Components.HTML.RenderUtils.App (line 270, column 11 - line 272, column 31): " + [v2.value0.ticker.constructor.name]);
       })()];
       var availableStats = mapMaybe(identity12)(allStats);
       var $44 = length(availableStats) > 0;
@@ -11640,7 +11645,7 @@ var renderPoolOverviewSection = function(maybePoolInfo) {
       return [stat("99.9%")("Uptime target"), stat("Competitive Fees")("More rewards in your wallet"), stat("Secured")("Best practices operations")];
     }
     ;
-    throw new Error("Failed pattern match at Components.HTML.RenderUtils.App (line 183, column 3 - line 183, column 60): " + [v2.constructor.name]);
+    throw new Error("Failed pattern match at Components.HTML.RenderUtils.App (line 186, column 3 - line 186, column 60): " + [v2.constructor.name]);
   };
   var maybePoolId = (function() {
     if (maybePoolInfo instanceof Just) {
@@ -11651,7 +11656,7 @@ var renderPoolOverviewSection = function(maybePoolInfo) {
       return Nothing.value;
     }
     ;
-    throw new Error("Failed pattern match at Components.HTML.RenderUtils.App (line 140, column 19 - line 142, column 25): " + [maybePoolInfo.constructor.name]);
+    throw new Error("Failed pattern match at Components.HTML.RenderUtils.App (line 143, column 19 - line 145, column 25): " + [maybePoolInfo.constructor.name]);
   })();
   return section([id3("pool"), classes(["w-full max-w-6xl mx-auto px-4 sm:px-6 py-8 sm:py-12"])])([div3([classes(["text-center mb-6"])])([h2([classes(["text-2xl sm:text-3xl font-bold"])])([text("Cardano Staking Pool")]), p([classes(["opacity-80 mt-2 text-sm sm:text-base px-2"])])([text("Secure, reliable, and community-focused staking. As a single pool operator, we're 100% dedicated to our delegators' success.")])]), div3([classes(["grid grid-cols-1 md:grid-cols-3 gap-4"])])(extractPoolStats(maybePoolInfo)), (function() {
     if (maybePoolId instanceof Just) {
@@ -11662,11 +11667,11 @@ var renderPoolOverviewSection = function(maybePoolInfo) {
       return text("");
     }
     ;
-    throw new Error("Failed pattern match at Components.HTML.RenderUtils.App (line 156, column 9 - line 171, column 32): " + [maybePoolId.constructor.name]);
+    throw new Error("Failed pattern match at Components.HTML.RenderUtils.App (line 159, column 9 - line 174, column 32): " + [maybePoolId.constructor.name]);
   })()]);
 };
 var renderHeroSection = function(buttonsList) {
-  return section([id3("hero"), classes(["w-full bg-base-200"])])([div3([classes(["hero min-h-svh"])])([div3([classes(["hero-content flex-col lg:flex-row gap-4 sm:gap-8 px-4 sm:px-6"])])([div3([classes(["w-full lg:w-auto"])])([div_([img([src9("./images/E7D/SVG Vector Files/Transparent Logo.svg"), alt8("ENTANGLED Labs Logo"), classes(["max-w-[200px] sm:max-w-xs w-full h-auto"])]), h3([classes(["text-xl sm:text-2xl md:text-3xl font-bold mt-2"])])([span_([text("We "), renderTextRotate("text-2xl sm:text-3xl md:text-4xl text-success")([" DESIGN \u{1F4D0} ", " DEVELOP \u2328\uFE0F ", " DEPLOY \u{1F30E} ", " SCALE \u2B06\uFE0F ", " MAINTAIN \u{1F527} "]), text(" for you.")])])]), div3([classes(["flex flex-wrap justify-center gap-2 mt-4"])])([renderHoverGallery(["./images/logos/Cardano-RGB_Logo-Icon-Black.svg", "./images/logos/Cardano-RGB_Logo-Icon-White.svg", "./images/logos/Midnight-RGB_Symbol-White.svg", "./images/logos/Midnight-RGB_Symbol-Black.svg", "./images/logos/Cardano-RGB_Logo-Icon-Blue.svg", "./images/logos/bitcoin-btc-logo.svg"])]), div_([h1([classes(["text-3xl sm:text-4xl md:text-5xl font-bold"])])([text("ENTANGLED Labs")]), p([classes(["py-2 sm:py-4 opacity-80 text-sm sm:text-base"])])([text("Your trusted Cardano infrastructure & development partner")]), div3([classes(["flex flex-col sm:flex-row gap-2 w-full sm:w-auto"])])(buttonsList)])])])])]);
+  return section([id3("hero"), classes(["w-full bg-base-200"])])([div3([classes(["hero min-h-svh"])])([div3([classes(["hero-content flex-col lg:flex-row gap-4 sm:gap-8 px-4 sm:px-6"])])([div3([classes(["w-full lg:w-auto"])])([div_([renderHover3DCard(figure([classes(["w-[320px] sm:w-[400px] md:w-[500px] lg:w-[600px] rounded-4xl"])])([img([src9("./images/E7D/SVG Vector Files/Transparent Logo.svg"), alt8("ENTANGLED Labs Logo"), classes(["w-full h-full"])])])), h3([classes(["text-xl sm:text-2xl md:text-3xl font-bold mt-2"])])([span_([text("We "), renderTextRotate("text-2xl sm:text-3xl md:text-4xl text-success")([" DESIGN \u{1F4D0} ", " DEVELOP \u2328\uFE0F ", " DEPLOY \u{1F30E} ", " SCALE \u2B06\uFE0F ", " MAINTAIN \u{1F527} "]), text(" for you.")])])]), div_([h1([classes(["text-3xl sm:text-4xl md:text-5xl font-bold"])])([text("ENTANGLED Labs")]), p([classes(["py-2 sm:py-4 opacity-80 text-sm sm:text-base"])])([text("Your trusted Cardano infrastructure & development partner")]), div3([classes(["flex flex-col sm:flex-row gap-2 w-full sm:w-auto"])])(buttonsList)]), div3([classes(["flex flex-wrap justify-center gap-2 mt-4"])])([renderHoverGallery(["./images/logos/Cardano-RGB_Logo-Icon-Black.svg", "./images/logos/Cardano-RGB_Logo-Icon-White.svg", "./images/logos/Midnight-RGB_Symbol-White.svg", "./images/logos/Midnight-RGB_Symbol-Black.svg", "./images/logos/Cardano-RGB_Logo-Icon-Blue.svg", "./images/logos/bitcoin-btc-logo.svg"])])])])])]);
 };
 var renderFooterSection = /* @__PURE__ */ footer([/* @__PURE__ */ classes(["footer footer-vertical sm:footer-horizontal bg-base-200 text-base-content p-6 sm:p-10 mt-12"])])([/* @__PURE__ */ aside_([/* @__PURE__ */ img([/* @__PURE__ */ src9("./images/E7D/PNG Logo Files/Transparent Logo.png"), /* @__PURE__ */ alt8("ENTANGLED Labs"), /* @__PURE__ */ classes(["w-12 sm:w-16"])]), /* @__PURE__ */ p([/* @__PURE__ */ classes(["text-sm sm:text-base"])])([/* @__PURE__ */ text("ENTANGLED Labs"), br_, /* @__PURE__ */ text("Secure staking \u2022 Expert development \u2022 Trusted partner")])]), /* @__PURE__ */ nav_([/* @__PURE__ */ h6([/* @__PURE__ */ classes(["footer-title text-sm sm:text-base"])])([/* @__PURE__ */ text("Company")]), /* @__PURE__ */ a([/* @__PURE__ */ classes(["link link-hover text-sm sm:text-base"]), /* @__PURE__ */ href4("#about")])([/* @__PURE__ */ text("About")]), /* @__PURE__ */ a([/* @__PURE__ */ classes(["link link-hover text-sm sm:text-base"]), /* @__PURE__ */ href4("#services")])([/* @__PURE__ */ text("Services")]), /* @__PURE__ */ a([/* @__PURE__ */ classes(["link link-hover text-sm sm:text-base"]), /* @__PURE__ */ href4("#pool")])([/* @__PURE__ */ text("Pool")])]), /* @__PURE__ */ nav_([/* @__PURE__ */ h6([/* @__PURE__ */ classes(["footer-title text-sm sm:text-base"])])([/* @__PURE__ */ text("Links")]), /* @__PURE__ */ a([/* @__PURE__ */ classes(["link link-hover text-sm sm:text-base"]), /* @__PURE__ */ target5("_blank"), /* @__PURE__ */ href4("https://github.com/en7angled/")])([/* @__PURE__ */ text("GitHub")])])]);
 var renderFabFlower = /* @__PURE__ */ (function() {

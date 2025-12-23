@@ -723,7 +723,7 @@
       },
       "halogen-daisyui": {
         "git": "https://github.com/mariusgeorgescu/purescript-halogen-daisyui.git",
-        "ref": "c1e12943bc90a12f4fae82186c046f699cedd20d"
+        "ref": "e76af1c88ee4d730bc6ec3386c4cd0f905817e0d"
       }
     }
   },
@@ -1405,7 +1405,7 @@
     "halogen-daisyui": {
       "type": "git",
       "url": "https://github.com/mariusgeorgescu/purescript-halogen-daisyui.git",
-      "rev": "c1e12943bc90a12f4fae82186c046f699cedd20d",
+      "rev": "e76af1c88ee4d730bc6ec3386c4cd0f905817e0d",
       "dependencies": [
         "arrays",
         "datetime",

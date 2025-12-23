@@ -23,7 +23,7 @@ workspace:
   extraPackages:
     halogen-daisyui:
       git: https://github.com/mariusgeorgescu/purescript-halogen-daisyui.git
-      ref: c1e12943bc90a12f4fae82186c046f699cedd20d
+      ref: e76af1c88ee4d730bc6ec3386c4cd0f905817e0d
 
     cardano-capabilities:
       git: https://github.com/mariusgeorgescu/purescript-cardano-capabilities.git

@@ -1,5 +1,5 @@
 module Components.HTML.RenderUtils.App
-  ( -- Re-export library components
+  ( -- Re-export library components  
     module Halogen.DaisyUI.Components
   -- App-specific sections
   , renderProfessionalServicesSection
@@ -10,7 +10,6 @@ module Components.HTML.RenderUtils.App
   ) where
 
 import Prelude
-
 import App.Utils (lovelaceToAda)
 import Cardano.Capabilities (PoolInfo(..))
 import Data.Array (mapMaybe, length)
@@ -97,11 +96,15 @@ renderHeroSection buttonsList =
         [ HH.div [ HP.classes [ HH.ClassName "hero-content flex-col lg:flex-row gap-4 sm:gap-8 px-4 sm:px-6" ] ]
             [ HH.div [ HP.classes [ HH.ClassName "w-full lg:w-auto" ] ]
                 [ HH.div_
-                    [ HH.img
-                        [ HP.src "./images/E7D/SVG Vector Files/Transparent Logo.svg"
-                        , HP.alt "ENTANGLED Labs Logo"
-                        , HP.classes [ HH.ClassName "max-w-[200px] sm:max-w-xs w-full h-auto" ]
-                        ]
+                    [ renderHover3DCard
+                        ( HH.figure [ HP.classes [ HH.ClassName "w-[320px] sm:w-[400px] md:w-[500px] lg:w-[600px] rounded-4xl" ] ]
+                            [ HH.img
+                                [ HP.src "./images/E7D/SVG Vector Files/Transparent Logo.svg"
+                                , HP.alt "ENTANGLED Labs Logo"
+                                , HP.classes [ HH.ClassName "w-full h-full" ]
+                                ]
+                            ]
+                        )
                     , HH.h3 [ HP.classes [ HH.ClassName "text-xl sm:text-2xl md:text-3xl font-bold mt-2" ] ]
                         [ HH.span_
                             [ HH.text "We "
@@ -109,6 +112,12 @@ renderHeroSection buttonsList =
                             , HH.text " for you."
                             ]
                         ]
+                    ]
+                , HH.div_
+                    [ HH.h1 [ HP.classes [ HH.ClassName "text-3xl sm:text-4xl md:text-5xl font-bold" ] ] [ HH.text "ENTANGLED Labs" ]
+                    , HH.p [ HP.classes [ HH.ClassName "py-2 sm:py-4 opacity-80 text-sm sm:text-base" ] ]
+                        [ HH.text "Your trusted Cardano infrastructure & development partner" ]
+                    , HH.div [ HP.classes [ HH.ClassName "flex flex-col sm:flex-row gap-2 w-full sm:w-auto" ] ] buttonsList
                     ]
                 , HH.div [ HP.classes [ HH.ClassName "flex flex-wrap justify-center gap-2 mt-4" ] ]
                     [ renderHoverGallery
@@ -119,12 +128,6 @@ renderHeroSection buttonsList =
                         , "./images/logos/Cardano-RGB_Logo-Icon-Blue.svg"
                         , "./images/logos/bitcoin-btc-logo.svg"
                         ]
-                    ]
-                , HH.div_
-                    [ HH.h1 [ HP.classes [ HH.ClassName "text-3xl sm:text-4xl md:text-5xl font-bold" ] ] [ HH.text "ENTANGLED Labs" ]
-                    , HH.p [ HP.classes [ HH.ClassName "py-2 sm:py-4 opacity-80 text-sm sm:text-base" ] ]
-                        [ HH.text "Your trusted Cardano infrastructure & development partner" ]
-                    , HH.div [ HP.classes [ HH.ClassName "flex flex-col sm:flex-row gap-2 w-full sm:w-auto" ] ] buttonsList
                     ]
                 ]
             ]
@@ -181,48 +184,62 @@ renderPoolOverviewSection maybePoolInfo =
       ]
 
   extractPoolStats :: Maybe PoolInfo -> Array (HH.HTML w i)
-  extractPoolStats Nothing = 
+  extractPoolStats Nothing =
     [ stat "99.9%" "Uptime target"
     , stat "Competitive Fees" "More rewards in your wallet"
     , stat "Secured" "Best practices operations"
     ]
-  extractPoolStats (Just (PoolInfo poolInfo)) = 
+
+  extractPoolStats (Just (PoolInfo poolInfo)) =
     let
       formatAda :: Maybe Number -> String
-      formatAda (Just n) 
-        | n >= 1_000_000.0 = 
-            let millions = n / 1_000_000.0
-            in if millions >= 100.0 then
+      formatAda (Just n)
+        | n >= 1_000_000.0 =
+          let
+            millions = n / 1_000_000.0
+          in
+            if millions >= 100.0 then
               show (floor millions) <> "M ₳"
             else
-              let rounded = floor (millions * 10.0) / 10.0
-              in show rounded <> "M ₳"
-        | n >= 1_000.0 = 
-            let thousands = n / 1_000.0
-            in if thousands >= 100.0 then
+              let
+                rounded = floor (millions * 10.0) / 10.0
+              in
+                show rounded <> "M ₳"
+        | n >= 1_000.0 =
+          let
+            thousands = n / 1_000.0
+          in
+            if thousands >= 100.0 then
               show (floor thousands) <> "K ₳"
             else
-              let rounded = floor (thousands * 10.0) / 10.0
-              in show rounded <> "K ₳"
+              let
+                rounded = floor (thousands * 10.0) / 10.0
+              in
+                show rounded <> "K ₳"
         | otherwise = show (floor n) <> " ₳"
+
       formatAda Nothing = "—"
-      
+
       formatPercent :: Maybe Number -> String
-      formatPercent (Just n) 
+      formatPercent (Just n)
         | n >= 1.0 = show (n) <> "%"
-        | otherwise = 
-            let rounded = floor (n * 100.0) / 100.0
-            in show rounded <> "%"
+        | otherwise =
+          let
+            rounded = floor (n * 100.0) / 100.0
+          in
+            show rounded <> "%"
+
       formatPercent Nothing = "—"
-      
+
       formatNumber :: Maybe Int -> String
-      formatNumber (Just n) 
+      formatNumber (Just n)
         | n >= 1_000_000 = show (floor (toNumber n / 1_000_000.0)) <> "M"
         | n >= 1_000 = show (floor (toNumber n / 1_000.0)) <> "K"
         | otherwise = show n
+
       formatNumber Nothing = "—"
-      
-      allStats = 
+
+      allStats =
         [ case poolInfo.margin of
             Just m -> Just $ stat (formatPercent $ Just (m * 100.0)) "Margin"
             Nothing -> Nothing
@@ -245,7 +262,7 @@ renderPoolOverviewSection maybePoolInfo =
             Just _ -> Just $ stat (formatNumber poolInfo.blocks) "Blocks Minted"
             Nothing -> Nothing
         , case poolInfo.saturation of
-            Just s -> Just $ stat (formatPercent $ Just (s )) "Saturation"
+            Just s -> Just $ stat (formatPercent $ Just (s)) "Saturation"
             Nothing -> Nothing
         , case poolInfo.name of
             Just n -> Just $ stat n "Pool Name"
@@ -254,7 +271,7 @@ renderPoolOverviewSection maybePoolInfo =
             Just t -> Just $ stat t "Ticker"
             Nothing -> Nothing
         ]
-      
+
       availableStats = mapMaybe identity allStats
     in
       if length availableStats > 0 then
