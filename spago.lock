@@ -5,31 +5,16 @@
         "path": "./",
         "core": {
           "dependencies": [
-            "affjax",
-            "affjax-web",
             "argonaut-aeson-generic",
-            "b64",
             "cardano-capabilities",
-            "cardano-serialization-lib",
-            "cip30",
-            "cip30-typesafe",
             "console",
             "effect",
-            "formatters",
             "halogen",
             "halogen-cardano-wallet-connect-component",
+            "halogen-daisyui",
             "halogen-formless",
             "halogen-store",
-            "halogen-svg-elems",
-            "js-date",
-            "node-buffer",
-            "prelude",
-            "profunctor-lenses",
-            "remotedata",
-            "stringutils",
-            "web-cssom-view",
-            "web-events",
-            "web-storage"
+            "prelude"
           ],
           "build_plan": [
             "aff",
@@ -45,7 +30,6 @@
             "arrays",
             "assert",
             "avar",
-            "b64",
             "bifunctors",
             "cardano-capabilities",
             "cardano-serialization-lib",
@@ -62,7 +46,6 @@
             "dom-indexed",
             "effect",
             "either",
-            "encoding",
             "enums",
             "exceptions",
             "exists",
@@ -80,6 +63,7 @@
             "gen",
             "halogen",
             "halogen-cardano-wallet-connect-component",
+            "halogen-daisyui",
             "halogen-formless",
             "halogen-hooks",
             "halogen-store",
@@ -103,7 +87,6 @@
             "media-types",
             "mmorph",
             "newtype",
-            "node-buffer",
             "nonempty",
             "now",
             "nullable",
@@ -122,12 +105,10 @@
             "random",
             "record",
             "refs",
-            "remotedata",
             "safe-coerce",
             "spec",
             "st",
             "strings",
-            "stringutils",
             "tailrec",
             "test-unit",
             "transformers",
@@ -141,11 +122,9 @@
             "untagged-union",
             "variant",
             "web-clipboard",
-            "web-cssom-view",
             "web-dom",
             "web-events",
             "web-file",
-            "web-geometry",
             "web-html",
             "web-pointerevents",
             "web-storage",
@@ -742,6 +721,10 @@
       "halogen-cardano-wallet-connect-component": {
         "git": "https://github.com/mariusgeorgescu/halogen-cardano-wallet-connect-component.git",
         "ref": "b17a2e7dbebe4efeb1ead9e98e990df183f41e7a"
+      },
+      "halogen-daisyui": {
+        "git": "https://github.com/mariusgeorgescu/purescript-halogen-daisyui.git",
+        "ref": "c1e12943bc90a12f4fae82186c046f699cedd20d"
       }
     }
   },
@@ -938,22 +921,6 @@
         "exceptions",
         "functions",
         "maybe"
-      ]
-    },
-    "b64": {
-      "type": "registry",
-      "version": "0.0.8",
-      "integrity": "sha256-3QkOhnewZIqhfn0wIU6Zde6Q/LfrS59kgSOcQQaG0gM=",
-      "dependencies": [
-        "arraybuffer-types",
-        "either",
-        "encoding",
-        "enums",
-        "exceptions",
-        "functions",
-        "partial",
-        "prelude",
-        "strings"
       ]
     },
     "bifunctors": {
@@ -1172,19 +1139,6 @@
         "control",
         "invariant",
         "maybe",
-        "prelude"
-      ]
-    },
-    "encoding": {
-      "type": "registry",
-      "version": "0.0.9",
-      "integrity": "sha256-vtyUO06Jww8pFl4wRekPd1YpJl2XuQXcaNXQgHtG8Tk=",
-      "dependencies": [
-        "arraybuffer-types",
-        "effect",
-        "either",
-        "exceptions",
-        "functions",
         "prelude"
       ]
     },
@@ -1447,6 +1401,27 @@
         "prelude",
         "strings",
         "tuples"
+      ]
+    },
+    "halogen-daisyui": {
+      "type": "git",
+      "url": "https://github.com/mariusgeorgescu/purescript-halogen-daisyui.git",
+      "rev": "c1e12943bc90a12f4fae82186c046f699cedd20d",
+      "dependencies": [
+        "arrays",
+        "datetime",
+        "effect",
+        "either",
+        "formatters",
+        "halogen",
+        "halogen-formless",
+        "halogen-svg-elems",
+        "maybe",
+        "numbers",
+        "prelude",
+        "strings",
+        "tuples",
+        "web-html"
       ]
     },
     "halogen-formless": {
@@ -1758,19 +1733,6 @@
         "safe-coerce"
       ]
     },
-    "node-buffer": {
-      "type": "registry",
-      "version": "9.0.0",
-      "integrity": "sha256-PWE2DJ5ruBLCmeA/fUiuySEFmUJ/VuRfyrnCuVZBlu4=",
-      "dependencies": [
-        "arraybuffer-types",
-        "effect",
-        "maybe",
-        "nullable",
-        "st",
-        "unsafe-coerce"
-      ]
-    },
     "nonempty": {
       "type": "registry",
       "version": "7.0.0",
@@ -2029,21 +1991,6 @@
         "prelude"
       ]
     },
-    "remotedata": {
-      "type": "registry",
-      "version": "5.0.1",
-      "integrity": "sha256-walmE3/UPfXxuGjQTkL47ZOdp8yKoRY+lOAaAqYaMFQ=",
-      "dependencies": [
-        "bifunctors",
-        "effect",
-        "either",
-        "foldable-traversable",
-        "maybe",
-        "prelude",
-        "profunctor-lenses",
-        "transformers"
-      ]
-    },
     "safe-coerce": {
       "type": "registry",
       "version": "2.0.0",
@@ -2118,19 +2065,6 @@
         "tuples",
         "unfoldable",
         "unsafe-coerce"
-      ]
-    },
-    "stringutils": {
-      "type": "registry",
-      "version": "0.0.12",
-      "integrity": "sha256-t63QWBlp49U0nRqUcFryKflSJsNKGTQAHKjn24/+ooI=",
-      "dependencies": [
-        "arrays",
-        "integers",
-        "maybe",
-        "partial",
-        "prelude",
-        "strings"
       ]
     },
     "tailrec": {
@@ -2290,17 +2224,6 @@
         "web-html"
       ]
     },
-    "web-cssom-view": {
-      "type": "registry",
-      "version": "0.1.0",
-      "integrity": "sha256-HCf22KSNnIjOLcfKCA4ef1L/46Mda/94eA8cVROmJsM=",
-      "dependencies": [
-        "aff",
-        "web-events",
-        "web-geometry",
-        "web-html"
-      ]
-    },
     "web-dom": {
       "type": "registry",
       "version": "6.0.0",
@@ -2329,12 +2252,6 @@
         "media-types",
         "web-dom"
       ]
-    },
-    "web-geometry": {
-      "type": "registry",
-      "version": "0.1.0",
-      "integrity": "sha256-yWJtkoPUcbS/RtU4abYvHlWol5YBMK6hGC7HGCICwwM=",
-      "dependencies": []
     },
     "web-html": {
       "type": "registry",

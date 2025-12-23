@@ -8,7 +8,7 @@ import AppTypes (DelegationAction(..))
 import Cardano.Capabilities.Wallet.MonadCIP30 (class MonadCIP30)
 import Cardano.Capabilities (PoolInfo, class MonadCardanoQuery, fetchPoolInfo, class MonadInteraction, buildTransaction, signTransaction, submitTransaction)
 import Cardano.Wallet.Cip30 as Cardano.Wallet.Cip30
-import Components.HTML.RenderUtils.App (renderAccentButton, renderCexplorerPoolGraphSection, renderFabFlower, renderFooterSection, renderHeroSection, renderPoolOverviewSection, renderPrimaryButton, renderProfessionalServicesSection, renderSecondaryButton, renderToasts) as RU
+import Components.HTML.RenderUtils.App (renderAccentButton, renderFabFlower, renderFooterSection, renderHeroSection, renderPoolOverviewSection, renderPrimaryButton, renderProfessionalServicesSection, renderSecondaryButton, renderToasts) as RU
 import Components.NavBar as NavBar
 import Components.Portfolio as Portfolio
 import Control.Monad.Reader.Class (class MonadAsk, ask, asks)

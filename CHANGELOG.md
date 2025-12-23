@@ -9,15 +9,36 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 - Migrated to external `purescript-cardano-capabilities` library from GitHub
+- Migrated to external `purescript-halogen-daisyui` library 
 - Updated to use latest `halogen-cardano-wallet-connect-component` from GitHub
 - Simplified capability instance declarations (empty marker instances instead of verbose implementations)
 - Updated imports to use `Cardano.Capabilities` modules instead of local `Capabilities` modules
 - Updated wallet connect component import from `WalletConnect.Component` to `Components.WalletConnectComponent`
+- Refactored `App.Utils` to re-export utilities from `halogen-daisyui` library
+- Refactored `Components.HTML.RenderUtils.App` to use library components and keep only app-specific sections
 - BFF configuration now requires all environment variables (no default values)
 - Environment variable validation with error messages on startup if values are missing
 - Added environment variable debugging output at startup (sensitive values are masked)
 
 ### Added
+- New `purescript-halogen-daisyui` library with reusable daisyUI components:
+  - Buttons (primary, secondary, accent)
+  - Loading indicators (spinners, bars)
+  - Tooltips (all positions)
+  - Toasts (with icons)
+  - Modals
+  - Dividers (horizontal, vertical)
+  - Stats
+  - Tables
+  - Cards (with image overlays)
+  - Carousels and hover galleries
+  - Accordions
+  - Links
+  - Footer helpers
+  - Filters
+  - Text rotation animations
+- Utility functions in library: string manipulation, number formatting, date formatting, array helpers, DOM scroll operations
+- Form field types compatible with halogen-formless
 - Support for API key authentication in proxy routes (in addition to Basic Auth)
 - Integrated gomaestro-api service into proxy system with API key authentication
 - Environment variable logging at server startup for debugging purposes
@@ -25,6 +46,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Removed
 - Local `MonadInteraction` and `MonadCardanoQuery` capability implementations
 - Manual `MonadCIP30` instance implementation (now automatically provided by library)
+- Duplicate utility functions (now in halogen-daisyui library)
+- Duplicate component implementations (now in halogen-daisyui library)
 - Default fallback values for environment variables in BFF config
 - Manual `/api/pool-info/:poolId` endpoint (now handled by proxy system)
 
