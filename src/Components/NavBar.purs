@@ -16,7 +16,7 @@ import Halogen.Store.Connect (Connected, connect)
 import Halogen.Store.Monad (class MonadStore, updateStore)
 import Halogen.Store.Select (selectAll)
 import Store as Store
-import Test.Unit.Console (consoleLog)
+import Effect.Console (log) as Console
 import Type.Proxy (Proxy(..))
 import Components.WalletConnectComponent as WC
 
@@ -126,7 +126,7 @@ handleAction = case _ of
           env <- ask
           currentNetworkId <- getNetworkId api
           if (currentNetworkId /= env.allowedNetworkId) then do
-            H.liftEffect $ consoleLog $ show $ "Invalid network: " <> show currentNetworkId <> " <> " <> show env.allowedNetworkId
+            H.liftEffect $ Console.log $ show $ "Invalid network: " <> show currentNetworkId <> " <> " <> show env.allowedNetworkId
             void $ H.query WC.walletConnectProxy unit (WC.DisconnectWalletQuery unit)
             handleAction (HandleWalletConnectOutput WC.WalletDisconnectedEvent)
             H.raise $ InvalidNetworkEvent currentNetworkId
@@ -137,7 +137,7 @@ handleAction = case _ of
       updateStore Store.Disconnect
       H.raise WalletConnectEvent
     WC.CustomButtonEvent bid -> do
-      H.liftEffect $ consoleLog $ show bid
+      H.liftEffect $ Console.log $ show bid
       case bid of
         "home" -> H.raise HomeEvent
         userAction
@@ -145,10 +145,10 @@ handleAction = case _ of
             walletApi <- H.gets _.walletApi
             case walletApi of
               Just api -> do
-                H.liftEffect $ consoleLog $ show $ "DelegateEvent: " <> userAction
+                H.liftEffect $ Console.log $ show $ "DelegateEvent: " <> userAction
                 H.raise $ BuildTransactionEvent userAction api
               Nothing -> pure unit
-        _ -> H.liftEffect $ consoleLog $ show "Unknown button event"
+        _ -> H.liftEffect $ Console.log $ show "Unknown button event"
   HomeButton -> H.raise HomeEvent
 
 --------------------------------------------------------------------------------

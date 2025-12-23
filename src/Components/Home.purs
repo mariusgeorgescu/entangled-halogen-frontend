@@ -29,7 +29,7 @@ import Halogen.HTML as HH
 import Halogen.Store.Monad (class MonadStore)
 import Halogen.Subscription as HS
 import Store as Store
-import Test.Unit.Console (consoleLog)
+import Effect.Console (log) as Console
 
 --------------------------------------------------------------------------------
 -- * Utils
@@ -161,13 +161,13 @@ handleAction action = case action of
       Right poolInfo -> do
         handleAction $ PoolInfoReceived $ Right poolInfo
       Left err -> do
-        H.liftEffect $ consoleLog $ "Failed to fetch pool info: " <> err
+        H.liftEffect $ Console.log $ "Failed to fetch pool info: " <> err
         handleAction $ PoolInfoReceived $ Left err
   PoolInfoReceived (Right poolInfo) -> do
     H.modify_ _ { poolInfo = Just poolInfo }
-    H.liftEffect $ consoleLog $ "Pool info received successfully"
+    H.liftEffect $ Console.log $ "Pool info received successfully"
   PoolInfoReceived (Left err) -> do
-    H.liftEffect $ consoleLog $ "Failed to fetch pool info: " <> err
+    H.liftEffect $ Console.log $ "Failed to fetch pool info: " <> err
     -- Don't show error to user, just log it
   Tick -> do
     ct <- unwrap <<< unInstant <$> H.liftEffect now
@@ -193,7 +193,7 @@ handleAction action = case action of
 
       Left err -> do
         H.modify_ \s -> s { toasts = txConfirmedFailedToast err `cons` s.toasts }
-    H.liftEffect $ consoleLog $ show submitResult
+    H.liftEffect $ Console.log $ show submitResult
     pure unit
   HandleNavBarOutput navbarout -> case navbarout of
     NavBar.HomeEvent -> do
@@ -202,7 +202,7 @@ handleAction action = case action of
       env <- ask  
       delegationAction <- parseDelegationAction userAction env
       buildResult <- buildTransaction env api delegationAction
-      H.liftEffect $ consoleLog $ show buildResult
+      H.liftEffect $ Console.log $ show buildResult
       case buildResult of
         Right txCbor -> do
           H.modify_ \s -> s { toasts = txBuildSuccessToast `cons` s.toasts }
