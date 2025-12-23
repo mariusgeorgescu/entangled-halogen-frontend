@@ -111,10 +111,10 @@ var map = function(dict) {
   return dict.map;
 };
 var mapFlipped = function(dictFunctor) {
-  var map116 = map(dictFunctor);
+  var map115 = map(dictFunctor);
   return function(fa) {
     return function(f) {
-      return map116(f)(fa);
+      return map115(f)(fa);
     };
   };
 };
@@ -122,17 +122,17 @@ var $$void = function(dictFunctor) {
   return map(dictFunctor)($$const(unit));
 };
 var voidLeft = function(dictFunctor) {
-  var map116 = map(dictFunctor);
+  var map115 = map(dictFunctor);
   return function(f) {
     return function(x) {
-      return map116($$const(x))(f);
+      return map115($$const(x))(f);
     };
   };
 };
 var voidRight = function(dictFunctor) {
-  var map116 = map(dictFunctor);
+  var map115 = map(dictFunctor);
   return function(x) {
-    return map116($$const(x));
+    return map115($$const(x));
   };
 };
 var functorFn = {
@@ -155,19 +155,19 @@ var apply = function(dict) {
 };
 var applyFirst = function(dictApply) {
   var apply1 = apply(dictApply);
-  var map42 = map(dictApply.Functor0());
+  var map45 = map(dictApply.Functor0());
   return function(a3) {
     return function(b2) {
-      return apply1(map42($$const)(a3))(b2);
+      return apply1(map45($$const)(a3))(b2);
     };
   };
 };
 var applySecond = function(dictApply) {
   var apply1 = apply(dictApply);
-  var map42 = map(dictApply.Functor0());
+  var map45 = map(dictApply.Functor0());
   return function(a3) {
     return function(b2) {
-      return apply1(map42($$const(identity2))(a3))(b2);
+      return apply1(map45($$const(identity2))(a3))(b2);
     };
   };
 };
@@ -1021,10 +1021,10 @@ var catchError = function(dict) {
 var $$try = function(dictMonadError) {
   var catchError1 = catchError(dictMonadError);
   var Monad0 = dictMonadError.MonadThrow0().Monad0();
-  var map42 = map(Monad0.Bind1().Apply0().Functor0());
+  var map45 = map(Monad0.Bind1().Apply0().Functor0());
   var pure23 = pure(Monad0.Applicative0());
   return function(a3) {
-    return catchError1(map42(Right.create)(a3))(function($52) {
+    return catchError1(map45(Right.create)(a3))(function($52) {
       return pure23(Left.create($52));
     });
   };
@@ -1035,10 +1035,10 @@ var ask = function(dict) {
   return dict.ask;
 };
 var asks = function(dictMonadAsk) {
-  var map42 = map(dictMonadAsk.Monad0().Bind1().Apply0().Functor0());
+  var map45 = map(dictMonadAsk.Monad0().Bind1().Apply0().Functor0());
   var ask1 = ask(dictMonadAsk);
   return function(f) {
-    return map42(f)(ask1);
+    return map45(f)(ask1);
   };
 };
 
@@ -2096,7 +2096,7 @@ var traverseArrayImpl = /* @__PURE__ */ (function() {
     };
   }
   return function(apply4) {
-    return function(map42) {
+    return function(map45) {
       return function(pure23) {
         return function(f) {
           return function(array) {
@@ -2105,14 +2105,14 @@ var traverseArrayImpl = /* @__PURE__ */ (function() {
                 case 0:
                   return pure23([]);
                 case 1:
-                  return map42(array1)(f(array[bot]));
+                  return map45(array1)(f(array[bot]));
                 case 2:
-                  return apply4(map42(array2)(f(array[bot])))(f(array[bot + 1]));
+                  return apply4(map45(array2)(f(array[bot])))(f(array[bot + 1]));
                 case 3:
-                  return apply4(apply4(map42(array3)(f(array[bot])))(f(array[bot + 1])))(f(array[bot + 2]));
+                  return apply4(apply4(map45(array3)(f(array[bot])))(f(array[bot + 1])))(f(array[bot + 2]));
                 default:
                   var pivot = bot + Math.floor((top3 - bot) / 4) * 2;
-                  return apply4(map42(concat2)(go2(bot, pivot)))(go2(pivot, top3));
+                  return apply4(map45(concat2)(go2(bot, pivot)))(go2(pivot, top3));
               }
             }
             return go2(0, array.length);
@@ -2131,7 +2131,7 @@ var traverse = function(dict) {
 var traversableMaybe = {
   traverse: function(dictApplicative) {
     var pure23 = pure(dictApplicative);
-    var map42 = map(dictApplicative.Apply0().Functor0());
+    var map45 = map(dictApplicative.Apply0().Functor0());
     return function(v2) {
       return function(v1) {
         if (v1 instanceof Nothing) {
@@ -2139,7 +2139,7 @@ var traversableMaybe = {
         }
         ;
         if (v1 instanceof Just) {
-          return map42(Just.create)(v2(v1.value0));
+          return map45(Just.create)(v2(v1.value0));
         }
         ;
         throw new Error("Failed pattern match at Data.Traversable (line 115, column 1 - line 119, column 33): " + [v2.constructor.name, v1.constructor.name]);
@@ -2148,14 +2148,14 @@ var traversableMaybe = {
   },
   sequence: function(dictApplicative) {
     var pure23 = pure(dictApplicative);
-    var map42 = map(dictApplicative.Apply0().Functor0());
+    var map45 = map(dictApplicative.Apply0().Functor0());
     return function(v2) {
       if (v2 instanceof Nothing) {
         return pure23(Nothing.value);
       }
       ;
       if (v2 instanceof Just) {
-        return map42(Just.create)(v2.value0);
+        return map45(Just.create)(v2.value0);
       }
       ;
       throw new Error("Failed pattern match at Data.Traversable (line 115, column 1 - line 119, column 33): " + [v2.constructor.name]);
@@ -3556,10 +3556,10 @@ var mapExceptT = function(f) {
   };
 };
 var functorExceptT = function(dictFunctor) {
-  var map116 = map(dictFunctor);
+  var map115 = map(dictFunctor);
   return {
     map: function(f) {
-      return mapExceptT(map116(map5(f)));
+      return mapExceptT(map115(map5(f)));
     }
   };
 };
@@ -6819,18 +6819,18 @@ var hoistFree = function(k) {
 };
 var foldFree = function(dictMonadRec) {
   var Monad0 = dictMonadRec.Monad0();
-  var map116 = map(Monad0.Bind1().Apply0().Functor0());
+  var map115 = map(Monad0.Bind1().Apply0().Functor0());
   var pure111 = pure(Monad0.Applicative0());
   var tailRecM4 = tailRecM(dictMonadRec);
   return function(k) {
     var go2 = function(f) {
       var v2 = toView(f);
       if (v2 instanceof Return) {
-        return map116(Done.create)(pure111(v2.value0));
+        return map115(Done.create)(pure111(v2.value0));
       }
       ;
       if (v2 instanceof Bind) {
-        return map116(function($199) {
+        return map115(function($199) {
           return Loop.create(v2.value1($199));
         })(k(v2.value0));
       }
@@ -7827,6 +7827,69 @@ var monadCardanoQueryAppM = {
   }
 };
 
+// output/Web.HTML/foreign.js
+var windowImpl = function() {
+  return window;
+};
+
+// output/Web.HTML.HTMLDocument/foreign.js
+function _readyState(doc) {
+  return doc.readyState;
+}
+
+// output/Web.HTML.HTMLDocument.ReadyState/index.js
+var Loading = /* @__PURE__ */ (function() {
+  function Loading2() {
+  }
+  ;
+  Loading2.value = new Loading2();
+  return Loading2;
+})();
+var Interactive = /* @__PURE__ */ (function() {
+  function Interactive2() {
+  }
+  ;
+  Interactive2.value = new Interactive2();
+  return Interactive2;
+})();
+var Complete = /* @__PURE__ */ (function() {
+  function Complete2() {
+  }
+  ;
+  Complete2.value = new Complete2();
+  return Complete2;
+})();
+var parse = function(v2) {
+  if (v2 === "loading") {
+    return new Just(Loading.value);
+  }
+  ;
+  if (v2 === "interactive") {
+    return new Just(Interactive.value);
+  }
+  ;
+  if (v2 === "complete") {
+    return new Just(Complete.value);
+  }
+  ;
+  return Nothing.value;
+};
+
+// output/Web.HTML.HTMLDocument/index.js
+var map18 = /* @__PURE__ */ map(functorEffect);
+var toParentNode = unsafeCoerce2;
+var toDocument = unsafeCoerce2;
+var readyState = function(doc) {
+  return map18((function() {
+    var $4 = fromMaybe(Loading.value);
+    return function($5) {
+      return $4(parse($5));
+    };
+  })())(function() {
+    return _readyState(doc);
+  });
+};
+
 // output/Data.Enum/foreign.js
 function toCharCode(c2) {
   return c2.charCodeAt(0);
@@ -7912,359 +7975,87 @@ var boundedEnumChar = /* @__PURE__ */ (function() {
   };
 })();
 
-// output/Data.DateTime.Instant/index.js
-var unInstant = function(v2) {
-  return v2;
+// output/Web.HTML.Window/foreign.js
+function document(window2) {
+  return function() {
+    return window2.document;
+  };
+}
+function scroll(xCoord) {
+  return function(yCoord) {
+    return function(window2) {
+      return function() {
+        window2.scroll(xCoord, yCoord);
+      };
+    };
+  };
+}
+
+// output/Web.HTML.Window/index.js
+var toEventTarget = unsafeCoerce2;
+
+// output/Halogen.DaisyUI.Utils.DOM/index.js
+var scrollToTop = function __do2() {
+  var win = windowImpl();
+  return scroll(0)(0)(win)();
 };
 
-// output/Data.Formatter.Internal/index.js
-var repeat = function(dictMonoid) {
-  var append7 = append(dictMonoid.Semigroup0());
-  var repeat$prime = function($copy_v) {
-    return function($copy_v1) {
-      return function($copy_v2) {
-        var $tco_var_v = $copy_v;
-        var $tco_var_v1 = $copy_v1;
-        var $tco_done = false;
-        var $tco_result;
-        function $tco_loop(v2, v1, v22) {
-          if (v22 < 1) {
-            $tco_done = true;
-            return v2;
-          }
-          ;
-          $tco_var_v = append7(v2)(v1);
-          $tco_var_v1 = v1;
-          $copy_v2 = v22 - 1 | 0;
-          return;
-        }
-        ;
-        while (!$tco_done) {
-          $tco_result = $tco_loop($tco_var_v, $tco_var_v1, $copy_v2);
-        }
-        ;
-        return $tco_result;
-      };
-    };
-  };
-  return repeat$prime(mempty(dictMonoid));
+// output/App.Utils/index.js
+var scrollToTop2 = scrollToTop;
+var lovelaceToAda = function(n) {
+  return n / 1e6;
 };
 
-// output/Parsing/index.js
-var unwrap2 = /* @__PURE__ */ unwrap();
-var ParseState = /* @__PURE__ */ (function() {
-  function ParseState2(value0, value1, value22) {
-    this.value0 = value0;
-    this.value1 = value1;
-    this.value2 = value22;
-  }
-  ;
-  ParseState2.create = function(value0) {
-    return function(value1) {
-      return function(value22) {
-        return new ParseState2(value0, value1, value22);
-      };
-    };
-  };
-  return ParseState2;
-})();
-var ParseError = /* @__PURE__ */ (function() {
-  function ParseError2(value0, value1) {
-    this.value0 = value0;
-    this.value1 = value1;
-  }
-  ;
-  ParseError2.create = function(value0) {
-    return function(value1) {
-      return new ParseError2(value0, value1);
-    };
-  };
-  return ParseError2;
-})();
-var More = /* @__PURE__ */ (function() {
-  function More2(value0) {
+// output/Data.Argonaut.Aeson.Helpers/index.js
+var Mode = /* @__PURE__ */ (function() {
+  function Mode2(value0) {
     this.value0 = value0;
   }
   ;
-  More2.create = function(value0) {
-    return new More2(value0);
+  Mode2.create = function(value0) {
+    return new Mode2(value0);
   };
-  return More2;
+  return Mode2;
 })();
-var Lift3 = /* @__PURE__ */ (function() {
-  function Lift4(value0) {
-    this.value0 = value0;
-  }
-  ;
-  Lift4.create = function(value0) {
-    return new Lift4(value0);
-  };
-  return Lift4;
-})();
-var Stop = /* @__PURE__ */ (function() {
-  function Stop2(value0, value1) {
-    this.value0 = value0;
-    this.value1 = value1;
-  }
-  ;
-  Stop2.create = function(value0) {
-    return function(value1) {
-      return new Stop2(value0, value1);
-    };
-  };
-  return Stop2;
-})();
-var lazyParserT = {
-  defer: function(f) {
-    var m2 = defer2(f);
-    return function(state1, more, lift1, $$throw2, done) {
-      var v2 = force(m2);
-      return v2(state1, more, lift1, $$throw2, done);
-    };
+var isSingleConstructor_Sum = {
+  isSingleConstructor: function(v2) {
+    return false;
   }
 };
-var functorParserT = {
-  map: function(f) {
-    return function(v2) {
-      return function(state1, more, lift1, $$throw2, done) {
-        return more(function(v1) {
-          return v2(state1, more, lift1, $$throw2, function(state22, a3) {
-            return more(function(v22) {
-              return done(state22, f(a3));
-            });
-          });
-        });
-      };
-    };
+var isSingleConstructor_Constructor = {
+  isSingleConstructor: function(v2) {
+    return true;
   }
 };
-var altParserT = {
-  alt: function(v2) {
-    return function(v1) {
-      return function(v22, more, lift1, $$throw2, done) {
-        return more(function(v3) {
-          return v2(new ParseState(v22.value0, v22.value1, false), more, lift1, function(v4, err) {
-            return more(function(v5) {
-              if (v4.value2) {
-                return $$throw2(v4, err);
-              }
-              ;
-              return v1(v22, more, lift1, $$throw2, done);
-            });
-          }, done);
-        });
-      };
-    };
-  },
-  Functor0: function() {
-    return functorParserT;
+var isSingleConstructor = function(dict) {
+  return dict.isSingleConstructor;
+};
+var areAllConstructorsNullary_Argument = {
+  areAllConstructorsNullary: function(v2) {
+    return false;
   }
 };
-var stateParserT = function(k) {
-  return function(state1, v2, v1, v22, done) {
-    var v3 = k(state1);
-    return done(v3.value1, v3.value0);
-  };
+var areAllConstructorsNullary = function(dict) {
+  return dict.areAllConstructorsNullary;
 };
-var runParserT$prime = function(dictMonadRec) {
-  var Monad0 = dictMonadRec.Monad0();
-  var map42 = map(Monad0.Bind1().Apply0().Functor0());
-  var pure111 = pure(Monad0.Applicative0());
-  var tailRecM4 = tailRecM(dictMonadRec);
-  return function(state1) {
-    return function(v2) {
-      var go2 = function($copy_step) {
-        var $tco_done = false;
-        var $tco_result;
-        function $tco_loop(step4) {
-          var v1 = step4(unit);
-          if (v1 instanceof More) {
-            $copy_step = v1.value0;
-            return;
-          }
-          ;
-          if (v1 instanceof Lift3) {
-            $tco_done = true;
-            return map42(Loop.create)(v1.value0);
-          }
-          ;
-          if (v1 instanceof Stop) {
-            $tco_done = true;
-            return pure111(new Done(new Tuple(v1.value1, v1.value0)));
-          }
-          ;
-          throw new Error("Failed pattern match at Parsing (line 160, column 13 - line 166, column 32): " + [v1.constructor.name]);
-        }
-        ;
-        while (!$tco_done) {
-          $tco_result = $tco_loop($copy_step);
-        }
-        ;
-        return $tco_result;
-      };
-      return tailRecM4(go2)(function(v1) {
-        return v2(state1, More.create, Lift3.create, function(state22, err) {
-          return new Stop(state22, new Left(err));
-        }, function(state22, res) {
-          return new Stop(state22, new Right(res));
-        });
-      });
-    };
-  };
-};
-var position = /* @__PURE__ */ stateParserT(function(v2) {
-  return new Tuple(v2.value1, v2);
-});
-var parseErrorPosition = function(v2) {
-  return v2.value1;
-};
-var parseErrorMessage = function(v2) {
-  return v2.value0;
-};
-var initialPos = {
-  index: 0,
-  line: 1,
-  column: 1
-};
-var runParserT = function(dictMonadRec) {
-  var map42 = map(dictMonadRec.Monad0().Bind1().Apply0().Functor0());
-  var runParserT$prime1 = runParserT$prime(dictMonadRec);
-  return function(s2) {
-    return function(p2) {
-      var initialState5 = new ParseState(s2, initialPos, false);
-      return map42(fst)(runParserT$prime1(initialState5)(p2));
-    };
-  };
-};
-var runParserT1 = /* @__PURE__ */ runParserT(monadRecIdentity);
-var runParser = function(s2) {
-  var $295 = runParserT1(s2);
-  return function($296) {
-    return unwrap2($295($296));
-  };
-};
-var appendConsumed = function(v2) {
-  return function(v1) {
-    if (v2.value2 && !v1.value2) {
-      return new ParseState(v1.value0, v1.value1, true);
+var areAllConstructorsNullary_Constructor = function(dictAreAllConstructorsNullary) {
+  var areAllConstructorsNullary1 = areAllConstructorsNullary(dictAreAllConstructorsNullary);
+  return {
+    areAllConstructorsNullary: function(v2) {
+      return areAllConstructorsNullary1($$Proxy.value);
     }
-    ;
-    return v1;
   };
 };
-var applyParserT = {
-  apply: function(v2) {
-    return function(v1) {
-      return function(state1, more, lift1, $$throw2, done) {
-        return more(function(v22) {
-          return v2(state1, more, lift1, $$throw2, function(state22, f) {
-            return more(function(v3) {
-              var state2$prime = appendConsumed(state1)(state22);
-              return v1(state2$prime, more, lift1, $$throw2, function(state3, a3) {
-                return more(function(v4) {
-                  return done(appendConsumed(state2$prime)(state3), f(a3));
-                });
-              });
-            });
-          });
-        });
-      };
+var areAllConstructorsNullary_Sum = function(dictAreAllConstructorsNullary) {
+  var areAllConstructorsNullary1 = areAllConstructorsNullary(dictAreAllConstructorsNullary);
+  return function(dictAreAllConstructorsNullary1) {
+    var areAllConstructorsNullary2 = areAllConstructorsNullary(dictAreAllConstructorsNullary1);
+    return {
+      areAllConstructorsNullary: function(v2) {
+        return areAllConstructorsNullary1($$Proxy.value) && areAllConstructorsNullary2($$Proxy.value);
+      }
     };
-  },
-  Functor0: function() {
-    return functorParserT;
-  }
-};
-var applicativeParserT = {
-  pure: function(a3) {
-    return function(state1, v2, v1, v22, done) {
-      return done(state1, a3);
-    };
-  },
-  Apply0: function() {
-    return applyParserT;
-  }
-};
-var bindParserT = {
-  bind: function(v2) {
-    return function(next) {
-      return function(state1, more, lift1, $$throw2, done) {
-        return more(function(v1) {
-          return v2(state1, more, lift1, $$throw2, function(state22, a3) {
-            return more(function(v22) {
-              var v3 = next(a3);
-              return v3(appendConsumed(state1)(state22), more, lift1, $$throw2, done);
-            });
-          });
-        });
-      };
-    };
-  },
-  Apply0: function() {
-    return applyParserT;
-  }
-};
-var bindFlipped4 = /* @__PURE__ */ bindFlipped(bindParserT);
-var monadParserT = {
-  Applicative0: function() {
-    return applicativeParserT;
-  },
-  Bind1: function() {
-    return bindParserT;
-  }
-};
-var monadThrowParseErrorParse = {
-  throwError: function(err) {
-    return function(state1, v2, v1, $$throw2, v22) {
-      return $$throw2(state1, err);
-    };
-  },
-  Monad0: function() {
-    return monadParserT;
-  }
-};
-var throwError2 = /* @__PURE__ */ throwError(monadThrowParseErrorParse);
-var failWithPosition = function(message2) {
-  return function(pos) {
-    return throwError2(new ParseError(message2, pos));
   };
-};
-var fail2 = function(message2) {
-  return bindFlipped4(failWithPosition(message2))(position);
-};
-var plusParserT = {
-  empty: /* @__PURE__ */ fail2("No alternative"),
-  Alt0: function() {
-    return altParserT;
-  }
-};
-var alternativeParserT = {
-  Applicative0: function() {
-    return applicativeParserT;
-  },
-  Plus1: function() {
-    return plusParserT;
-  }
-};
-
-// output/Parsing.Combinators/index.js
-var alt2 = /* @__PURE__ */ alt(altParserT);
-var pure5 = /* @__PURE__ */ pure(applicativeParserT);
-var map18 = /* @__PURE__ */ map(functorParserT);
-var $$try3 = function(v2) {
-  return function(v1, more, lift7, $$throw2, done) {
-    return v2(v1, more, lift7, function(v22, err) {
-      return $$throw2(new ParseState(v22.value0, v22.value1, v1.value2), err);
-    }, done);
-  };
-};
-var option = function(a3) {
-  return function(p2) {
-    return alt2(p2)(pure5(a3));
-  };
-};
-var optionMaybe = function(p2) {
-  return option(Nothing.value)(map18(Just.create)(p2));
 };
 
 // output/Data.String.CodePoints/foreign.js
@@ -8414,7 +8205,7 @@ var unsafeCodePointAt0Fallback = function(s2) {
 };
 var unsafeCodePointAt0 = /* @__PURE__ */ _unsafeCodePointAt0(unsafeCodePointAt0Fallback);
 var toCodePointArray = /* @__PURE__ */ _toCodePointArray(toCodePointArrayFallback)(unsafeCodePointAt0);
-var length5 = function($74) {
+var length7 = function($74) {
   return length(toCodePointArray($74));
 };
 var fromCharCode2 = /* @__PURE__ */ (function() {
@@ -8559,532 +8350,9 @@ var $lazy_enumCodePoint = /* @__PURE__ */ $runtime_lazy9("enumCodePoint", "Data.
   };
 });
 
-// output/Parsing.String/index.js
-var fromEnum3 = /* @__PURE__ */ fromEnum(boundedEnumCodePoint);
-var mod3 = /* @__PURE__ */ mod(euclideanRingInt);
-var show13 = /* @__PURE__ */ show(showString);
-var updatePosSingle = function(v2) {
-  return function(cp) {
-    return function(after) {
-      var v1 = fromEnum3(cp);
-      if (v1 === 10) {
-        return {
-          index: v2.index + 1 | 0,
-          line: v2.line + 1 | 0,
-          column: 1
-        };
-      }
-      ;
-      if (v1 === 13) {
-        var v22 = codePointAt(0)(after);
-        if (v22 instanceof Just && fromEnum3(v22.value0) === 10) {
-          return {
-            index: v2.index + 1 | 0,
-            line: v2.line,
-            column: v2.column
-          };
-        }
-        ;
-        return {
-          index: v2.index + 1 | 0,
-          line: v2.line + 1 | 0,
-          column: 1
-        };
-      }
-      ;
-      if (v1 === 9) {
-        return {
-          index: v2.index + 1 | 0,
-          line: v2.line,
-          column: (v2.column + 8 | 0) - mod3(v2.column - 1 | 0)(8) | 0
-        };
-      }
-      ;
-      return {
-        index: v2.index + 1 | 0,
-        line: v2.line,
-        column: v2.column + 1 | 0
-      };
-    };
-  };
-};
-var updatePosString = function($copy_pos) {
-  return function($copy_before) {
-    return function($copy_after) {
-      var $tco_var_pos = $copy_pos;
-      var $tco_var_before = $copy_before;
-      var $tco_done = false;
-      var $tco_result;
-      function $tco_loop(pos, before, after) {
-        var v2 = uncons5(before);
-        if (v2 instanceof Nothing) {
-          $tco_done = true;
-          return pos;
-        }
-        ;
-        if (v2 instanceof Just) {
-          var newPos = (function() {
-            if ($$null2(v2.value0.tail)) {
-              return updatePosSingle(pos)(v2.value0.head)(after);
-            }
-            ;
-            if (otherwise) {
-              return updatePosSingle(pos)(v2.value0.head)(v2.value0.tail);
-            }
-            ;
-            throw new Error("Failed pattern match at Parsing.String (line 165, column 7 - line 167, column 52): ");
-          })();
-          $tco_var_pos = newPos;
-          $tco_var_before = v2.value0.tail;
-          $copy_after = after;
-          return;
-        }
-        ;
-        throw new Error("Failed pattern match at Parsing.String (line 161, column 36 - line 168, column 38): " + [v2.constructor.name]);
-      }
-      ;
-      while (!$tco_done) {
-        $tco_result = $tco_loop($tco_var_pos, $tco_var_before, $copy_after);
-      }
-      ;
-      return $tco_result;
-    };
-  };
-};
-var eof = /* @__PURE__ */ mkFn5(function(v2) {
-  return function(v1) {
-    return function(v22) {
-      return function($$throw2) {
-        return function(done) {
-          var $133 = $$null2(v2.value0);
-          if ($133) {
-            return done(new ParseState(v2.value0, v2.value1, true), unit);
-          }
-          ;
-          return $$throw2(v2, new ParseError("Expected EOF", v2.value1));
-        };
-      };
-    };
-  };
-});
-var consumeWith = function(f) {
-  return mkFn5(function(v2) {
-    return function(v1) {
-      return function(v22) {
-        return function($$throw2) {
-          return function(done) {
-            var v3 = f(v2.value0);
-            if (v3 instanceof Left) {
-              return $$throw2(v2, new ParseError(v3.value0, v2.value1));
-            }
-            ;
-            if (v3 instanceof Right) {
-              return done(new ParseState(v3.value0.remainder, updatePosString(v2.value1)(v3.value0.consumed)(v3.value0.remainder), !$$null2(v3.value0.consumed)), v3.value0.value);
-            }
-            ;
-            throw new Error("Failed pattern match at Parsing.String (line 286, column 7 - line 290, column 121): " + [v3.constructor.name]);
-          };
-        };
-      };
-    };
-  });
-};
-var string = function(str) {
-  return consumeWith(function(input3) {
-    var v2 = stripPrefix(str)(input3);
-    if (v2 instanceof Just) {
-      return new Right({
-        value: str,
-        consumed: str,
-        remainder: v2.value0
-      });
-    }
-    ;
-    return new Left("Expected " + show13(str));
-  });
-};
-
-// output/Data.Formatter.Parser.Utils/index.js
-var show4 = /* @__PURE__ */ show(showInt);
-var lmap3 = /* @__PURE__ */ lmap(bifunctorEither);
-var applyFirst2 = /* @__PURE__ */ applyFirst(applyParserT);
-var printPosition = function(v2) {
-  return "(line " + (show4(v2.line) + (", col " + (show4(v2.column) + ")")));
-};
-var printError = function(err) {
-  return parseErrorMessage(err) + (" " + printPosition(parseErrorPosition(err)));
-};
-var runP = function(p2) {
-  return function(s2) {
-    return lmap3(printError)(runParser(s2)(applyFirst2(p2)(eof)));
-  };
-};
-
-// output/Data.Formatter.Number/foreign.js
-function showNumberAsInt(n) {
-  return Math.round(n).toString();
-}
-
-// output/Data.Formatter.Number/index.js
-var bind4 = /* @__PURE__ */ bind(bindParserT);
-var pure6 = /* @__PURE__ */ pure(applicativeParserT);
-var some3 = /* @__PURE__ */ some(alternativeParserT)(lazyParserT);
-var many2 = /* @__PURE__ */ many(alternativeParserT)(lazyParserT);
-var repeat2 = /* @__PURE__ */ repeat(monoidString);
-var $$for2 = /* @__PURE__ */ $$for(applicativeParserT)(traversableMaybe);
-var map110 = /* @__PURE__ */ map(functorMaybe);
-var max3 = /* @__PURE__ */ max(ordInt);
-var div1 = /* @__PURE__ */ div(euclideanRingInt);
-var show5 = /* @__PURE__ */ show(showInt);
-var mapFlipped2 = /* @__PURE__ */ mapFlipped(functorEither);
-var show14 = /* @__PURE__ */ show(showNumber);
-var identity9 = /* @__PURE__ */ identity(categoryFn);
-var formatParser = /* @__PURE__ */ bind4(/* @__PURE__ */ optionMaybe(/* @__PURE__ */ $$try3(/* @__PURE__ */ string("+"))))(function(sign2) {
-  return bind4(some3(string("0")))(function(before) {
-    return bind4(optionMaybe($$try3(string(",0"))))(function(comma) {
-      return bind4(optionMaybe($$try3(string("."))))(function(dot) {
-        return bind4($$for2(dot)(function(v2) {
-          return $$try3(many2(string("0")));
-        }))(function(after) {
-          return bind4(optionMaybe($$try3(string("a"))))(function(abbreviations) {
-            return pure6({
-              sign: isJust(sign2),
-              before: length(before),
-              comma: isJust(comma),
-              after: fromMaybe(0)(map110(length)(after)),
-              abbreviations: isJust(abbreviations)
-            });
-          });
-        });
-      });
-    });
-  });
-});
-var parseFormatString = /* @__PURE__ */ runP(formatParser);
-var format = function(v2) {
-  return function(num) {
-    var absed = abs2(num);
-    var tens = (function() {
-      if (absed > 0) {
-        return max3(floor2(log(absed) / ln10))(0);
-      }
-      ;
-      if (otherwise) {
-        return 0;
-      }
-      ;
-      throw new Error("Failed pattern match at Data.Formatter.Number (line 100, column 5 - line 102, column 22): ");
-    })();
-    if (v2.abbreviations) {
-      var thousands = div1(tens)(3);
-      var newNum = (function() {
-        var $118 = thousands < 1;
-        if ($118) {
-          return num;
-        }
-        ;
-        return num / pow(1e3)(toNumber(thousands));
-      })();
-      var abbr3 = (function() {
-        if (thousands === 0) {
-          return "";
-        }
-        ;
-        if (thousands === 1) {
-          return "K";
-        }
-        ;
-        if (thousands === 2) {
-          return "M";
-        }
-        ;
-        if (thousands === 3) {
-          return "G";
-        }
-        ;
-        if (thousands === 4) {
-          return "T";
-        }
-        ;
-        if (thousands === 5) {
-          return "P";
-        }
-        ;
-        if (thousands === 6) {
-          return "E";
-        }
-        ;
-        if (thousands === 7) {
-          return "Z";
-        }
-        ;
-        if (thousands === 8) {
-          return "Y";
-        }
-        ;
-        if (otherwise) {
-          return "10e+" + show5(thousands * 3 | 0);
-        }
-        ;
-        throw new Error("Failed pattern match at Data.Formatter.Number (line 107, column 7 - line 117, column 53): ");
-      })();
-      return format({
-        comma: v2.comma,
-        before: v2.before,
-        after: v2.after,
-        sign: v2.sign,
-        abbreviations: false
-      })(newNum) + abbr3;
-    }
-    ;
-    var zeros = (v2.before - tens | 0) - 1 | 0;
-    var factor = pow(10)(toNumber(max3(0)(v2.after)));
-    var rounded = round(absed * factor) / factor;
-    var integer = floor(rounded);
-    var leftoverDecimal = rounded - integer;
-    var leftover = round(leftoverDecimal * factor);
-    var leftoverWithZeros = (function() {
-      var leftoverString = showNumberAsInt(leftover);
-      var leftoverLength = length5(leftoverString);
-      var zeros$prime = repeat2("0")(v2.after - leftoverLength | 0);
-      return zeros$prime + leftoverString;
-    })();
-    var leftovers = (function() {
-      var $119 = v2.after < 1;
-      if ($119) {
-        return "";
-      }
-      ;
-      return "." + ((function() {
-        var $120 = leftover === 0;
-        if ($120) {
-          return repeat2("0")(v2.after);
-        }
-        ;
-        return "";
-      })() + (function() {
-        var $121 = leftover > 0;
-        if ($121) {
-          return leftoverWithZeros;
-        }
-        ;
-        return "";
-      })());
-    })();
-    var addCommas = function($copy_acc) {
-      return function($copy_counter) {
-        return function($copy_input) {
-          var $tco_var_acc = $copy_acc;
-          var $tco_var_counter = $copy_counter;
-          var $tco_done = false;
-          var $tco_result;
-          function $tco_loop(acc, counter, input3) {
-            var v1 = uncons(input3);
-            if (v1 instanceof Nothing) {
-              $tco_done = true;
-              return fromCharArray(acc);
-            }
-            ;
-            if (v1 instanceof Just && counter < 3) {
-              $tco_var_acc = cons(v1.value0.head)(acc);
-              $tco_var_counter = counter + 1 | 0;
-              $copy_input = v1.value0.tail;
-              return;
-            }
-            ;
-            $tco_var_acc = cons(",")(acc);
-            $tco_var_counter = 0;
-            $copy_input = input3;
-            return;
-          }
-          ;
-          while (!$tco_done) {
-            $tco_result = $tco_loop($tco_var_acc, $tco_var_counter, $copy_input);
-          }
-          ;
-          return $tco_result;
-        };
-      };
-    };
-    var shownInt = (function() {
-      if (v2.comma) {
-        return addCommas([])(0)(reverse(toCharArray(repeat2("0")(zeros) + showNumberAsInt(integer))));
-      }
-      ;
-      return repeat2("0")(zeros) + showNumberAsInt(integer);
-    })();
-    return (function() {
-      var $127 = num < 0;
-      if ($127) {
-        return "-";
-      }
-      ;
-      var $128 = num > 0 && v2.sign;
-      if ($128) {
-        return "+";
-      }
-      ;
-      return "";
-    })() + (shownInt + leftovers);
-  };
-};
-var formatNumber = function(pattern2) {
-  return function(number) {
-    return mapFlipped2(parseFormatString(pattern2))(flip(format)(number));
-  };
-};
-var formatOrShowNumber = function(patter) {
-  return function(number) {
-    return either($$const(show14(number)))(identity9)(formatNumber(patter)(number));
-  };
-};
-
-// output/Web.HTML/foreign.js
-var windowImpl = function() {
-  return window;
-};
-
-// output/Web.HTML.HTMLDocument/foreign.js
-function _readyState(doc) {
-  return doc.readyState;
-}
-
-// output/Web.HTML.HTMLDocument.ReadyState/index.js
-var Loading = /* @__PURE__ */ (function() {
-  function Loading2() {
-  }
-  ;
-  Loading2.value = new Loading2();
-  return Loading2;
-})();
-var Interactive = /* @__PURE__ */ (function() {
-  function Interactive2() {
-  }
-  ;
-  Interactive2.value = new Interactive2();
-  return Interactive2;
-})();
-var Complete = /* @__PURE__ */ (function() {
-  function Complete2() {
-  }
-  ;
-  Complete2.value = new Complete2();
-  return Complete2;
-})();
-var parse = function(v2) {
-  if (v2 === "loading") {
-    return new Just(Loading.value);
-  }
-  ;
-  if (v2 === "interactive") {
-    return new Just(Interactive.value);
-  }
-  ;
-  if (v2 === "complete") {
-    return new Just(Complete.value);
-  }
-  ;
-  return Nothing.value;
-};
-
-// output/Web.HTML.HTMLDocument/index.js
-var map20 = /* @__PURE__ */ map(functorEffect);
-var toParentNode = unsafeCoerce2;
-var toDocument = unsafeCoerce2;
-var readyState = function(doc) {
-  return map20((function() {
-    var $4 = fromMaybe(Loading.value);
-    return function($5) {
-      return $4(parse($5));
-    };
-  })())(function() {
-    return _readyState(doc);
-  });
-};
-
-// output/Web.HTML.Window/foreign.js
-function document(window2) {
-  return function() {
-    return window2.document;
-  };
-}
-function scroll(xCoord) {
-  return function(yCoord) {
-    return function(window2) {
-      return function() {
-        window2.scroll(xCoord, yCoord);
-      };
-    };
-  };
-}
-
-// output/Web.HTML.Window/index.js
-var toEventTarget = unsafeCoerce2;
-
-// output/App.Utils/index.js
-var scrollToTop = function __do2() {
-  var win = windowImpl();
-  return scroll(0)(0)(win)();
-};
-var lovelaceToAda = function(n) {
-  return n / 1e6;
-};
-
-// output/Data.Argonaut.Aeson.Helpers/index.js
-var Mode = /* @__PURE__ */ (function() {
-  function Mode2(value0) {
-    this.value0 = value0;
-  }
-  ;
-  Mode2.create = function(value0) {
-    return new Mode2(value0);
-  };
-  return Mode2;
-})();
-var isSingleConstructor_Sum = {
-  isSingleConstructor: function(v2) {
-    return false;
-  }
-};
-var isSingleConstructor_Constructor = {
-  isSingleConstructor: function(v2) {
-    return true;
-  }
-};
-var isSingleConstructor = function(dict) {
-  return dict.isSingleConstructor;
-};
-var areAllConstructorsNullary_Argument = {
-  areAllConstructorsNullary: function(v2) {
-    return false;
-  }
-};
-var areAllConstructorsNullary = function(dict) {
-  return dict.areAllConstructorsNullary;
-};
-var areAllConstructorsNullary_Constructor = function(dictAreAllConstructorsNullary) {
-  var areAllConstructorsNullary1 = areAllConstructorsNullary(dictAreAllConstructorsNullary);
-  return {
-    areAllConstructorsNullary: function(v2) {
-      return areAllConstructorsNullary1($$Proxy.value);
-    }
-  };
-};
-var areAllConstructorsNullary_Sum = function(dictAreAllConstructorsNullary) {
-  var areAllConstructorsNullary1 = areAllConstructorsNullary(dictAreAllConstructorsNullary);
-  return function(dictAreAllConstructorsNullary1) {
-    var areAllConstructorsNullary2 = areAllConstructorsNullary(dictAreAllConstructorsNullary1);
-    return {
-      areAllConstructorsNullary: function(v2) {
-        return areAllConstructorsNullary1($$Proxy.value) && areAllConstructorsNullary2($$Proxy.value);
-      }
-    };
-  };
-};
-
 // output/Data.Argonaut.Decode.Decoders/index.js
-var pure7 = /* @__PURE__ */ pure(applicativeEither);
-var map21 = /* @__PURE__ */ map(functorEither);
+var pure5 = /* @__PURE__ */ pure(applicativeEither);
+var map20 = /* @__PURE__ */ map(functorEither);
 var composeKleisliFlipped2 = /* @__PURE__ */ composeKleisliFlipped(bindEither);
 var decodeString = /* @__PURE__ */ (function() {
   return caseJsonString(new Left(new TypeMismatch("String")))(Right.create);
@@ -9095,11 +8363,11 @@ var decodeNumber = /* @__PURE__ */ (function() {
 var decodeMaybe = function(decoder) {
   return function(json2) {
     if (isNull(json2)) {
-      return pure7(Nothing.value);
+      return pure5(Nothing.value);
     }
     ;
     if (otherwise) {
-      return map21(Just.create)(decoder(json2));
+      return map20(Just.create)(decoder(json2));
     }
     ;
     throw new Error("Failed pattern match at Data.Argonaut.Decode.Decoders (line 37, column 1 - line 41, column 38): " + [decoder.constructor.name, json2.constructor.name]);
@@ -9139,9 +8407,9 @@ var get2 = function(dictIsSymbol) {
 };
 
 // output/Data.Argonaut.Decode.Class/index.js
-var bind5 = /* @__PURE__ */ bind(bindEither);
-var lmap4 = /* @__PURE__ */ lmap(bifunctorEither);
-var map23 = /* @__PURE__ */ map(functorMaybe);
+var bind4 = /* @__PURE__ */ bind(bindEither);
+var lmap3 = /* @__PURE__ */ lmap(bifunctorEither);
+var map21 = /* @__PURE__ */ map(functorMaybe);
 var gDecodeJsonNil = {
   gDecodeJson: function(v2) {
     return function(v1) {
@@ -9199,8 +8467,8 @@ var gDecodeJsonCons = function(dictDecodeJsonField) {
                 var fieldValue = lookup(fieldName)(object2);
                 var v1 = decodeJsonField1(fieldValue);
                 if (v1 instanceof Just) {
-                  return bind5(lmap4(AtKey.create(fieldName))(v1.value0))(function(val) {
-                    return bind5(gDecodeJson1(object2)($$Proxy.value))(function(rest) {
+                  return bind4(lmap3(AtKey.create(fieldName))(v1.value0))(function(val) {
+                    return bind4(gDecodeJson1(object2)($$Proxy.value))(function(rest) {
                       return new Right(insert8($$Proxy.value)(val)(rest));
                     });
                   });
@@ -9247,20 +8515,20 @@ var decodeFieldId = function(dictDecodeJson) {
   var decodeJson1 = decodeJson(dictDecodeJson);
   return {
     decodeJsonField: function(j) {
-      return map23(decodeJson1)(j);
+      return map21(decodeJson1)(j);
     }
   };
 };
 
 // output/Data.Argonaut.Decode.Generic/index.js
-var bind6 = /* @__PURE__ */ bind(bindEither);
-var map24 = /* @__PURE__ */ map(functorEither);
+var bind5 = /* @__PURE__ */ bind(bindEither);
+var map23 = /* @__PURE__ */ map(functorEither);
 var decodeRepArgsArgument = function(dictDecodeJson) {
   var decodeJson4 = decodeJson(dictDecodeJson);
   return {
     decodeRepArgs: function(js) {
-      return bind6(note(new TypeMismatch("NonEmptyArray"))(uncons(js)))(function(v2) {
-        return map24(function($104) {
+      return bind5(note(new TypeMismatch("NonEmptyArray"))(uncons(js)))(function(v2) {
+        return map23(function($104) {
           return (function(v1) {
             return {
               init: v1,
@@ -9277,13 +8545,13 @@ var decodeRepArgs = function(dict) {
 };
 
 // output/Data.Argonaut.Aeson.Decode.Generic/index.js
-var alt6 = /* @__PURE__ */ alt(altEither);
-var map25 = /* @__PURE__ */ map(functorEither);
+var alt5 = /* @__PURE__ */ alt(altEither);
+var map24 = /* @__PURE__ */ map(functorEither);
 var composeKleisli2 = /* @__PURE__ */ composeKleisli(bindEither);
-var show6 = /* @__PURE__ */ show(showString);
-var lmap5 = /* @__PURE__ */ lmap(bifunctorEither);
-var bind7 = /* @__PURE__ */ bind(bindEither);
-var pure8 = /* @__PURE__ */ pure(applicativeEither);
+var show4 = /* @__PURE__ */ show(showString);
+var lmap4 = /* @__PURE__ */ lmap(bifunctorEither);
+var bind6 = /* @__PURE__ */ bind(bindEither);
+var pure6 = /* @__PURE__ */ pure(applicativeEither);
 var discard2 = /* @__PURE__ */ discard(discardUnit)(bindEither);
 var toJsonArray = /* @__PURE__ */ caseJson(/* @__PURE__ */ $$const(/* @__PURE__ */ singleton2(jsonNull)))(function($134) {
   return singleton2(id($134));
@@ -9356,7 +8624,7 @@ var decodeAesonSum$prime = function(dictDecodeAeson$prime) {
       "decodeAeson'": function(mode) {
         return function(o) {
           return function(j) {
-            return alt6(map25(Inl.create)(decodeAeson$prime1(mode)(o)(j)))(map25(Inr.create)(decodeAeson$prime2(mode)(o)(j)));
+            return alt5(map24(Inl.create)(decodeAeson$prime1(mode)(o)(j)))(map24(Inr.create)(decodeAeson$prime2(mode)(o)(j)));
           };
         };
       }
@@ -9371,7 +8639,7 @@ var genericDecodeAeson = function(dictGeneric) {
   return function(dictDecodeAeson) {
     var decodeAeson1 = decodeAeson(dictDecodeAeson);
     return function(o) {
-      var $139 = map25(to2);
+      var $139 = map24(to2);
       var $140 = decodeAeson1(o);
       return function($141) {
         return $139($140($141));
@@ -9382,13 +8650,13 @@ var genericDecodeAeson = function(dictGeneric) {
 var checkTag = function(tagFieldName) {
   return function(expectedTag) {
     return composeKleisli2((function() {
-      var $142 = note(new Named(show6(tagFieldName) + " property is missing", MissingValue.value));
+      var $142 = note(new Named(show4(tagFieldName) + " property is missing", MissingValue.value));
       var $143 = lookup(tagFieldName);
       return function($144) {
         return $142($143($144));
       };
     })())(composeKleisli2((function() {
-      var $145 = note(new TypeMismatch(show6(tagFieldName) + " property is not a string"));
+      var $145 = note(new TypeMismatch(show4(tagFieldName) + " property is not a string"));
       return function($146) {
         return $145(toString($146));
       };
@@ -9414,9 +8682,9 @@ var decodeGeneralCase = function(dictIsSymbol) {
             mode,
             options: options2
           };
-          return bind7(note(new TypeMismatch("expected an object"))(toObject(json2)))(function(objectJson) {
+          return bind6(note(new TypeMismatch("expected an object"))(toObject(json2)))(function(objectJson) {
             return discard2(checkTag($93.options.sumEncoding.value0.tagFieldName)(name17)(objectJson))(function() {
-              return bind7((function() {
+              return bind6((function() {
                 var v2 = lookup($93.options.sumEncoding.value0.contentsFieldName)(objectJson);
                 if (v2 instanceof Just) {
                   return decodeRepArgs2(toJsonArray(v2.value0));
@@ -9428,7 +8696,7 @@ var decodeGeneralCase = function(dictIsSymbol) {
                 ;
                 throw new Error("Failed pattern match at Data.Argonaut.Aeson.Decode.Generic (line 166, column 27 - line 170, column 115): " + [v2.constructor.name]);
               })())(function(v2) {
-                return pure8(v2.init);
+                return pure6(v2.init);
               });
             });
           });
@@ -9448,7 +8716,7 @@ var decodeAesonConstructor$prime = function(dictIsSymbol) {
         return function(options2) {
           return function(json2) {
             var name17 = reflectSymbol2($$Proxy.value);
-            return lmap5(decodingErr(name17))((function() {
+            return lmap4(decodingErr(name17))((function() {
               var $102 = {
                 mode,
                 options: options2
@@ -9458,10 +8726,10 @@ var decodeAesonConstructor$prime = function(dictIsSymbol) {
               }
               ;
               if ($102["mode"]["value0"]["_Mode_ConstructorIsSingle"] && !$102.options.tagSingleConstructors) {
-                return bind7(decodeRepArgs2(caseJsonArray(singleton2(json2))(function($147) {
+                return bind6(decodeRepArgs2(caseJsonArray(singleton2(json2))(function($147) {
                   return singleton2(id($147));
                 })(json2)))(function(v2) {
-                  return pure8(v2.init);
+                  return pure6(v2.init);
                 });
               }
               ;
@@ -9475,7 +8743,7 @@ var decodeAesonConstructor$prime = function(dictIsSymbol) {
 };
 
 // output/Data.Argonaut.Encode.Encoders/index.js
-var map26 = /* @__PURE__ */ map(functorArray);
+var map25 = /* @__PURE__ */ map(functorArray);
 var encodeString = id;
 var encodeMaybe = function(encoder) {
   return function(v2) {
@@ -9491,7 +8759,7 @@ var encodeMaybe = function(encoder) {
   };
 };
 var encodeArray = function(encoder) {
-  var $58 = map26(encoder);
+  var $58 = map25(encoder);
   return function($59) {
     return id($58($59));
   };
@@ -10019,7 +9287,7 @@ var toMediaType = function(v2) {
 };
 
 // output/Affjax.RequestHeader/index.js
-var unwrap3 = /* @__PURE__ */ unwrap();
+var unwrap2 = /* @__PURE__ */ unwrap();
 var Accept = /* @__PURE__ */ (function() {
   function Accept2(value0) {
     this.value0 = value0;
@@ -10055,11 +9323,11 @@ var RequestHeader = /* @__PURE__ */ (function() {
 })();
 var value12 = function(v2) {
   if (v2 instanceof Accept) {
-    return unwrap3(v2.value0);
+    return unwrap2(v2.value0);
   }
   ;
   if (v2 instanceof ContentType) {
-    return unwrap3(v2.value0);
+    return unwrap2(v2.value0);
   }
   ;
   if (v2 instanceof RequestHeader) {
@@ -10085,7 +9353,7 @@ var name15 = function(v2) {
 };
 
 // output/Affjax.ResponseFormat/index.js
-var identity10 = /* @__PURE__ */ identity(categoryFn);
+var identity9 = /* @__PURE__ */ identity(categoryFn);
 var $$ArrayBuffer = /* @__PURE__ */ (function() {
   function $$ArrayBuffer2(value0) {
     this.value0 = value0;
@@ -10181,7 +9449,7 @@ var toMediaType2 = function(v2) {
   return Nothing.value;
 };
 var json = /* @__PURE__ */ (function() {
-  return new Json2(identity10);
+  return new Json2(identity9);
 })();
 
 // output/Affjax.ResponseHeader/index.js
@@ -10200,9 +9468,9 @@ var ResponseHeader = /* @__PURE__ */ (function() {
 })();
 
 // output/Control.Monad.Except/index.js
-var unwrap4 = /* @__PURE__ */ unwrap();
+var unwrap3 = /* @__PURE__ */ unwrap();
 var runExcept = function($3) {
-  return unwrap4(runExceptT($3));
+  return unwrap3(runExceptT($3));
 };
 
 // output/Data.Argonaut.Parser/foreign.js
@@ -10240,7 +9508,7 @@ var encodeFormURLComponent = /* @__PURE__ */ (function() {
 
 // output/Data.FormURLEncoded/index.js
 var apply2 = /* @__PURE__ */ apply(applyMaybe);
-var map27 = /* @__PURE__ */ map(functorMaybe);
+var map26 = /* @__PURE__ */ map(functorMaybe);
 var traverse3 = /* @__PURE__ */ traverse(traversableArray)(applicativeMaybe);
 var toArray3 = function(v2) {
   return v2;
@@ -10252,7 +9520,7 @@ var encode = /* @__PURE__ */ (function() {
     }
     ;
     if (v2.value1 instanceof Just) {
-      return apply2(map27(function(key) {
+      return apply2(map26(function(key) {
         return function(val) {
           return key + ("=" + val);
         };
@@ -10261,7 +9529,7 @@ var encode = /* @__PURE__ */ (function() {
     ;
     throw new Error("Failed pattern match at Data.FormURLEncoded (line 37, column 16 - line 39, column 114): " + [v2.constructor.name]);
   };
-  var $37 = map27(joinWith("&"));
+  var $37 = map26(joinWith("&"));
   var $38 = traverse3(encodePart);
   return function($39) {
     return $37($38(toArray3($39)));
@@ -10481,18 +9749,18 @@ var fromEffectFnAff = function(v2) {
 };
 
 // output/Affjax/index.js
-var pure9 = /* @__PURE__ */ pure(/* @__PURE__ */ applicativeExceptT(monadIdentity));
-var fail3 = /* @__PURE__ */ fail(monadIdentity);
+var pure7 = /* @__PURE__ */ pure(/* @__PURE__ */ applicativeExceptT(monadIdentity));
+var fail2 = /* @__PURE__ */ fail(monadIdentity);
 var unsafeReadTagged2 = /* @__PURE__ */ unsafeReadTagged(monadIdentity);
-var alt7 = /* @__PURE__ */ alt(/* @__PURE__ */ altExceptT(semigroupNonEmptyList)(monadIdentity));
+var alt6 = /* @__PURE__ */ alt(/* @__PURE__ */ altExceptT(semigroupNonEmptyList)(monadIdentity));
 var composeKleisliFlipped3 = /* @__PURE__ */ composeKleisliFlipped(/* @__PURE__ */ bindExceptT(monadIdentity));
-var map28 = /* @__PURE__ */ map(functorMaybe);
+var map27 = /* @__PURE__ */ map(functorMaybe);
 var any3 = /* @__PURE__ */ any(foldableArray)(heytingAlgebraBoolean);
 var eq3 = /* @__PURE__ */ eq(eqString);
-var bindFlipped5 = /* @__PURE__ */ bindFlipped(bindMaybe);
-var map111 = /* @__PURE__ */ map(functorArray);
-var mapFlipped3 = /* @__PURE__ */ mapFlipped(functorAff);
-var $$try4 = /* @__PURE__ */ $$try(monadErrorAff);
+var bindFlipped4 = /* @__PURE__ */ bindFlipped(bindMaybe);
+var map110 = /* @__PURE__ */ map(functorArray);
+var mapFlipped2 = /* @__PURE__ */ mapFlipped(functorAff);
+var $$try3 = /* @__PURE__ */ $$try(monadErrorAff);
 var pure12 = /* @__PURE__ */ pure(applicativeAff);
 var RequestContentError = /* @__PURE__ */ (function() {
   function RequestContentError2(value0) {
@@ -10545,12 +9813,12 @@ var request = function(driver2) {
   return function(req) {
     var parseJSON = function(v3) {
       if (v3 === "") {
-        return pure9(jsonEmptyObject);
+        return pure7(jsonEmptyObject);
       }
       ;
       return either(function($74) {
-        return fail3(ForeignError.create($74));
-      })(pure9)(jsonParser(v3));
+        return fail2(ForeignError.create($74));
+      })(pure7)(jsonParser(v3));
     };
     var fromResponse = (function() {
       if (req.responseFormat instanceof $$ArrayBuffer) {
@@ -10563,7 +9831,7 @@ var request = function(driver2) {
       ;
       if (req.responseFormat instanceof Document2) {
         return function(x) {
-          return alt7(unsafeReadTagged2("Document")(x))(alt7(unsafeReadTagged2("XMLDocument")(x))(unsafeReadTagged2("HTMLDocument")(x)));
+          return alt6(unsafeReadTagged2("Document")(x))(alt6(unsafeReadTagged2("XMLDocument")(x))(unsafeReadTagged2("HTMLDocument")(x)));
         };
       }
       ;
@@ -10578,7 +9846,7 @@ var request = function(driver2) {
       }
       ;
       if (req.responseFormat instanceof Ignore) {
-        return $$const(req.responseFormat.value0(pure9(unit)));
+        return $$const(req.responseFormat.value0(pure7(unit)));
       }
       ;
       throw new Error("Failed pattern match at Affjax (line 274, column 18 - line 283, column 57): " + [req.responseFormat.constructor.name]);
@@ -10605,7 +9873,7 @@ var request = function(driver2) {
       }
       ;
       if (v3 instanceof FormURLEncoded) {
-        return note("Body contains values that cannot be encoded as application/x-www-form-urlencoded")(map28(unsafeToForeign)(encode(v3.value0)));
+        return note("Body contains values that cannot be encoded as application/x-www-form-urlencoded")(map27(unsafeToForeign)(encode(v3.value0)));
       }
       ;
       if (v3 instanceof Json) {
@@ -10624,13 +9892,13 @@ var request = function(driver2) {
       };
     };
     var headers = function(reqContent) {
-      return addHeader(map28(ContentType.create)(bindFlipped5(toMediaType)(reqContent)))(addHeader(map28(Accept.create)(toMediaType2(req.responseFormat)))(req.headers));
+      return addHeader(map27(ContentType.create)(bindFlipped4(toMediaType)(reqContent)))(addHeader(map27(Accept.create)(toMediaType2(req.responseFormat)))(req.headers));
     };
     var ajaxRequest = function(v3) {
       return {
         method: print6(req.method),
         url: req.url,
-        headers: map111(function(h7) {
+        headers: map110(function(h7) {
           return {
             field: name15(h7),
             value: value12(h7)
@@ -10641,13 +9909,13 @@ var request = function(driver2) {
         username: toNullable(req.username),
         password: toNullable(req.password),
         withCredentials: req.withCredentials,
-        timeout: fromMaybe(0)(map28(function(v1) {
+        timeout: fromMaybe(0)(map27(function(v1) {
           return v1;
         })(req.timeout))
       };
     };
     var send = function(content3) {
-      return mapFlipped3($$try4(fromEffectFnAff(_ajax(driver2, "AffjaxTimeoutErrorMessageIdent", "AffjaxRequestFailedMessageIdent", ResponseHeader.create, ajaxRequest(content3)))))(function(v3) {
+      return mapFlipped2($$try3(fromEffectFnAff(_ajax(driver2, "AffjaxTimeoutErrorMessageIdent", "AffjaxRequestFailedMessageIdent", ResponseHeader.create, ajaxRequest(content3)))))(function(v3) {
         if (v3 instanceof Right) {
           var v1 = runExcept(fromResponse(v3.value0.body));
           if (v1 instanceof Left) {
@@ -10706,7 +9974,7 @@ var request = function(driver2) {
     throw new Error("Failed pattern match at Affjax (line 195, column 3 - line 203, column 48): " + [req.content.constructor.name]);
   };
 };
-var printError2 = function(v2) {
+var printError = function(v2) {
   if (v2 instanceof RequestContentError) {
     return "There was a problem with the request content: " + v2.value0;
   }
@@ -10940,7 +10208,7 @@ var decodeJsonPoolInfo = {
 
 // output/Cardano.Capabilities.Query.Default/index.js
 var decodeJson2 = /* @__PURE__ */ decodeJson(decodeJsonPoolInfo);
-var show7 = /* @__PURE__ */ show(showJsonDecodeError);
+var show5 = /* @__PURE__ */ show(showJsonDecodeError);
 var fetchPoolInfoDefault = function(dictMonadAff) {
   var Monad0 = dictMonadAff.MonadEffect0().Monad0();
   var bind20 = bind(Monad0.Bind1());
@@ -10968,7 +10236,7 @@ var fetchPoolInfoDefault = function(dictMonadAff) {
           }
           ;
           if (v2 instanceof Left) {
-            return pure23(new Left("Failed to decode pool info: " + show7(v2.value0)));
+            return pure23(new Left("Failed to decode pool info: " + show5(v2.value0)));
           }
           ;
           throw new Error("Failed pattern match at Cardano.Capabilities.Query.Default (line 46, column 7 - line 48, column 89): " + [v2.constructor.name]);
@@ -10979,7 +10247,7 @@ var fetchPoolInfoDefault = function(dictMonadAff) {
         }
         ;
         if (result instanceof Left) {
-          return pure23(new Left(printError2(result.value0)));
+          return pure23(new Left(printError(result.value0)));
         }
         ;
         throw new Error("Failed pattern match at Cardano.Capabilities.Query.Default (line 44, column 3 - line 52, column 36): " + [result.constructor.name]);
@@ -11129,12 +10397,12 @@ function thenImpl(promise2) {
 // output/Control.Promise/index.js
 var voidRight2 = /* @__PURE__ */ voidRight(functorEffect);
 var mempty2 = /* @__PURE__ */ mempty(monoidCanceler);
-var identity11 = /* @__PURE__ */ identity(categoryFn);
-var alt8 = /* @__PURE__ */ alt(/* @__PURE__ */ altExceptT(semigroupNonEmptyList)(monadIdentity));
+var identity10 = /* @__PURE__ */ identity(categoryFn);
+var alt7 = /* @__PURE__ */ alt(/* @__PURE__ */ altExceptT(semigroupNonEmptyList)(monadIdentity));
 var unsafeReadTagged3 = /* @__PURE__ */ unsafeReadTagged(monadIdentity);
-var map29 = /* @__PURE__ */ map(/* @__PURE__ */ functorExceptT(functorIdentity));
+var map28 = /* @__PURE__ */ map(/* @__PURE__ */ functorExceptT(functorIdentity));
 var readString2 = /* @__PURE__ */ readString(monadIdentity);
-var bind8 = /* @__PURE__ */ bind(bindAff);
+var bind7 = /* @__PURE__ */ bind(bindAff);
 var liftEffect4 = /* @__PURE__ */ liftEffect(monadEffectAff);
 var toAff$prime = function(customCoerce) {
   return function(p2) {
@@ -11150,11 +10418,11 @@ var toAff$prime = function(customCoerce) {
 var coerce5 = function(fn) {
   return either(function(v2) {
     return error("Promise failed, couldn't extract JS Error or String");
-  })(identity11)(runExcept(alt8(unsafeReadTagged3("Error")(fn))(map29(error)(readString2(fn)))));
+  })(identity10)(runExcept(alt7(unsafeReadTagged3("Error")(fn))(map28(error)(readString2(fn)))));
 };
 var toAff = /* @__PURE__ */ toAff$prime(coerce5);
 var toAffE = function(f) {
-  return bind8(liftEffect4(f))(toAff);
+  return bind7(liftEffect4(f))(toAff);
 };
 
 // output/Literals.Undefined/foreign.js
@@ -11400,9 +10668,9 @@ var address = {
 };
 
 // output/Cardano.Capabilities.Wallet.MonadCIP30/index.js
-var identity12 = /* @__PURE__ */ identity(categoryFn);
+var identity11 = /* @__PURE__ */ identity(categoryFn);
 var sequence2 = /* @__PURE__ */ sequence(traversableArray);
-var map30 = /* @__PURE__ */ map(functorArray);
+var map29 = /* @__PURE__ */ map(functorArray);
 var signTx2 = function(dictMonadCIP30) {
   var liftAff2 = liftAff(dictMonadCIP30.MonadAff0());
   return function(api) {
@@ -11531,7 +10799,7 @@ var getNativeCoinBalance = function(dictMonadCIP30) {
   return function(api) {
     return bind20(getBalance1(api))(function(walletBalanceCbor) {
       var balance = fromMaybe(value13.zero)(value13.fromHex(walletBalanceCbor));
-      return pure23(bigNum.divFloor(value13.coin(balance))(maybe(bigNum.one)(identity12)(bigNum.fromStr("1000000"))));
+      return pure23(bigNum.divFloor(value13.coin(balance))(maybe(bigNum.one)(identity11)(bigNum.fromStr("1000000"))));
     });
   };
 };
@@ -11557,7 +10825,7 @@ var getTheAvailableWallets = function(dictMonadCIP30) {
   var getIcon1 = getIcon2(dictMonadCIP30);
   var pure23 = pure(Applicative0);
   return bind20(getAvailableWallets2(dictMonadCIP30))(function(ws) {
-    return bind20(sequence12(map30(getIcon1)(ws)))(function(is) {
+    return bind20(sequence12(map29(getIcon1)(ws)))(function(is) {
       return pure23(zip(ws)(is));
     });
   });
@@ -11582,7 +10850,7 @@ var enableWallet = function(dictMonadCIP30) {
 // output/Cardano.Capabilities.Transaction.Default/index.js
 var encodeJson2 = /* @__PURE__ */ encodeJson(encodeJsonAddWitAndSubmitParams);
 var decodeJson3 = /* @__PURE__ */ decodeJson(decodeJsonString);
-var show8 = /* @__PURE__ */ show(showJsonDecodeError);
+var show6 = /* @__PURE__ */ show(showJsonDecodeError);
 var submitTransactionDefault = function(dictMonadAff) {
   var Monad0 = dictMonadAff.MonadEffect0().Monad0();
   var bind20 = bind(Monad0.Bind1());
@@ -11613,7 +10881,7 @@ var submitTransactionDefault = function(dictMonadAff) {
             }
             ;
             if (v2 instanceof Left) {
-              return pure23(new Left("Failed to decode response: " + show8(v2.value0)));
+              return pure23(new Left("Failed to decode response: " + show6(v2.value0)));
             }
             ;
             throw new Error("Failed pattern match at Cardano.Capabilities.Transaction.Default (line 124, column 7 - line 126, column 88): " + [v2.constructor.name]);
@@ -11624,7 +10892,7 @@ var submitTransactionDefault = function(dictMonadAff) {
           }
           ;
           if (result instanceof Left) {
-            return pure23(new Left(printError2(result.value0)));
+            return pure23(new Left(printError(result.value0)));
           }
           ;
           throw new Error("Failed pattern match at Cardano.Capabilities.Transaction.Default (line 122, column 3 - line 130, column 36): " + [result.constructor.name]);
@@ -11678,7 +10946,7 @@ var buildTransactionFromInteraction = function(dictMonadAff) {
                 }
                 ;
                 if (v2 instanceof Left) {
-                  return pure23(new Left("Failed to decode transaction: " + show8(v2.value0)));
+                  return pure23(new Left("Failed to decode transaction: " + show6(v2.value0)));
                 }
                 ;
                 throw new Error("Failed pattern match at Cardano.Capabilities.Transaction.Default (line 94, column 7 - line 96, column 91): " + [v2.constructor.name]);
@@ -11689,7 +10957,7 @@ var buildTransactionFromInteraction = function(dictMonadAff) {
               }
               ;
               if (result instanceof Left) {
-                return pure23(new Left(printError2(result.value0)));
+                return pure23(new Left(printError(result.value0)));
               }
               ;
               throw new Error("Failed pattern match at Cardano.Capabilities.Transaction.Default (line 92, column 3 - line 100, column 36): " + [result.constructor.name]);
@@ -11773,8 +11041,48 @@ var buildTransaction = function(dictMonadInteraction) {
   };
 };
 
+// output/Halogen.HTML.Elements/index.js
+var pure8 = /* @__PURE__ */ pure(applicativeMaybe);
+var elementNS = function($15) {
+  return element(pure8($15));
+};
+var element2 = /* @__PURE__ */ (function() {
+  return element(Nothing.value);
+})();
+var figure = /* @__PURE__ */ element2("figure");
+var footer = /* @__PURE__ */ element2("footer");
+var h1 = /* @__PURE__ */ element2("h1");
+var h2 = /* @__PURE__ */ element2("h2");
+var h3 = /* @__PURE__ */ element2("h3");
+var h4 = /* @__PURE__ */ element2("h4");
+var h6 = /* @__PURE__ */ element2("h6");
+var img = function(props) {
+  return element2("img")(props)([]);
+};
+var li = /* @__PURE__ */ element2("li");
+var li_ = /* @__PURE__ */ li([]);
+var nav = /* @__PURE__ */ element2("nav");
+var nav_ = /* @__PURE__ */ nav([]);
+var p = /* @__PURE__ */ element2("p");
+var p_ = /* @__PURE__ */ p([]);
+var section = /* @__PURE__ */ element2("section");
+var span4 = /* @__PURE__ */ element2("span");
+var span_ = /* @__PURE__ */ span4([]);
+var ul = /* @__PURE__ */ element2("ul");
+var div3 = /* @__PURE__ */ element2("div");
+var div_ = /* @__PURE__ */ div3([]);
+var button = /* @__PURE__ */ element2("button");
+var br = function(props) {
+  return element2("br")(props)([]);
+};
+var br_ = /* @__PURE__ */ br([]);
+var aside = /* @__PURE__ */ element2("aside");
+var aside_ = /* @__PURE__ */ aside([]);
+var a = /* @__PURE__ */ element2("a");
+var a_ = /* @__PURE__ */ a([]);
+
 // output/Halogen.HTML.Properties/index.js
-var unwrap5 = /* @__PURE__ */ unwrap();
+var unwrap4 = /* @__PURE__ */ unwrap();
 var prop2 = function(dictIsProp) {
   return prop(dictIsProp);
 };
@@ -11789,7 +11097,7 @@ var href4 = /* @__PURE__ */ prop22("href");
 var classes = /* @__PURE__ */ (function() {
   var $32 = prop22("className");
   var $33 = joinWith(" ");
-  var $34 = map(functorArray)(unwrap5);
+  var $34 = map(functorArray)(unwrap4);
   return function($35) {
     return $32($33($34($35)));
   };
@@ -11797,11 +11105,65 @@ var classes = /* @__PURE__ */ (function() {
 var attr2 = /* @__PURE__ */ (function() {
   return attr(Nothing.value);
 })();
-var alt9 = /* @__PURE__ */ prop22("alt");
+var alt8 = /* @__PURE__ */ prop22("alt");
+
+// output/Web.HTML.Event.EventTypes/index.js
+var domcontentloaded = "DOMContentLoaded";
+
+// output/Web.UIEvent.MouseEvent.EventTypes/index.js
+var click2 = "click";
+
+// output/Halogen.HTML.Events/index.js
+var mouseHandler = unsafeCoerce2;
+var handler2 = function(et) {
+  return function(f) {
+    return handler(et)(function(ev) {
+      return new Just(new Action(f(ev)));
+    });
+  };
+};
+var onClick = /* @__PURE__ */ (function() {
+  var $15 = handler2(click2);
+  return function($16) {
+    return $15(mouseHandler($16));
+  };
+})();
+
+// output/Halogen.DaisyUI.Components.Buttons/index.js
+var renderButton = function(classes2) {
+  return function(text6) {
+    return function(action2) {
+      return button([classes(["btn " + classes2]), onClick(function(v2) {
+        return action2;
+      })])([text(text6)]);
+    };
+  };
+};
+var renderPrimaryButton = /* @__PURE__ */ renderButton("btn-primary btn-sm sm:btn-md w-full sm:w-auto");
+var renderSecondaryButton = /* @__PURE__ */ renderButton("btn-secondary btn-sm sm:btn-md w-full sm:w-auto");
+var renderAccentButton = /* @__PURE__ */ renderButton("btn-accent btn-sm sm:btn-md w-full sm:w-auto");
+
+// output/Halogen.DaisyUI.Components.Carousels/index.js
+var map30 = /* @__PURE__ */ map(functorArray);
+var renderHoverGallery = function(imageUrls) {
+  return figure([classes(["hover-gallery max-w-[200px] sm:max-w-60 w-full"])])(map30(function(url) {
+    return img([src9(url), classes(["w-full sm:w-60 h-auto sm:h-90 object-contain"])]);
+  })(imageUrls));
+};
+
+// output/Halogen.DaisyUI.Components.TextRotate/index.js
+var map31 = /* @__PURE__ */ map(functorArray);
+var renderTextRotate = function(classes2) {
+  return function(texts) {
+    return span4([classes(["text-rotate " + classes2])])([span4([classes(["justify-items-center"])])(map31(function(t2) {
+      return span_([text(t2)]);
+    })(texts))]);
+  };
+};
 
 // output/Halogen.Svg.Attributes.Color/index.js
-var show9 = /* @__PURE__ */ show(showInt);
-var show15 = /* @__PURE__ */ show(showNumber);
+var show7 = /* @__PURE__ */ show(showInt);
+var show13 = /* @__PURE__ */ show(showNumber);
 var RGB = /* @__PURE__ */ (function() {
   function RGB2(value0, value1, value22) {
     this.value0 = value0;
@@ -11856,11 +11218,11 @@ var NoColor = /* @__PURE__ */ (function() {
 })();
 var printColor = function(v2) {
   if (v2 instanceof RGB) {
-    return "rgb(" + (show9(v2.value0) + ("," + (show9(v2.value1) + ("," + (show9(v2.value2) + ")")))));
+    return "rgb(" + (show7(v2.value0) + ("," + (show7(v2.value1) + ("," + (show7(v2.value2) + ")")))));
   }
   ;
   if (v2 instanceof RGBA) {
-    return "rgba(" + (show9(v2.value0) + ("," + (show9(v2.value1) + ("," + (show9(v2.value2) + ("," + (show15(v2.value3) + ")")))))));
+    return "rgba(" + (show7(v2.value0) + ("," + (show7(v2.value1) + ("," + (show7(v2.value2) + ("," + (show13(v2.value3) + ")")))))));
   }
   ;
   if (v2 instanceof Named2) {
@@ -11973,13 +11335,13 @@ var printStrokeLineJoin = function(v2) {
 };
 
 // output/Halogen.Svg.Attributes/index.js
-var show10 = /* @__PURE__ */ show(showNumber);
-var map31 = /* @__PURE__ */ map(functorArray);
+var show8 = /* @__PURE__ */ show(showNumber);
+var map32 = /* @__PURE__ */ map(functorArray);
 var viewBox = function(x_) {
   return function(y_) {
     return function(w) {
       return function(h_) {
-        return attr2("viewBox")(joinWith(" ")(map31(show10)([x_, y_, w, h_])));
+        return attr2("viewBox")(joinWith(" ")(map32(show8)([x_, y_, w, h_])));
       };
     };
   };
@@ -11987,7 +11349,7 @@ var viewBox = function(x_) {
 var strokeWidth = /* @__PURE__ */ (function() {
   var $42 = attr2("stroke-width");
   return function($43) {
-    return $42(show10($43));
+    return $42(show8($43));
   };
 })();
 var strokeLineJoin = /* @__PURE__ */ (function() {
@@ -12016,46 +11378,6 @@ var class_ = /* @__PURE__ */ (function() {
   };
 })();
 
-// output/Halogen.HTML.Elements/index.js
-var pure10 = /* @__PURE__ */ pure(applicativeMaybe);
-var elementNS = function($15) {
-  return element(pure10($15));
-};
-var element2 = /* @__PURE__ */ (function() {
-  return element(Nothing.value);
-})();
-var figure = /* @__PURE__ */ element2("figure");
-var footer = /* @__PURE__ */ element2("footer");
-var h1 = /* @__PURE__ */ element2("h1");
-var h2 = /* @__PURE__ */ element2("h2");
-var h3 = /* @__PURE__ */ element2("h3");
-var h4 = /* @__PURE__ */ element2("h4");
-var h6 = /* @__PURE__ */ element2("h6");
-var img = function(props) {
-  return element2("img")(props)([]);
-};
-var li = /* @__PURE__ */ element2("li");
-var li_ = /* @__PURE__ */ li([]);
-var nav = /* @__PURE__ */ element2("nav");
-var nav_ = /* @__PURE__ */ nav([]);
-var p = /* @__PURE__ */ element2("p");
-var p_ = /* @__PURE__ */ p([]);
-var section = /* @__PURE__ */ element2("section");
-var span4 = /* @__PURE__ */ element2("span");
-var span_ = /* @__PURE__ */ span4([]);
-var ul = /* @__PURE__ */ element2("ul");
-var div3 = /* @__PURE__ */ element2("div");
-var div_ = /* @__PURE__ */ div3([]);
-var button = /* @__PURE__ */ element2("button");
-var br = function(props) {
-  return element2("br")(props)([]);
-};
-var br_ = /* @__PURE__ */ br([]);
-var aside = /* @__PURE__ */ element2("aside");
-var aside_ = /* @__PURE__ */ aside([]);
-var a2 = /* @__PURE__ */ element2("a");
-var a_ = /* @__PURE__ */ a2([]);
-
 // output/Halogen.Svg.Elements/index.js
 var element3 = /* @__PURE__ */ elementNS("http://www.w3.org/2000/svg");
 var path = function(props) {
@@ -12063,44 +11385,20 @@ var path = function(props) {
 };
 var svg = /* @__PURE__ */ element3("svg");
 
-// output/Components.HTML.Icons/index.js
-var altertSVG = function(string2) {
-  return svg([class_("h-6 w-6 shrink-0 stroke-current"), fill(NoColor.value), viewBox(0)(0)(24)(24)])([path([strokeLineCap(LineCapRound.value), strokeLineJoin(LineJoinRound.value), strokeWidth(2), attr2("d")(string2)])]);
-};
-var errorSvgIcon = /* @__PURE__ */ altertSVG("M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z");
-var infoSvgIcon = /* @__PURE__ */ altertSVG("M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z");
-var successSvgIcon = /* @__PURE__ */ altertSVG("M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z");
-var warningSvgIcon = /* @__PURE__ */ altertSVG("M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z");
-
-// output/Web.HTML.Event.EventTypes/index.js
-var domcontentloaded = "DOMContentLoaded";
-
-// output/Web.UIEvent.MouseEvent.EventTypes/index.js
-var click2 = "click";
-
-// output/Halogen.HTML.Events/index.js
-var mouseHandler = unsafeCoerce2;
-var handler2 = function(et) {
-  return function(f) {
-    return handler(et)(function(ev) {
-      return new Just(new Action(f(ev)));
-    });
-  };
-};
-var onClick = /* @__PURE__ */ (function() {
-  var $15 = handler2(click2);
-  return function($16) {
-    return $15(mouseHandler($16));
-  };
+// output/Halogen.DaisyUI.Components.Toasts/index.js
+var map33 = /* @__PURE__ */ map(functorArray);
+var warningSvgIcon = /* @__PURE__ */ (function() {
+  return svg([class_("h-6 w-6 shrink-0 stroke-current"), fill(NoColor.value), viewBox(0)(0)(24)(24)])([path([strokeLineCap(LineCapRound.value), strokeLineJoin(LineJoinRound.value), strokeWidth(2), attr2("d")("M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z")])]);
 })();
-
-// output/Components.HTML.RenderUtils.App/index.js
-var map32 = /* @__PURE__ */ map(functorArray);
-var mapFlipped4 = /* @__PURE__ */ mapFlipped(functorArray);
-var show11 = /* @__PURE__ */ show(showNumber);
-var show16 = /* @__PURE__ */ show(showInt);
-var map112 = /* @__PURE__ */ map(functorMaybe);
-var identity13 = /* @__PURE__ */ identity(categoryFn);
+var successSvgIcon = /* @__PURE__ */ (function() {
+  return svg([class_("h-6 w-6 shrink-0 stroke-current"), fill(NoColor.value), viewBox(0)(0)(24)(24)])([path([strokeLineCap(LineCapRound.value), strokeLineJoin(LineJoinRound.value), strokeWidth(2), attr2("d")("M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z")])]);
+})();
+var infoSvgIcon = /* @__PURE__ */ (function() {
+  return svg([class_("h-6 w-6 shrink-0 stroke-current"), fill(NoColor.value), viewBox(0)(0)(24)(24)])([path([strokeLineCap(LineCapRound.value), strokeLineJoin(LineJoinRound.value), strokeWidth(2), attr2("d")("M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z")])]);
+})();
+var errorSvgIcon = /* @__PURE__ */ (function() {
+  return svg([class_("h-6 w-6 shrink-0 stroke-current"), fill(NoColor.value), viewBox(0)(0)(24)(24)])([path([strokeLineCap(LineCapRound.value), strokeLineJoin(LineJoinRound.value), strokeWidth(2), attr2("d")("M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z")])]);
+})();
 var renderToast = function(v2) {
   return div3([classes(["alert alert-" + v2.value0])])([(function() {
     if (v2.value0 === "success") {
@@ -12119,34 +11417,34 @@ var renderToast = function(v2) {
   })(), span_([text(v2.value1)])]);
 };
 var renderToasts = function(toasts) {
-  return div3([classes(["toast toast-center toast-top z-[9999]"])])(map32(renderToast)(toasts));
+  return div3([classes(["toast toast-center toast-top z-[9999]"])])(map33(renderToast)(toasts));
 };
-var renderTextRotate = function(classes2) {
-  return function(texts) {
-    return span4([classes(["text-rotate " + classes2])])([span4([classes(["justify-items-center"])])(map32(function(t2) {
-      return span_([text(t2)]);
-    })(texts))]);
-  };
-};
+
+// output/Components.HTML.RenderUtils.App/index.js
+var mapFlipped3 = /* @__PURE__ */ mapFlipped(functorArray);
+var show9 = /* @__PURE__ */ show(showNumber);
+var show14 = /* @__PURE__ */ show(showInt);
+var map34 = /* @__PURE__ */ map(functorMaybe);
+var identity12 = /* @__PURE__ */ identity(categoryFn);
 var renderProfessionalServicesSection = function(buttonsList) {
   var serviceCard = function(title4) {
     return function(items2) {
-      return div3([classes(["card bg-base-200 shadow"])])([div3([classes(["card-body"])])([h3([classes(["card-title text-xl"])])([text(title4)]), ul([classes(["list-disc list-inside opacity-90"])])(mapFlipped4(items2)(function(t2) {
+      return div3([classes(["card bg-base-200 shadow"])])([div3([classes(["card-body"])])([h3([classes(["card-title text-xl"])])([text(title4)]), ul([classes(["list-disc list-inside opacity-90"])])(mapFlipped3(items2)(function(t2) {
         return li_([text(t2)]);
       }))])]);
     };
   };
   var badge = function(cls) {
-    return function(label5) {
-      return div3([classes(["badge " + cls])])([text(label5)]);
+    return function(label$prime) {
+      return div3([classes(["badge " + cls])])([text(label$prime)]);
     };
   };
   return section([id3("services"), classes(["w-full max-w-6xl mx-auto px-4 sm:px-6 py-8 sm:py-12"])])([div3([classes(["text-center mb-6 sm:mb-8"])])([h2([classes(["text-2xl sm:text-3xl md:text-4xl font-bold"])])([text("Professional Services")]), p([classes(["opacity-80 mt-2 text-sm sm:text-base px-2"])])([text("We transform blockchain ideas into production-ready solutions. Our team specializes in Cardano development, from smart contracts to full-stack dApps, with security and performance at the core.")]), div3([classes(["flex flex-wrap justify-center gap-2 mt-4"])])([badge("badge-info")("Fixed budget"), badge("badge-info")("Team augmentation"), badge("badge-info")("Time and materials")])]), div3([classes(["grid grid-cols-1 md:grid-cols-2 gap-4"])])([serviceCard("Smart Contracts")(["Battle-tested smart contract development", "NFTs, DeFi, DAOs, and custom solutions", "Optimized for efficiency and cost"]), serviceCard("Audits")(["Comprehensive security analysis", "Gas optimization recommendations", "Detailed audit reports with actionable insights"]), serviceCard("Backend & Frontend")(["Haskell, PureScript, and modern frameworks", "Web3-native user experiences", "Secure API design and integration"]), serviceCard("Infrastructure")(["24/7 monitoring and support", "Cloud-native Kubernetes deployments", "Disaster recovery and backup solutions"])]), div3([classes(["mt-6 flex flex-col sm:flex-row justify-center gap-2"])])(buttonsList)]);
 };
 var renderPoolOverviewSection = function(maybePoolInfo) {
-  var stat = function(value1) {
+  var stat = function(value15) {
     return function(desc) {
-      return div3([classes(["card bg-base-200 shadow-lg hover:shadow-xl transition-shadow"])])([div3([classes(["card-body items-center text-center"])])([div3([classes(["text-2xl sm:text-3xl md:text-4xl font-bold"])])([text(value1)]), div3([classes(["opacity-80 text-sm sm:text-base"])])([text(desc)])])]);
+      return div3([classes(["card bg-base-200 shadow-lg hover:shadow-xl transition-shadow"])])([div3([classes(["card-body items-center text-center"])])([div3([classes(["text-2xl sm:text-3xl md:text-4xl font-bold"])])([text(value15)]), div3([classes(["opacity-80 text-sm sm:text-base"])])([text(desc)])])]);
     };
   };
   var extractPoolStats = function(v2) {
@@ -12158,12 +11456,12 @@ var renderPoolOverviewSection = function(maybePoolInfo) {
       var formatPercent = function(v1) {
         if (v1 instanceof Just) {
           if (v1.value0 >= 1) {
-            return show11(v1.value0) + "%";
+            return show9(v1.value0) + "%";
           }
           ;
           if (otherwise) {
             var rounded = floor(v1.value0 * 100) / 100;
-            return show11(rounded) + "%";
+            return show9(rounded) + "%";
           }
           ;
         }
@@ -12172,20 +11470,20 @@ var renderPoolOverviewSection = function(maybePoolInfo) {
           return "\u2014";
         }
         ;
-        throw new Error("Failed pattern match at Components.HTML.RenderUtils.App (line 904, column 7 - line 904, column 46): " + [v1.constructor.name]);
+        throw new Error("Failed pattern match at Components.HTML.RenderUtils.App (line 210, column 7 - line 210, column 46): " + [v1.constructor.name]);
       };
       var formatNumber2 = function(v1) {
         if (v1 instanceof Just) {
           if (v1.value0 >= 1e6) {
-            return show11(floor(toNumber(v1.value0) / 1e6)) + "M";
+            return show9(floor(toNumber(v1.value0) / 1e6)) + "M";
           }
           ;
           if (v1.value0 >= 1e3) {
-            return show11(floor(toNumber(v1.value0) / 1e3)) + "K";
+            return show9(floor(toNumber(v1.value0) / 1e3)) + "K";
           }
           ;
           if (otherwise) {
-            return show16(v1.value0);
+            return show14(v1.value0);
           }
           ;
         }
@@ -12194,34 +11492,34 @@ var renderPoolOverviewSection = function(maybePoolInfo) {
           return "\u2014";
         }
         ;
-        throw new Error("Failed pattern match at Components.HTML.RenderUtils.App (line 912, column 7 - line 912, column 42): " + [v1.constructor.name]);
+        throw new Error("Failed pattern match at Components.HTML.RenderUtils.App (line 218, column 7 - line 218, column 42): " + [v1.constructor.name]);
       };
       var formatAda = function(v1) {
         if (v1 instanceof Just) {
           if (v1.value0 >= 1e6) {
             var millions = v1.value0 / 1e6;
-            var $75 = millions >= 100;
-            if ($75) {
-              return show11(floor(millions)) + "M \u20B3";
+            var $21 = millions >= 100;
+            if ($21) {
+              return show9(floor(millions)) + "M \u20B3";
             }
             ;
             var rounded = floor(millions * 10) / 10;
-            return show11(rounded) + "M \u20B3";
+            return show9(rounded) + "M \u20B3";
           }
           ;
           if (v1.value0 >= 1e3) {
             var thousands = v1.value0 / 1e3;
-            var $76 = thousands >= 100;
-            if ($76) {
-              return show11(floor(thousands)) + "K \u20B3";
+            var $22 = thousands >= 100;
+            if ($22) {
+              return show9(floor(thousands)) + "K \u20B3";
             }
             ;
             var rounded = floor(thousands * 10) / 10;
-            return show11(rounded) + "K \u20B3";
+            return show9(rounded) + "K \u20B3";
           }
           ;
           if (otherwise) {
-            return show11(floor(v1.value0)) + " \u20B3";
+            return show9(floor(v1.value0)) + " \u20B3";
           }
           ;
         }
@@ -12230,7 +11528,7 @@ var renderPoolOverviewSection = function(maybePoolInfo) {
           return "\u2014";
         }
         ;
-        throw new Error("Failed pattern match at Components.HTML.RenderUtils.App (line 884, column 7 - line 884, column 42): " + [v1.constructor.name]);
+        throw new Error("Failed pattern match at Components.HTML.RenderUtils.App (line 191, column 7 - line 191, column 42): " + [v1.constructor.name]);
       };
       var allStats = [(function() {
         if (v2.value0.margin instanceof Just) {
@@ -12241,47 +11539,47 @@ var renderPoolOverviewSection = function(maybePoolInfo) {
           return Nothing.value;
         }
         ;
-        throw new Error("Failed pattern match at Components.HTML.RenderUtils.App (line 921, column 11 - line 923, column 31): " + [v2.value0.margin.constructor.name]);
+        throw new Error("Failed pattern match at Components.HTML.RenderUtils.App (line 226, column 11 - line 228, column 31): " + [v2.value0.margin.constructor.name]);
       })(), (function() {
         if (v2.value0.pledge instanceof Just) {
-          return new Just(stat(formatAda(map112(lovelaceToAda)(v2.value0.pledge)))("Pledge"));
+          return new Just(stat(formatAda(map34(lovelaceToAda)(v2.value0.pledge)))("Pledge"));
         }
         ;
         if (v2.value0.pledge instanceof Nothing) {
           return Nothing.value;
         }
         ;
-        throw new Error("Failed pattern match at Components.HTML.RenderUtils.App (line 924, column 11 - line 926, column 31): " + [v2.value0.pledge.constructor.name]);
+        throw new Error("Failed pattern match at Components.HTML.RenderUtils.App (line 229, column 11 - line 231, column 31): " + [v2.value0.pledge.constructor.name]);
       })(), (function() {
         if (v2.value0.fixed_cost instanceof Just) {
-          return new Just(stat(formatAda(map112(lovelaceToAda)(v2.value0.fixed_cost)))("Fixed Cost"));
+          return new Just(stat(formatAda(map34(lovelaceToAda)(v2.value0.fixed_cost)))("Fixed Cost"));
         }
         ;
         if (v2.value0.fixed_cost instanceof Nothing) {
           return Nothing.value;
         }
         ;
-        throw new Error("Failed pattern match at Components.HTML.RenderUtils.App (line 927, column 11 - line 929, column 31): " + [v2.value0.fixed_cost.constructor.name]);
+        throw new Error("Failed pattern match at Components.HTML.RenderUtils.App (line 232, column 11 - line 234, column 31): " + [v2.value0.fixed_cost.constructor.name]);
       })(), (function() {
         if (v2.value0.live_stake instanceof Just) {
-          return new Just(stat(formatAda(map112(lovelaceToAda)(v2.value0.live_stake)))("Live Stake"));
+          return new Just(stat(formatAda(map34(lovelaceToAda)(v2.value0.live_stake)))("Live Stake"));
         }
         ;
         if (v2.value0.live_stake instanceof Nothing) {
           return Nothing.value;
         }
         ;
-        throw new Error("Failed pattern match at Components.HTML.RenderUtils.App (line 930, column 11 - line 932, column 31): " + [v2.value0.live_stake.constructor.name]);
+        throw new Error("Failed pattern match at Components.HTML.RenderUtils.App (line 235, column 11 - line 237, column 31): " + [v2.value0.live_stake.constructor.name]);
       })(), (function() {
         if (v2.value0.active_stake instanceof Just) {
-          return new Just(stat(formatAda(map112(lovelaceToAda)(v2.value0.active_stake)))("Active Stake"));
+          return new Just(stat(formatAda(map34(lovelaceToAda)(v2.value0.active_stake)))("Active Stake"));
         }
         ;
         if (v2.value0.active_stake instanceof Nothing) {
           return Nothing.value;
         }
         ;
-        throw new Error("Failed pattern match at Components.HTML.RenderUtils.App (line 933, column 11 - line 935, column 31): " + [v2.value0.active_stake.constructor.name]);
+        throw new Error("Failed pattern match at Components.HTML.RenderUtils.App (line 238, column 11 - line 240, column 31): " + [v2.value0.active_stake.constructor.name]);
       })(), (function() {
         if (v2.value0.delegators instanceof Just) {
           return new Just(stat(formatNumber2(v2.value0.delegators))("Delegators"));
@@ -12291,7 +11589,7 @@ var renderPoolOverviewSection = function(maybePoolInfo) {
           return Nothing.value;
         }
         ;
-        throw new Error("Failed pattern match at Components.HTML.RenderUtils.App (line 936, column 11 - line 938, column 31): " + [v2.value0.delegators.constructor.name]);
+        throw new Error("Failed pattern match at Components.HTML.RenderUtils.App (line 241, column 11 - line 243, column 31): " + [v2.value0.delegators.constructor.name]);
       })(), (function() {
         if (v2.value0.blocks instanceof Just) {
           return new Just(stat(formatNumber2(v2.value0.blocks))("Blocks Minted"));
@@ -12301,7 +11599,7 @@ var renderPoolOverviewSection = function(maybePoolInfo) {
           return Nothing.value;
         }
         ;
-        throw new Error("Failed pattern match at Components.HTML.RenderUtils.App (line 939, column 11 - line 941, column 31): " + [v2.value0.blocks.constructor.name]);
+        throw new Error("Failed pattern match at Components.HTML.RenderUtils.App (line 244, column 11 - line 246, column 31): " + [v2.value0.blocks.constructor.name]);
       })(), (function() {
         if (v2.value0.saturation instanceof Just) {
           return new Just(stat(formatPercent(new Just(v2.value0.saturation.value0)))("Saturation"));
@@ -12311,7 +11609,7 @@ var renderPoolOverviewSection = function(maybePoolInfo) {
           return Nothing.value;
         }
         ;
-        throw new Error("Failed pattern match at Components.HTML.RenderUtils.App (line 942, column 11 - line 944, column 31): " + [v2.value0.saturation.constructor.name]);
+        throw new Error("Failed pattern match at Components.HTML.RenderUtils.App (line 247, column 11 - line 249, column 31): " + [v2.value0.saturation.constructor.name]);
       })(), (function() {
         if (v2.value0.name instanceof Just) {
           return new Just(stat(v2.value0.name.value0)("Pool Name"));
@@ -12321,7 +11619,7 @@ var renderPoolOverviewSection = function(maybePoolInfo) {
           return Nothing.value;
         }
         ;
-        throw new Error("Failed pattern match at Components.HTML.RenderUtils.App (line 945, column 11 - line 947, column 31): " + [v2.value0.name.constructor.name]);
+        throw new Error("Failed pattern match at Components.HTML.RenderUtils.App (line 250, column 11 - line 252, column 31): " + [v2.value0.name.constructor.name]);
       })(), (function() {
         if (v2.value0.ticker instanceof Just) {
           return new Just(stat(v2.value0.ticker.value0)("Ticker"));
@@ -12331,18 +11629,18 @@ var renderPoolOverviewSection = function(maybePoolInfo) {
           return Nothing.value;
         }
         ;
-        throw new Error("Failed pattern match at Components.HTML.RenderUtils.App (line 948, column 11 - line 950, column 31): " + [v2.value0.ticker.constructor.name]);
+        throw new Error("Failed pattern match at Components.HTML.RenderUtils.App (line 253, column 11 - line 255, column 31): " + [v2.value0.ticker.constructor.name]);
       })()];
-      var availableStats = mapMaybe(identity13)(allStats);
-      var $98 = length(availableStats) > 0;
-      if ($98) {
+      var availableStats = mapMaybe(identity12)(allStats);
+      var $44 = length(availableStats) > 0;
+      if ($44) {
         return availableStats;
       }
       ;
       return [stat("99.9%")("Uptime target"), stat("Competitive Fees")("More rewards in your wallet"), stat("Secured")("Best practices operations")];
     }
     ;
-    throw new Error("Failed pattern match at Components.HTML.RenderUtils.App (line 875, column 3 - line 875, column 60): " + [v2.constructor.name]);
+    throw new Error("Failed pattern match at Components.HTML.RenderUtils.App (line 183, column 3 - line 183, column 60): " + [v2.constructor.name]);
   };
   var maybePoolId = (function() {
     if (maybePoolInfo instanceof Just) {
@@ -12353,69 +11651,782 @@ var renderPoolOverviewSection = function(maybePoolInfo) {
       return Nothing.value;
     }
     ;
-    throw new Error("Failed pattern match at Components.HTML.RenderUtils.App (line 832, column 19 - line 834, column 25): " + [maybePoolInfo.constructor.name]);
+    throw new Error("Failed pattern match at Components.HTML.RenderUtils.App (line 140, column 19 - line 142, column 25): " + [maybePoolInfo.constructor.name]);
   })();
   return section([id3("pool"), classes(["w-full max-w-6xl mx-auto px-4 sm:px-6 py-8 sm:py-12"])])([div3([classes(["text-center mb-6"])])([h2([classes(["text-2xl sm:text-3xl font-bold"])])([text("Cardano Staking Pool")]), p([classes(["opacity-80 mt-2 text-sm sm:text-base px-2"])])([text("Secure, reliable, and community-focused staking. As a single pool operator, we're 100% dedicated to our delegators' success.")])]), div3([classes(["grid grid-cols-1 md:grid-cols-3 gap-4"])])(extractPoolStats(maybePoolInfo)), (function() {
     if (maybePoolId instanceof Just) {
-      return div3([classes(["mt-6 flex flex-col sm:flex-row justify-center gap-2"])])([a2([classes(["btn btn-primary btn-sm sm:btn-md w-full sm:w-auto"]), href4("https://cexplorer.io/pool/" + maybePoolId.value0), target5("_blank")])([text("See Pool Performance")]), a2([classes(["btn btn-sm sm:btn-md w-full sm:w-auto"]), href4("#hero")])([text("Join us")])]);
+      return div3([classes(["mt-6 flex flex-col sm:flex-row justify-center gap-2"])])([a([classes(["btn btn-primary btn-sm sm:btn-md w-full sm:w-auto"]), href4("https://cexplorer.io/pool/" + maybePoolId.value0), target5("_blank")])([text("See Pool Performance")]), a([classes(["btn btn-sm sm:btn-md w-full sm:w-auto"]), href4("#hero")])([text("Join us")])]);
     }
     ;
     if (maybePoolId instanceof Nothing) {
       return text("");
     }
     ;
-    throw new Error("Failed pattern match at Components.HTML.RenderUtils.App (line 848, column 9 - line 863, column 32): " + [maybePoolId.constructor.name]);
+    throw new Error("Failed pattern match at Components.HTML.RenderUtils.App (line 156, column 9 - line 171, column 32): " + [maybePoolId.constructor.name]);
   })()]);
 };
-var renderHoverGallery = function(imageUrls) {
-  return figure([classes(["hover-gallery max-w-[200px] sm:max-w-60 w-full"])])(map32(function(url) {
-    return img([src9(url), classes(["w-full sm:w-60 h-auto sm:h-90 object-contain"])]);
-  })(imageUrls));
-};
 var renderHeroSection = function(buttonsList) {
-  return section([id3("hero"), classes(["w-full bg-base-200"])])([div3([classes(["hero min-h-svh"])])([div3([classes(["hero-content flex-col lg:flex-row gap-4 sm:gap-8 px-4 sm:px-6"])])([div3([classes(["w-full lg:w-auto"])])([div_([img([src9("./images/E7D/SVG Vector Files/Transparent Logo.svg"), alt9("ENTANGLED Labs Logo"), classes(["max-w-[200px] sm:max-w-xs w-full h-auto"])]), h3([classes(["text-xl sm:text-2xl md:text-3xl font-bold mt-2"])])([span_([text("We "), renderTextRotate("text-2xl sm:text-3xl md:text-4xl text-success")([" DESIGN \u{1F4D0} ", " DEVELOP \u2328\uFE0F ", " DEPLOY \u{1F30E} ", " SCALE \u2B06\uFE0F ", " MAINTAIN \u{1F527} "]), text(" for you.")])])]), div3([classes(["flex flex-wrap justify-center gap-2 mt-4"])])([renderHoverGallery(["./images/logos/Cardano-RGB_Logo-Icon-Black.svg", "./images/logos/Cardano-RGB_Logo-Icon-White.svg", "./images/logos/Midnight-RGB_Symbol-White.svg", "./images/logos/Midnight-RGB_Symbol-Black.svg", "./images/logos/Cardano-RGB_Logo-Icon-Blue.svg", "./images/logos/bitcoin-btc-logo.svg"])]), div_([h1([classes(["text-3xl sm:text-4xl md:text-5xl font-bold"])])([text("ENTANGLED Labs")]), p([classes(["py-2 sm:py-4 opacity-80 text-sm sm:text-base"])])([text("Your trusted Cardano infrastructure & development partner")]), div3([classes(["flex flex-col sm:flex-row gap-2 w-full sm:w-auto"])])(buttonsList)])])])])]);
+  return section([id3("hero"), classes(["w-full bg-base-200"])])([div3([classes(["hero min-h-svh"])])([div3([classes(["hero-content flex-col lg:flex-row gap-4 sm:gap-8 px-4 sm:px-6"])])([div3([classes(["w-full lg:w-auto"])])([div_([img([src9("./images/E7D/SVG Vector Files/Transparent Logo.svg"), alt8("ENTANGLED Labs Logo"), classes(["max-w-[200px] sm:max-w-xs w-full h-auto"])]), h3([classes(["text-xl sm:text-2xl md:text-3xl font-bold mt-2"])])([span_([text("We "), renderTextRotate("text-2xl sm:text-3xl md:text-4xl text-success")([" DESIGN \u{1F4D0} ", " DEVELOP \u2328\uFE0F ", " DEPLOY \u{1F30E} ", " SCALE \u2B06\uFE0F ", " MAINTAIN \u{1F527} "]), text(" for you.")])])]), div3([classes(["flex flex-wrap justify-center gap-2 mt-4"])])([renderHoverGallery(["./images/logos/Cardano-RGB_Logo-Icon-Black.svg", "./images/logos/Cardano-RGB_Logo-Icon-White.svg", "./images/logos/Midnight-RGB_Symbol-White.svg", "./images/logos/Midnight-RGB_Symbol-Black.svg", "./images/logos/Cardano-RGB_Logo-Icon-Blue.svg", "./images/logos/bitcoin-btc-logo.svg"])]), div_([h1([classes(["text-3xl sm:text-4xl md:text-5xl font-bold"])])([text("ENTANGLED Labs")]), p([classes(["py-2 sm:py-4 opacity-80 text-sm sm:text-base"])])([text("Your trusted Cardano infrastructure & development partner")]), div3([classes(["flex flex-col sm:flex-row gap-2 w-full sm:w-auto"])])(buttonsList)])])])])]);
 };
-var renderFooterSection = /* @__PURE__ */ footer([/* @__PURE__ */ classes(["footer footer-vertical sm:footer-horizontal bg-base-200 text-base-content p-6 sm:p-10 mt-12"])])([/* @__PURE__ */ aside_([/* @__PURE__ */ img([/* @__PURE__ */ src9("./images/E7D/PNG Logo Files/Transparent Logo.png"), /* @__PURE__ */ alt9("ENTANGLED Labs"), /* @__PURE__ */ classes(["w-12 sm:w-16"])]), /* @__PURE__ */ p([/* @__PURE__ */ classes(["text-sm sm:text-base"])])([/* @__PURE__ */ text("ENTANGLED Labs"), br_, /* @__PURE__ */ text("Secure staking \u2022 Expert development \u2022 Trusted partner")])]), /* @__PURE__ */ nav_([/* @__PURE__ */ h6([/* @__PURE__ */ classes(["footer-title text-sm sm:text-base"])])([/* @__PURE__ */ text("Company")]), /* @__PURE__ */ a2([/* @__PURE__ */ classes(["link link-hover text-sm sm:text-base"]), /* @__PURE__ */ href4("#about")])([/* @__PURE__ */ text("About")]), /* @__PURE__ */ a2([/* @__PURE__ */ classes(["link link-hover text-sm sm:text-base"]), /* @__PURE__ */ href4("#services")])([/* @__PURE__ */ text("Services")]), /* @__PURE__ */ a2([/* @__PURE__ */ classes(["link link-hover text-sm sm:text-base"]), /* @__PURE__ */ href4("#pool")])([/* @__PURE__ */ text("Pool")])]), /* @__PURE__ */ nav_([/* @__PURE__ */ h6([/* @__PURE__ */ classes(["footer-title text-sm sm:text-base"])])([/* @__PURE__ */ text("Links")]), /* @__PURE__ */ a2([/* @__PURE__ */ classes(["link link-hover text-sm sm:text-base"]), /* @__PURE__ */ target5("_blank"), /* @__PURE__ */ href4("https://github.com/en7angled/")])([/* @__PURE__ */ text("GitHub")])])]);
+var renderFooterSection = /* @__PURE__ */ footer([/* @__PURE__ */ classes(["footer footer-vertical sm:footer-horizontal bg-base-200 text-base-content p-6 sm:p-10 mt-12"])])([/* @__PURE__ */ aside_([/* @__PURE__ */ img([/* @__PURE__ */ src9("./images/E7D/PNG Logo Files/Transparent Logo.png"), /* @__PURE__ */ alt8("ENTANGLED Labs"), /* @__PURE__ */ classes(["w-12 sm:w-16"])]), /* @__PURE__ */ p([/* @__PURE__ */ classes(["text-sm sm:text-base"])])([/* @__PURE__ */ text("ENTANGLED Labs"), br_, /* @__PURE__ */ text("Secure staking \u2022 Expert development \u2022 Trusted partner")])]), /* @__PURE__ */ nav_([/* @__PURE__ */ h6([/* @__PURE__ */ classes(["footer-title text-sm sm:text-base"])])([/* @__PURE__ */ text("Company")]), /* @__PURE__ */ a([/* @__PURE__ */ classes(["link link-hover text-sm sm:text-base"]), /* @__PURE__ */ href4("#about")])([/* @__PURE__ */ text("About")]), /* @__PURE__ */ a([/* @__PURE__ */ classes(["link link-hover text-sm sm:text-base"]), /* @__PURE__ */ href4("#services")])([/* @__PURE__ */ text("Services")]), /* @__PURE__ */ a([/* @__PURE__ */ classes(["link link-hover text-sm sm:text-base"]), /* @__PURE__ */ href4("#pool")])([/* @__PURE__ */ text("Pool")])]), /* @__PURE__ */ nav_([/* @__PURE__ */ h6([/* @__PURE__ */ classes(["footer-title text-sm sm:text-base"])])([/* @__PURE__ */ text("Links")]), /* @__PURE__ */ a([/* @__PURE__ */ classes(["link link-hover text-sm sm:text-base"]), /* @__PURE__ */ target5("_blank"), /* @__PURE__ */ href4("https://github.com/en7angled/")])([/* @__PURE__ */ text("GitHub")])])]);
 var renderFabFlower = /* @__PURE__ */ (function() {
   var starIcon = svg([class_("h-6 w-6 shrink-0 stroke-current"), fill(NoColor.value), viewBox(0)(0)(24)(24)])([path([strokeLineCap(LineCapRound.value), strokeLineJoin(LineJoinRound.value), strokeWidth(2), attr2("d")("M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z")])]);
   var paletteIcon = svg([class_("h-6 w-6 shrink-0 stroke-current"), fill(NoColor.value), viewBox(0)(0)(24)(24)])([path([strokeLineCap(LineCapRound.value), strokeLineJoin(LineJoinRound.value), strokeWidth(2), attr2("d")("M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01")])]);
   var medalIcon = svg([class_("h-6 w-6 shrink-0 stroke-current"), fill(NoColor.value), viewBox(0)(0)(24)(24)])([path([strokeLineCap(LineCapRound.value), strokeLineJoin(LineJoinRound.value), strokeWidth(2), attr2("d")("M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z")])]);
   var chartIcon = svg([class_("h-6 w-6 shrink-0 stroke-current"), fill(NoColor.value), viewBox(0)(0)(24)(24)])([path([strokeLineCap(LineCapRound.value), strokeLineJoin(LineJoinRound.value), strokeWidth(2), attr2("d")("M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z")])]);
-  return div3([classes(["fab"])])([div3([tabIndex2(0), attr2("role")("button"), classes(["btn btn-lg btn-circle btn-accent"])])([starIcon]), div3([classes(["fab-close"])])([text("Close "), span4([classes(["btn btn-circle btn-lg btn-error"])])([text("\u2715")])]), div_([span4([classes(["bg-base-100 text-accent"])])([text("BJJ Belts")]), a2([classes(["btn btn-lg btn-circle bg-accent text-accent-content"]), href4("https://bjj.cardano.vip"), target5("_blank")])([medalIcon])]), div_([span4([classes(["bg-base-100 text-accent"])])([text("Raffleize Art")]), a2([classes(["btn btn-lg btn-circle bg-accent text-accent-content"]), href4("https://github.com/mariusgeorgescu/raffleize"), target5("_blank")])([paletteIcon])]), div_([span4([classes(["bg-base-100 text-accent"])])([text("Cardano Ticker")]), a2([classes(["btn btn-lg btn-circle bg-accent text-accent-content"]), href4("https://github.com/en7angled/CardanoTicker/tree/main"), target5("_blank")])([chartIcon])])]);
+  return div3([classes(["fab"])])([div3([tabIndex2(0), attr2("role")("button"), classes(["btn btn-lg btn-circle btn-accent"])])([starIcon]), div3([classes(["fab-close"])])([text("Close "), span4([classes(["btn btn-circle btn-lg btn-error"])])([text("\u2715")])]), div_([span4([classes(["bg-base-100 text-accent"])])([text("BJJ Belts")]), a([classes(["btn btn-lg btn-circle bg-accent text-accent-content"]), href4("https://bjj.cardano.vip"), target5("_blank")])([medalIcon])]), div_([span4([classes(["bg-base-100 text-accent"])])([text("Raffleize Art")]), a([classes(["btn btn-lg btn-circle bg-accent text-accent-content"]), href4("https://github.com/mariusgeorgescu/raffleize"), target5("_blank")])([paletteIcon])]), div_([span4([classes(["bg-base-100 text-accent"])])([text("Cardano Ticker")]), a([classes(["btn btn-lg btn-circle bg-accent text-accent-content"]), href4("https://github.com/en7angled/CardanoTicker/tree/main"), target5("_blank")])([chartIcon])])]);
 })();
-var renderButton = function(classes2) {
-  return function(text6) {
-    return function(action2) {
-      return button([classes(["btn " + classes2]), onClick(function(v2) {
-        return action2;
-      })])([text(text6)]);
-    };
-  };
-};
-var renderPrimaryButton = /* @__PURE__ */ renderButton("btn-primary btn-sm sm:btn-md w-full sm:w-auto");
-var renderSecondaryButton = /* @__PURE__ */ renderButton("btn-secondary btn-sm sm:btn-md w-full sm:w-auto");
-var renderAccentButton = /* @__PURE__ */ renderButton("btn-accent btn-sm sm:btn-md w-full sm:w-auto");
 
 // output/Components.HTML.RenderUtils/index.js
-var renderLink = function(classes2) {
+var renderLink2 = function(classes2) {
   return function(title4) {
     return function(link3) {
-      return a2([classes(["link " + classes2]), target5("_blank"), href4(link3)])([text(title4)]);
+      return a([classes(["link " + classes2]), target5("_blank"), href4(link3)])([text(title4)]);
     };
   };
 };
-var renderDevider = function(deviderType) {
+var renderDevider2 = function(deviderType) {
   return div3([classes(["divider divider-" + deviderType])])([]);
 };
 
 // output/Halogen.HTML.Properties.ARIA/index.js
 var role = /* @__PURE__ */ attr2("role");
 
+// output/Data.Formatter.Number/foreign.js
+function showNumberAsInt(n) {
+  return Math.round(n).toString();
+}
+
+// output/Data.Formatter.Internal/index.js
+var repeat = function(dictMonoid) {
+  var append7 = append(dictMonoid.Semigroup0());
+  var repeat$prime = function($copy_v) {
+    return function($copy_v1) {
+      return function($copy_v2) {
+        var $tco_var_v = $copy_v;
+        var $tco_var_v1 = $copy_v1;
+        var $tco_done = false;
+        var $tco_result;
+        function $tco_loop(v2, v1, v22) {
+          if (v22 < 1) {
+            $tco_done = true;
+            return v2;
+          }
+          ;
+          $tco_var_v = append7(v2)(v1);
+          $tco_var_v1 = v1;
+          $copy_v2 = v22 - 1 | 0;
+          return;
+        }
+        ;
+        while (!$tco_done) {
+          $tco_result = $tco_loop($tco_var_v, $tco_var_v1, $copy_v2);
+        }
+        ;
+        return $tco_result;
+      };
+    };
+  };
+  return repeat$prime(mempty(dictMonoid));
+};
+
+// output/Parsing/index.js
+var unwrap5 = /* @__PURE__ */ unwrap();
+var ParseState = /* @__PURE__ */ (function() {
+  function ParseState2(value0, value1, value22) {
+    this.value0 = value0;
+    this.value1 = value1;
+    this.value2 = value22;
+  }
+  ;
+  ParseState2.create = function(value0) {
+    return function(value1) {
+      return function(value22) {
+        return new ParseState2(value0, value1, value22);
+      };
+    };
+  };
+  return ParseState2;
+})();
+var ParseError = /* @__PURE__ */ (function() {
+  function ParseError2(value0, value1) {
+    this.value0 = value0;
+    this.value1 = value1;
+  }
+  ;
+  ParseError2.create = function(value0) {
+    return function(value1) {
+      return new ParseError2(value0, value1);
+    };
+  };
+  return ParseError2;
+})();
+var More = /* @__PURE__ */ (function() {
+  function More2(value0) {
+    this.value0 = value0;
+  }
+  ;
+  More2.create = function(value0) {
+    return new More2(value0);
+  };
+  return More2;
+})();
+var Lift3 = /* @__PURE__ */ (function() {
+  function Lift4(value0) {
+    this.value0 = value0;
+  }
+  ;
+  Lift4.create = function(value0) {
+    return new Lift4(value0);
+  };
+  return Lift4;
+})();
+var Stop = /* @__PURE__ */ (function() {
+  function Stop2(value0, value1) {
+    this.value0 = value0;
+    this.value1 = value1;
+  }
+  ;
+  Stop2.create = function(value0) {
+    return function(value1) {
+      return new Stop2(value0, value1);
+    };
+  };
+  return Stop2;
+})();
+var lazyParserT = {
+  defer: function(f) {
+    var m2 = defer2(f);
+    return function(state1, more, lift1, $$throw2, done) {
+      var v2 = force(m2);
+      return v2(state1, more, lift1, $$throw2, done);
+    };
+  }
+};
+var functorParserT = {
+  map: function(f) {
+    return function(v2) {
+      return function(state1, more, lift1, $$throw2, done) {
+        return more(function(v1) {
+          return v2(state1, more, lift1, $$throw2, function(state22, a3) {
+            return more(function(v22) {
+              return done(state22, f(a3));
+            });
+          });
+        });
+      };
+    };
+  }
+};
+var altParserT = {
+  alt: function(v2) {
+    return function(v1) {
+      return function(v22, more, lift1, $$throw2, done) {
+        return more(function(v3) {
+          return v2(new ParseState(v22.value0, v22.value1, false), more, lift1, function(v4, err) {
+            return more(function(v5) {
+              if (v4.value2) {
+                return $$throw2(v4, err);
+              }
+              ;
+              return v1(v22, more, lift1, $$throw2, done);
+            });
+          }, done);
+        });
+      };
+    };
+  },
+  Functor0: function() {
+    return functorParserT;
+  }
+};
+var stateParserT = function(k) {
+  return function(state1, v2, v1, v22, done) {
+    var v3 = k(state1);
+    return done(v3.value1, v3.value0);
+  };
+};
+var runParserT$prime = function(dictMonadRec) {
+  var Monad0 = dictMonadRec.Monad0();
+  var map45 = map(Monad0.Bind1().Apply0().Functor0());
+  var pure111 = pure(Monad0.Applicative0());
+  var tailRecM4 = tailRecM(dictMonadRec);
+  return function(state1) {
+    return function(v2) {
+      var go2 = function($copy_step) {
+        var $tco_done = false;
+        var $tco_result;
+        function $tco_loop(step4) {
+          var v1 = step4(unit);
+          if (v1 instanceof More) {
+            $copy_step = v1.value0;
+            return;
+          }
+          ;
+          if (v1 instanceof Lift3) {
+            $tco_done = true;
+            return map45(Loop.create)(v1.value0);
+          }
+          ;
+          if (v1 instanceof Stop) {
+            $tco_done = true;
+            return pure111(new Done(new Tuple(v1.value1, v1.value0)));
+          }
+          ;
+          throw new Error("Failed pattern match at Parsing (line 160, column 13 - line 166, column 32): " + [v1.constructor.name]);
+        }
+        ;
+        while (!$tco_done) {
+          $tco_result = $tco_loop($copy_step);
+        }
+        ;
+        return $tco_result;
+      };
+      return tailRecM4(go2)(function(v1) {
+        return v2(state1, More.create, Lift3.create, function(state22, err) {
+          return new Stop(state22, new Left(err));
+        }, function(state22, res) {
+          return new Stop(state22, new Right(res));
+        });
+      });
+    };
+  };
+};
+var position2 = /* @__PURE__ */ stateParserT(function(v2) {
+  return new Tuple(v2.value1, v2);
+});
+var parseErrorPosition = function(v2) {
+  return v2.value1;
+};
+var parseErrorMessage = function(v2) {
+  return v2.value0;
+};
+var initialPos = {
+  index: 0,
+  line: 1,
+  column: 1
+};
+var runParserT = function(dictMonadRec) {
+  var map45 = map(dictMonadRec.Monad0().Bind1().Apply0().Functor0());
+  var runParserT$prime1 = runParserT$prime(dictMonadRec);
+  return function(s2) {
+    return function(p2) {
+      var initialState5 = new ParseState(s2, initialPos, false);
+      return map45(fst)(runParserT$prime1(initialState5)(p2));
+    };
+  };
+};
+var runParserT1 = /* @__PURE__ */ runParserT(monadRecIdentity);
+var runParser = function(s2) {
+  var $295 = runParserT1(s2);
+  return function($296) {
+    return unwrap5($295($296));
+  };
+};
+var appendConsumed = function(v2) {
+  return function(v1) {
+    if (v2.value2 && !v1.value2) {
+      return new ParseState(v1.value0, v1.value1, true);
+    }
+    ;
+    return v1;
+  };
+};
+var applyParserT = {
+  apply: function(v2) {
+    return function(v1) {
+      return function(state1, more, lift1, $$throw2, done) {
+        return more(function(v22) {
+          return v2(state1, more, lift1, $$throw2, function(state22, f) {
+            return more(function(v3) {
+              var state2$prime = appendConsumed(state1)(state22);
+              return v1(state2$prime, more, lift1, $$throw2, function(state3, a3) {
+                return more(function(v4) {
+                  return done(appendConsumed(state2$prime)(state3), f(a3));
+                });
+              });
+            });
+          });
+        });
+      };
+    };
+  },
+  Functor0: function() {
+    return functorParserT;
+  }
+};
+var applicativeParserT = {
+  pure: function(a3) {
+    return function(state1, v2, v1, v22, done) {
+      return done(state1, a3);
+    };
+  },
+  Apply0: function() {
+    return applyParserT;
+  }
+};
+var bindParserT = {
+  bind: function(v2) {
+    return function(next) {
+      return function(state1, more, lift1, $$throw2, done) {
+        return more(function(v1) {
+          return v2(state1, more, lift1, $$throw2, function(state22, a3) {
+            return more(function(v22) {
+              var v3 = next(a3);
+              return v3(appendConsumed(state1)(state22), more, lift1, $$throw2, done);
+            });
+          });
+        });
+      };
+    };
+  },
+  Apply0: function() {
+    return applyParserT;
+  }
+};
+var bindFlipped5 = /* @__PURE__ */ bindFlipped(bindParserT);
+var monadParserT = {
+  Applicative0: function() {
+    return applicativeParserT;
+  },
+  Bind1: function() {
+    return bindParserT;
+  }
+};
+var monadThrowParseErrorParse = {
+  throwError: function(err) {
+    return function(state1, v2, v1, $$throw2, v22) {
+      return $$throw2(state1, err);
+    };
+  },
+  Monad0: function() {
+    return monadParserT;
+  }
+};
+var throwError2 = /* @__PURE__ */ throwError(monadThrowParseErrorParse);
+var failWithPosition = function(message2) {
+  return function(pos) {
+    return throwError2(new ParseError(message2, pos));
+  };
+};
+var fail3 = function(message2) {
+  return bindFlipped5(failWithPosition(message2))(position2);
+};
+var plusParserT = {
+  empty: /* @__PURE__ */ fail3("No alternative"),
+  Alt0: function() {
+    return altParserT;
+  }
+};
+var alternativeParserT = {
+  Applicative0: function() {
+    return applicativeParserT;
+  },
+  Plus1: function() {
+    return plusParserT;
+  }
+};
+
+// output/Parsing.Combinators/index.js
+var alt9 = /* @__PURE__ */ alt(altParserT);
+var pure9 = /* @__PURE__ */ pure(applicativeParserT);
+var map35 = /* @__PURE__ */ map(functorParserT);
+var $$try4 = function(v2) {
+  return function(v1, more, lift7, $$throw2, done) {
+    return v2(v1, more, lift7, function(v22, err) {
+      return $$throw2(new ParseState(v22.value0, v22.value1, v1.value2), err);
+    }, done);
+  };
+};
+var option = function(a3) {
+  return function(p2) {
+    return alt9(p2)(pure9(a3));
+  };
+};
+var optionMaybe = function(p2) {
+  return option(Nothing.value)(map35(Just.create)(p2));
+};
+
+// output/Parsing.String/index.js
+var fromEnum3 = /* @__PURE__ */ fromEnum(boundedEnumCodePoint);
+var mod3 = /* @__PURE__ */ mod(euclideanRingInt);
+var show15 = /* @__PURE__ */ show(showString);
+var updatePosSingle = function(v2) {
+  return function(cp) {
+    return function(after) {
+      var v1 = fromEnum3(cp);
+      if (v1 === 10) {
+        return {
+          index: v2.index + 1 | 0,
+          line: v2.line + 1 | 0,
+          column: 1
+        };
+      }
+      ;
+      if (v1 === 13) {
+        var v22 = codePointAt(0)(after);
+        if (v22 instanceof Just && fromEnum3(v22.value0) === 10) {
+          return {
+            index: v2.index + 1 | 0,
+            line: v2.line,
+            column: v2.column
+          };
+        }
+        ;
+        return {
+          index: v2.index + 1 | 0,
+          line: v2.line + 1 | 0,
+          column: 1
+        };
+      }
+      ;
+      if (v1 === 9) {
+        return {
+          index: v2.index + 1 | 0,
+          line: v2.line,
+          column: (v2.column + 8 | 0) - mod3(v2.column - 1 | 0)(8) | 0
+        };
+      }
+      ;
+      return {
+        index: v2.index + 1 | 0,
+        line: v2.line,
+        column: v2.column + 1 | 0
+      };
+    };
+  };
+};
+var updatePosString = function($copy_pos) {
+  return function($copy_before) {
+    return function($copy_after) {
+      var $tco_var_pos = $copy_pos;
+      var $tco_var_before = $copy_before;
+      var $tco_done = false;
+      var $tco_result;
+      function $tco_loop(pos, before, after) {
+        var v2 = uncons5(before);
+        if (v2 instanceof Nothing) {
+          $tco_done = true;
+          return pos;
+        }
+        ;
+        if (v2 instanceof Just) {
+          var newPos = (function() {
+            if ($$null2(v2.value0.tail)) {
+              return updatePosSingle(pos)(v2.value0.head)(after);
+            }
+            ;
+            if (otherwise) {
+              return updatePosSingle(pos)(v2.value0.head)(v2.value0.tail);
+            }
+            ;
+            throw new Error("Failed pattern match at Parsing.String (line 165, column 7 - line 167, column 52): ");
+          })();
+          $tco_var_pos = newPos;
+          $tco_var_before = v2.value0.tail;
+          $copy_after = after;
+          return;
+        }
+        ;
+        throw new Error("Failed pattern match at Parsing.String (line 161, column 36 - line 168, column 38): " + [v2.constructor.name]);
+      }
+      ;
+      while (!$tco_done) {
+        $tco_result = $tco_loop($tco_var_pos, $tco_var_before, $copy_after);
+      }
+      ;
+      return $tco_result;
+    };
+  };
+};
+var eof = /* @__PURE__ */ mkFn5(function(v2) {
+  return function(v1) {
+    return function(v22) {
+      return function($$throw2) {
+        return function(done) {
+          var $133 = $$null2(v2.value0);
+          if ($133) {
+            return done(new ParseState(v2.value0, v2.value1, true), unit);
+          }
+          ;
+          return $$throw2(v2, new ParseError("Expected EOF", v2.value1));
+        };
+      };
+    };
+  };
+});
+var consumeWith = function(f) {
+  return mkFn5(function(v2) {
+    return function(v1) {
+      return function(v22) {
+        return function($$throw2) {
+          return function(done) {
+            var v3 = f(v2.value0);
+            if (v3 instanceof Left) {
+              return $$throw2(v2, new ParseError(v3.value0, v2.value1));
+            }
+            ;
+            if (v3 instanceof Right) {
+              return done(new ParseState(v3.value0.remainder, updatePosString(v2.value1)(v3.value0.consumed)(v3.value0.remainder), !$$null2(v3.value0.consumed)), v3.value0.value);
+            }
+            ;
+            throw new Error("Failed pattern match at Parsing.String (line 286, column 7 - line 290, column 121): " + [v3.constructor.name]);
+          };
+        };
+      };
+    };
+  });
+};
+var string = function(str) {
+  return consumeWith(function(input3) {
+    var v2 = stripPrefix(str)(input3);
+    if (v2 instanceof Just) {
+      return new Right({
+        value: str,
+        consumed: str,
+        remainder: v2.value0
+      });
+    }
+    ;
+    return new Left("Expected " + show15(str));
+  });
+};
+
+// output/Data.Formatter.Parser.Utils/index.js
+var show10 = /* @__PURE__ */ show(showInt);
+var lmap5 = /* @__PURE__ */ lmap(bifunctorEither);
+var applyFirst2 = /* @__PURE__ */ applyFirst(applyParserT);
+var printPosition = function(v2) {
+  return "(line " + (show10(v2.line) + (", col " + (show10(v2.column) + ")")));
+};
+var printError2 = function(err) {
+  return parseErrorMessage(err) + (" " + printPosition(parseErrorPosition(err)));
+};
+var runP = function(p2) {
+  return function(s2) {
+    return lmap5(printError2)(runParser(s2)(applyFirst2(p2)(eof)));
+  };
+};
+
+// output/Data.Formatter.Number/index.js
+var bind8 = /* @__PURE__ */ bind(bindParserT);
+var pure10 = /* @__PURE__ */ pure(applicativeParserT);
+var some2 = /* @__PURE__ */ some(alternativeParserT)(lazyParserT);
+var many2 = /* @__PURE__ */ many(alternativeParserT)(lazyParserT);
+var repeat2 = /* @__PURE__ */ repeat(monoidString);
+var $$for2 = /* @__PURE__ */ $$for(applicativeParserT)(traversableMaybe);
+var map111 = /* @__PURE__ */ map(functorMaybe);
+var max6 = /* @__PURE__ */ max(ordInt);
+var div1 = /* @__PURE__ */ div(euclideanRingInt);
+var show11 = /* @__PURE__ */ show(showInt);
+var mapFlipped4 = /* @__PURE__ */ mapFlipped(functorEither);
+var show16 = /* @__PURE__ */ show(showNumber);
+var identity13 = /* @__PURE__ */ identity(categoryFn);
+var formatParser = /* @__PURE__ */ bind8(/* @__PURE__ */ optionMaybe(/* @__PURE__ */ $$try4(/* @__PURE__ */ string("+"))))(function(sign2) {
+  return bind8(some2(string("0")))(function(before) {
+    return bind8(optionMaybe($$try4(string(",0"))))(function(comma) {
+      return bind8(optionMaybe($$try4(string("."))))(function(dot) {
+        return bind8($$for2(dot)(function(v2) {
+          return $$try4(many2(string("0")));
+        }))(function(after) {
+          return bind8(optionMaybe($$try4(string("a"))))(function(abbreviations) {
+            return pure10({
+              sign: isJust(sign2),
+              before: length(before),
+              comma: isJust(comma),
+              after: fromMaybe(0)(map111(length)(after)),
+              abbreviations: isJust(abbreviations)
+            });
+          });
+        });
+      });
+    });
+  });
+});
+var parseFormatString = /* @__PURE__ */ runP(formatParser);
+var format = function(v2) {
+  return function(num) {
+    var absed = abs2(num);
+    var tens = (function() {
+      if (absed > 0) {
+        return max6(floor2(log(absed) / ln10))(0);
+      }
+      ;
+      if (otherwise) {
+        return 0;
+      }
+      ;
+      throw new Error("Failed pattern match at Data.Formatter.Number (line 100, column 5 - line 102, column 22): ");
+    })();
+    if (v2.abbreviations) {
+      var thousands = div1(tens)(3);
+      var newNum = (function() {
+        var $118 = thousands < 1;
+        if ($118) {
+          return num;
+        }
+        ;
+        return num / pow(1e3)(toNumber(thousands));
+      })();
+      var abbr3 = (function() {
+        if (thousands === 0) {
+          return "";
+        }
+        ;
+        if (thousands === 1) {
+          return "K";
+        }
+        ;
+        if (thousands === 2) {
+          return "M";
+        }
+        ;
+        if (thousands === 3) {
+          return "G";
+        }
+        ;
+        if (thousands === 4) {
+          return "T";
+        }
+        ;
+        if (thousands === 5) {
+          return "P";
+        }
+        ;
+        if (thousands === 6) {
+          return "E";
+        }
+        ;
+        if (thousands === 7) {
+          return "Z";
+        }
+        ;
+        if (thousands === 8) {
+          return "Y";
+        }
+        ;
+        if (otherwise) {
+          return "10e+" + show11(thousands * 3 | 0);
+        }
+        ;
+        throw new Error("Failed pattern match at Data.Formatter.Number (line 107, column 7 - line 117, column 53): ");
+      })();
+      return format({
+        comma: v2.comma,
+        before: v2.before,
+        after: v2.after,
+        sign: v2.sign,
+        abbreviations: false
+      })(newNum) + abbr3;
+    }
+    ;
+    var zeros = (v2.before - tens | 0) - 1 | 0;
+    var factor = pow(10)(toNumber(max6(0)(v2.after)));
+    var rounded = round(absed * factor) / factor;
+    var integer = floor(rounded);
+    var leftoverDecimal = rounded - integer;
+    var leftover = round(leftoverDecimal * factor);
+    var leftoverWithZeros = (function() {
+      var leftoverString = showNumberAsInt(leftover);
+      var leftoverLength = length7(leftoverString);
+      var zeros$prime = repeat2("0")(v2.after - leftoverLength | 0);
+      return zeros$prime + leftoverString;
+    })();
+    var leftovers = (function() {
+      var $119 = v2.after < 1;
+      if ($119) {
+        return "";
+      }
+      ;
+      return "." + ((function() {
+        var $120 = leftover === 0;
+        if ($120) {
+          return repeat2("0")(v2.after);
+        }
+        ;
+        return "";
+      })() + (function() {
+        var $121 = leftover > 0;
+        if ($121) {
+          return leftoverWithZeros;
+        }
+        ;
+        return "";
+      })());
+    })();
+    var addCommas = function($copy_acc) {
+      return function($copy_counter) {
+        return function($copy_input) {
+          var $tco_var_acc = $copy_acc;
+          var $tco_var_counter = $copy_counter;
+          var $tco_done = false;
+          var $tco_result;
+          function $tco_loop(acc, counter, input3) {
+            var v1 = uncons(input3);
+            if (v1 instanceof Nothing) {
+              $tco_done = true;
+              return fromCharArray(acc);
+            }
+            ;
+            if (v1 instanceof Just && counter < 3) {
+              $tco_var_acc = cons(v1.value0.head)(acc);
+              $tco_var_counter = counter + 1 | 0;
+              $copy_input = v1.value0.tail;
+              return;
+            }
+            ;
+            $tco_var_acc = cons(",")(acc);
+            $tco_var_counter = 0;
+            $copy_input = input3;
+            return;
+          }
+          ;
+          while (!$tco_done) {
+            $tco_result = $tco_loop($tco_var_acc, $tco_var_counter, $copy_input);
+          }
+          ;
+          return $tco_result;
+        };
+      };
+    };
+    var shownInt = (function() {
+      if (v2.comma) {
+        return addCommas([])(0)(reverse(toCharArray(repeat2("0")(zeros) + showNumberAsInt(integer))));
+      }
+      ;
+      return repeat2("0")(zeros) + showNumberAsInt(integer);
+    })();
+    return (function() {
+      var $127 = num < 0;
+      if ($127) {
+        return "-";
+      }
+      ;
+      var $128 = num > 0 && v2.sign;
+      if ($128) {
+        return "+";
+      }
+      ;
+      return "";
+    })() + (shownInt + leftovers);
+  };
+};
+var formatNumber = function(pattern2) {
+  return function(number) {
+    return mapFlipped4(parseFormatString(pattern2))(flip(format)(number));
+  };
+};
+var formatOrShowNumber = function(patter) {
+  return function(number) {
+    return either($$const(show16(number)))(identity13)(formatNumber(patter)(number));
+  };
+};
+
 // output/Utils/index.js
 var identity14 = /* @__PURE__ */ identity(categoryFn);
 var shortString = function(i2) {
   return function(s2) {
-    var len = length5(s2);
+    var len = length7(s2);
     var $5 = len > (2 * i2 | 0);
     if ($5) {
       return take4(i2)(s2) + ("..." + drop4(len - i2 | 0)(s2));
@@ -12429,7 +12440,7 @@ var formatNumberFromStr = function(str) {
 };
 
 // output/Components.WalletConnectComponent/index.js
-var map33 = /* @__PURE__ */ map(functorArray);
+var map36 = /* @__PURE__ */ map(functorArray);
 var bind9 = /* @__PURE__ */ bind(bindHalogenM);
 var discard3 = /* @__PURE__ */ discard(discardUnit)(bindHalogenM);
 var modify_3 = /* @__PURE__ */ modify_2(monadStateHalogenM);
@@ -12586,7 +12597,7 @@ var render = function(s2) {
       })])([a_([div3([classes(["mask mask-hexagon  w-8"])])([img([src9(b2.iconSrc)])]), text(b2.label)])]);
     };
     if (v2.connectedWalletInfo instanceof Just) {
-      return ul([tabIndex2(0), classes(["menu dropdown-content bg-" + (buttonColour + ("  text-" + (buttonColour + "-content rounded-box z-40 min-w-64 w-fit p-2 ")))])])([li_([div3([classes(["flex items-center gap-2"])])([span4([classes(["font-bold"])])([text("Network:")]), span_([text(v2.connectedWalletInfo.value0.connectedWalletNetwork)])]), div3([classes(["flex items-center gap-2"])])([span4([classes(["font-bold"])])([text("Address:")]), span_([text(shortString(10)(v2.connectedWalletInfo.value0.connectedWalletAddress))])]), div3([classes(["flex items-center gap-2"])])([span4([classes(["font-bold"])])([text("Balance:")]), span_([text(formatNumberFromStr(v2.connectedWalletInfo.value0.connectedWalletNativeCoinBalance) + " \u20B3")])])]), renderDevider("neutral"), div_(map33(renderCustomDropdownButton)(v2.customButtons)), li([onClick(function(v1) {
+      return ul([tabIndex2(0), classes(["menu dropdown-content bg-" + (buttonColour + ("  text-" + (buttonColour + "-content rounded-box z-40 min-w-64 w-fit p-2 ")))])])([li_([div3([classes(["flex items-center gap-2"])])([span4([classes(["font-bold"])])([text("Network:")]), span_([text(v2.connectedWalletInfo.value0.connectedWalletNetwork)])]), div3([classes(["flex items-center gap-2"])])([span4([classes(["font-bold"])])([text("Address:")]), span_([text(shortString(10)(v2.connectedWalletInfo.value0.connectedWalletAddress))])]), div3([classes(["flex items-center gap-2"])])([span4([classes(["font-bold"])])([text("Balance:")]), span_([text(formatNumberFromStr(v2.connectedWalletInfo.value0.connectedWalletNativeCoinBalance) + " \u20B3")])])]), renderDevider2("neutral"), div_(map36(renderCustomDropdownButton)(v2.customButtons)), li([onClick(function(v1) {
         return DisconnectWallet.value;
       })])([a_([div3([classes(["mask mask-hexagon  w-8"])])([img([src9(s2.assets.disconnectIcon)])]), text("Disconnect " + v2.connectedWalletInfo.value0.connectedWalletName)])])]);
     }
@@ -12594,10 +12605,10 @@ var render = function(s2) {
     if (v2.connectedWalletInfo instanceof Nothing) {
       var $52 = $$null(v2.availableWalletExtensions);
       if ($52) {
-        return div3([classes(["dropdown-content z-40 card card-compact w-64 p-2  bg-" + (buttonColour + ("  text-" + (buttonColour + "-content")))])])([div3([classes(["card-body"])])([h4([classes(["card-title"])])([text("You do not have any wallet installed yet !")]), p_([div3([classes(["mask mask-hexagon  w-8"])])([img([src9(s2.assets.connectIcon)])]), renderLink("")("Try Lace")("http://www.lace.io")])])]);
+        return div3([classes(["dropdown-content z-40 card card-compact w-64 p-2  bg-" + (buttonColour + ("  text-" + (buttonColour + "-content")))])])([div3([classes(["card-body"])])([h4([classes(["card-title"])])([text("You do not have any wallet installed yet !")]), p_([div3([classes(["mask mask-hexagon  w-8"])])([img([src9(s2.assets.connectIcon)])]), renderLink2("")("Try Lace")("http://www.lace.io")])])]);
       }
       ;
-      return ul([tabIndex2(0), classes(["dropdown-content menu  bg-" + (buttonColour + ("  text-" + (buttonColour + "-content rounded-box z-40 w-64 p-2 ")))])])(map33(renderWalletListItem)(v2.availableWalletExtensions));
+      return ul([tabIndex2(0), classes(["dropdown-content menu  bg-" + (buttonColour + ("  text-" + (buttonColour + "-content rounded-box z-40 w-64 p-2 ")))])])(map36(renderWalletListItem)(v2.availableWalletExtensions));
     }
     ;
     throw new Error("Failed pattern match at Components.WalletConnectComponent (line 205, column 97 - line 257, column 63): " + [v2.connectedWalletInfo.constructor.name]);
@@ -12784,6 +12795,18 @@ var component = function(dictMonadAff) {
   };
 };
 
+// output/Effect.Console/foreign.js
+var log2 = function(s2) {
+  return function() {
+    console.log(s2);
+  };
+};
+var warn = function(s2) {
+  return function() {
+    console.warn(s2);
+  };
+};
+
 // output/Halogen.HTML/index.js
 var componentSlot2 = /* @__PURE__ */ componentSlot();
 var slot = function() {
@@ -12811,7 +12834,7 @@ var slot = function() {
 // output/Halogen.Store.Connect/index.js
 var bind10 = /* @__PURE__ */ bind(bindHalogenM);
 var $$void5 = /* @__PURE__ */ $$void(functorHalogenM);
-var map35 = /* @__PURE__ */ map(functorEmitter);
+var map38 = /* @__PURE__ */ map(functorEmitter);
 var innerIsSymbol = {
   reflectSymbol: function() {
     return "inner";
@@ -12819,7 +12842,7 @@ var innerIsSymbol = {
 };
 var slot2 = /* @__PURE__ */ slot()(innerIsSymbol)(ordUnit);
 var discard4 = /* @__PURE__ */ discard(discardUnit)(bindHalogenM);
-var map113 = /* @__PURE__ */ map(functorHalogenM);
+var map112 = /* @__PURE__ */ map(functorHalogenM);
 var modify_4 = /* @__PURE__ */ modify_2(monadStateHalogenM);
 var gets3 = /* @__PURE__ */ gets(monadStateHalogenM);
 var unless3 = /* @__PURE__ */ unless(applicativeHalogenM);
@@ -12867,7 +12890,7 @@ var subscribe3 = function(dictMonadStore) {
   return function(selector) {
     return function(action2) {
       return bind10(emitSelected2(selector))(function(emitter) {
-        return $$void5(subscribe2(map35(action2)(emitter)));
+        return $$void5(subscribe2(map38(action2)(emitter)));
       });
     };
   };
@@ -12903,7 +12926,7 @@ var connect = function(dictMonadEffect) {
         var handleAction5 = function(v1) {
           if (v1 instanceof Initialize2) {
             return discard4(subscribe1(v2)(Update2.create))(function() {
-              return bind10(map113(v2.select)(getStore2))(function(context) {
+              return bind10(map112(v2.select)(getStore2))(function(context) {
                 return modify_4(function(v22) {
                   var $39 = {};
                   for (var $40 in v22) {
@@ -12983,44 +13006,6 @@ var connect = function(dictMonadEffect) {
         });
       };
     };
-  };
-};
-
-// output/Test.Unit.Console/foreign.js
-var hasStderr;
-try {
-  hasStderr = !!process.stderr;
-} catch (e) {
-  hasStderr = false;
-}
-var hasColours = (function() {
-  if (typeof process === "undefined") {
-    return false;
-  }
-  if (process.stdout && !process.stdout.isTTY) {
-    return false;
-  }
-  if (process.platform === "win32" || "COLORTERM" in process.env) {
-    return true;
-  }
-  if (process.env.TERM === "dumb") {
-    return false;
-  }
-  if (/^screen|^xterm|^vt100|color|ansi|cygwin|linux/i.test(process.env.TERM)) {
-    return true;
-  }
-  return false;
-})();
-function consoleLog(s2) {
-  return function() {
-    console.log(s2);
-  };
-}
-
-// output/Effect.Console/foreign.js
-var warn = function(s2) {
-  return function() {
-    console.warn(s2);
   };
 };
 
@@ -13151,7 +13136,7 @@ var render2 = function(dictMonadAff) {
       }];
       return div3([classes(["bg-base-100 text-base-content sticky top-0 z-30 flex h-16 w-full justify-center bg-opacity-90 backdrop-blur transition-shadow duration-100 [transform:translate3d(0,0,0)] shadow-sm"])])([div3([classes(["navbar bg-neutral text-neutral-content gap-2 sm:gap-4 px-2 sm:px-4"])])([div3([classes(["flex-1 min-w-0"])])([button([classes(["btn btn-sm sm:btn-md md:btn-lg btn-ghost p-1 sm:p-2"]), onClick(function(v2) {
         return HomeButton.value;
-      })])([img([src9("./images/E7D/SVG Vector Files/Transparent Logo.svg"), alt9("E7D Logo"), classes(["h-12 sm:h-16 md:h-20 w-auto"])])])]), div3([classes(["flex-2 flex justify-end min-w-0"])])([slot3(walletConnectProxy)(unit)(component22)({
+      })])([img([src9("./images/E7D/SVG Vector Files/Transparent Logo.svg"), alt8("E7D Logo"), classes(["h-12 sm:h-16 md:h-20 w-auto"])])])]), div3([classes(["flex-2 flex justify-end min-w-0"])])([slot3(walletConnectProxy)(unit)(component22)({
         buttons: customButtons,
         assets: {
           connectIcon: "./images/walletsymbol.svg",
@@ -13223,7 +13208,7 @@ var handleAction2 = function(dictMonadAff) {
                         return bind11(getNetworkId3(mApi.value0.value0))(function(currentNetworkId) {
                           var $71 = currentNetworkId !== env.allowedNetworkId;
                           if ($71) {
-                            return discard5(liftEffect10(consoleLog(show17("Invalid network: " + (show18(currentNetworkId) + (" <> " + show18(env.allowedNetworkId)))))))(function() {
+                            return discard5(liftEffect10(log2(show17("Invalid network: " + (show18(currentNetworkId) + (" <> " + show18(env.allowedNetworkId)))))))(function() {
                               return discard5($$void6(query3(walletConnectProxy)(unit)(new DisconnectWalletQuery(unit))))(function() {
                                 return discard5(handleAction2(dictMonadAff)(dictMonadCIP30)(dictMonadAsk)(dictMonadStore)(new HandleWalletConnectOutput(WalletDisconnectedEvent.value)))(function() {
                                   return raise(new InvalidNetworkEvent(currentNetworkId));
@@ -13250,7 +13235,7 @@ var handleAction2 = function(dictMonadAff) {
             }
             ;
             if (v2.value0 instanceof CustomButtonEvent) {
-              return discard5(liftEffect10(consoleLog(show17(v2.value0.value0))))(function() {
+              return discard5(liftEffect10(log2(show17(v2.value0.value0))))(function() {
                 if (v2.value0.value0 === "home") {
                   return raise(HomeEvent.value);
                 }
@@ -13260,7 +13245,7 @@ var handleAction2 = function(dictMonadAff) {
                     return v1.walletApi;
                   }))(function(walletApi) {
                     if (walletApi instanceof Just) {
-                      return discard5(liftEffect10(consoleLog(show17("DelegateEvent: " + v2.value0.value0))))(function() {
+                      return discard5(liftEffect10(log2(show17("DelegateEvent: " + v2.value0.value0))))(function() {
                         return raise(new BuildTransactionEvent(v2.value0.value0, walletApi.value0));
                       });
                     }
@@ -13273,11 +13258,11 @@ var handleAction2 = function(dictMonadAff) {
                   });
                 }
                 ;
-                return liftEffect10(consoleLog(show17("Unknown button event")));
+                return liftEffect10(log2(show17("Unknown button event")));
               });
             }
             ;
-            throw new Error("Failed pattern match at Components.NavBar (line 119, column 36 - line 151, column 69): " + [v2.value0.constructor.name]);
+            throw new Error("Failed pattern match at Components.NavBar (line 119, column 36 - line 151, column 70): " + [v2.value0.constructor.name]);
           }
           ;
           if (v2 instanceof HomeButton) {
@@ -13332,7 +13317,7 @@ var renderSecurityAuditsSection = /* @__PURE__ */ (function() {
   var auditCard = function(title4) {
     return function(description) {
       return function(pdfPath) {
-        return div3([classes(["card bg-base-200 shadow-lg hover:shadow-xl transition-shadow"])])([div3([classes(["card-body"])])([h3([classes(["card-title text-lg sm:text-xl"])])([text(title4)]), p([classes(["opacity-90 mb-4 text-sm sm:text-base"])])([text(description)]), a2([classes(["btn btn-primary btn-sm sm:btn-md w-full sm:w-auto"]), href4(pdfPath), target5("_blank"), rel4("noopener noreferrer")])([text("View Audit Report")])])]);
+        return div3([classes(["card bg-base-200 shadow-lg hover:shadow-xl transition-shadow"])])([div3([classes(["card-body"])])([h3([classes(["card-title text-lg sm:text-xl"])])([text(title4)]), p([classes(["opacity-90 mb-4 text-sm sm:text-base"])])([text(description)]), a([classes(["btn btn-primary btn-sm sm:btn-md w-full sm:w-auto"]), href4(pdfPath), target5("_blank"), rel4("noopener noreferrer")])([text("View Audit Report")])])]);
       };
     };
   };
@@ -13344,7 +13329,7 @@ var renderProjectCatalystSection = /* @__PURE__ */ (function() {
       return function(projectUrl) {
         return function(funding) {
           return function(fund) {
-            return div3([classes(["card bg-base-200 shadow-lg hover:shadow-xl transition-shadow"])])([div3([classes(["card-body"])])([div3([classes(["flex items-center justify-between mb-2"])])([span4([classes(["badge badge-primary badge-sm"])])([text(fund)]), span4([classes(["badge badge-info badge-sm"])])([text(funding)])]), h3([classes(["card-title text-lg sm:text-xl"])])([text(title4)]), p([classes(["opacity-90 mb-4 text-sm sm:text-base"])])([text(description)]), a2([classes(["btn btn-primary btn-sm sm:btn-md w-full sm:w-auto"]), href4(projectUrl), target5("_blank"), rel4("noopener noreferrer")])([text("View Project")])])]);
+            return div3([classes(["card bg-base-200 shadow-lg hover:shadow-xl transition-shadow"])])([div3([classes(["card-body"])])([div3([classes(["flex items-center justify-between mb-2"])])([span4([classes(["badge badge-primary badge-sm"])])([text(fund)]), span4([classes(["badge badge-info badge-sm"])])([text(funding)])]), h3([classes(["card-title text-lg sm:text-xl"])])([text(title4)]), p([classes(["opacity-90 mb-4 text-sm sm:text-base"])])([text(description)]), a([classes(["btn btn-primary btn-sm sm:btn-md w-full sm:w-auto"]), href4(projectUrl), target5("_blank"), rel4("noopener noreferrer")])([text("View Project")])])]);
           };
         };
       };
@@ -13378,6 +13363,11 @@ var component3 = /* @__PURE__ */ (function() {
   });
 })();
 
+// output/Data.DateTime.Instant/index.js
+var unInstant = function(v2) {
+  return v2;
+};
+
 // output/Effect.Now/foreign.js
 function now() {
   return Date.now();
@@ -13392,7 +13382,7 @@ var navbarWidgetIsSymbol = {
 };
 var slot1 = /* @__PURE__ */ slot4(navbarWidgetIsSymbol)(ordUnit);
 var throwError3 = /* @__PURE__ */ throwError(monadThrowAff);
-var map36 = /* @__PURE__ */ map(functorArray);
+var map39 = /* @__PURE__ */ map(functorArray);
 var forever2 = /* @__PURE__ */ forever(monadRecAff);
 var discard6 = /* @__PURE__ */ discard(discardUnit);
 var discard1 = /* @__PURE__ */ discard6(bindAff);
@@ -13402,7 +13392,7 @@ var discard22 = /* @__PURE__ */ discard6(bindHalogenM);
 var modify_6 = /* @__PURE__ */ modify_2(monadStateHalogenM);
 var $$void7 = /* @__PURE__ */ $$void(functorHalogenM);
 var bindFlipped6 = /* @__PURE__ */ bindFlipped(bindHalogenM);
-var map114 = /* @__PURE__ */ map(functorHalogenM);
+var map113 = /* @__PURE__ */ map(functorHalogenM);
 var unwrap6 = /* @__PURE__ */ unwrap();
 var gets5 = /* @__PURE__ */ gets(monadStateHalogenM);
 var pure16 = /* @__PURE__ */ pure(applicativeHalogenM);
@@ -13650,7 +13640,7 @@ var renderBodyContent = function(dictMonadAff) {
             return renderPortfolioWidgetSlot;
           }
           ;
-          throw new Error("Failed pattern match at Components.Home (line 280, column 23 - line 288, column 45): " + [s2.currentPage.constructor.name]);
+          throw new Error("Failed pattern match at Components.Home (line 280, column 23 - line 287, column 45): " + [s2.currentPage.constructor.name]);
         };
       };
     };
@@ -13668,14 +13658,14 @@ var render4 = function(dictMonadAff) {
         var renderWalletWidgetSlot2 = renderWalletWidgetSlot1(dictMonadAsk)(dictMonadCIP30)(dictMonadStore);
         var renderBodyContent2 = renderBodyContent1(dictMonadAsk)(dictMonadCIP30)(dictMonadStore);
         return function(s2) {
-          return div_([renderWalletWidgetSlot2, renderBodyContent2(s2), renderFooterSection, renderFabFlower, renderToasts(map36(getToast)(s2.toasts))]);
+          return div_([renderWalletWidgetSlot2, renderBodyContent2(s2), renderFooterSection, renderFabFlower, renderToasts(map39(getToast)(s2.toasts))]);
         };
       };
     };
   };
 };
 var decrementToats = function(ts) {
-  return map36(function(t2) {
+  return map39(function(t2) {
     return {
       alertType: t2.alertType,
       message: t2.message,
@@ -13759,7 +13749,7 @@ var handleAction4 = function(dictMonadAff) {
                     }
                     ;
                     if (result instanceof Left) {
-                      return discard22(liftEffect12(consoleLog("Failed to fetch pool info: " + result.value0)))(function() {
+                      return discard22(liftEffect12(log2("Failed to fetch pool info: " + result.value0)))(function() {
                         return handleAction4(dictMonadAff)(dictMonadCIP30)(dictMonadStore)(dictMonadAsk)(dictMonadInteraction)(dictMonadCardanoQuery)(new PoolInfoReceived(new Left(result.value0)));
                       });
                     }
@@ -13782,16 +13772,16 @@ var handleAction4 = function(dictMonadAff) {
                   $153.poolInfo = new Just(action2.value0.value0);
                   return $153;
                 }))(function() {
-                  return liftEffect12(consoleLog("Pool info received successfully"));
+                  return liftEffect12(log2("Pool info received successfully"));
                 });
               }
               ;
               if (action2 instanceof PoolInfoReceived && action2.value0 instanceof Left) {
-                return liftEffect12(consoleLog("Failed to fetch pool info: " + action2.value0.value0));
+                return liftEffect12(log2("Failed to fetch pool info: " + action2.value0.value0));
               }
               ;
               if (action2 instanceof Tick) {
-                return bind13(map114(function($227) {
+                return bind13(map113(function($227) {
                   return unwrap6(unInstant($227));
                 })(liftEffect12(now)))(function(ct) {
                   return bind13(gets5(function(v2) {
@@ -13893,7 +13883,7 @@ var handleAction4 = function(dictMonadAff) {
                       ;
                       throw new Error("Failed pattern match at Components.Home (line 190, column 5 - line 195, column 82): " + [submitResult.constructor.name]);
                     })())(function() {
-                      return discard22(liftEffect12(consoleLog(show19(submitResult))))(function() {
+                      return discard22(liftEffect12(log2(show19(submitResult))))(function() {
                         return pure16(unit);
                       });
                     });
@@ -13910,7 +13900,7 @@ var handleAction4 = function(dictMonadAff) {
                   return bind13(ask2)(function(env) {
                     return bind13(parseDelegationAction1(action2.value0.value0)(env))(function(delegationAction) {
                       return bind13(buildTransaction2(env)(action2.value0.value1)(delegationAction))(function(buildResult) {
-                        return discard22(liftEffect12(consoleLog(show19(buildResult))))(function() {
+                        return discard22(liftEffect12(log2(show19(buildResult))))(function() {
                           return discard22((function() {
                             if (buildResult instanceof Right) {
                               return discard22(modify_6(function(s2) {
@@ -14049,7 +14039,7 @@ var handleAction4 = function(dictMonadAff) {
               }
               ;
               if (action2 instanceof ChangePage) {
-                return discard22(liftEffect12(scrollToTop))(function() {
+                return discard22(liftEffect12(scrollToTop2))(function() {
                   return modify_6(function(v2) {
                     var $220 = {};
                     for (var $221 in v2) {
@@ -14118,7 +14108,7 @@ var composeKleisliFlipped4 = /* @__PURE__ */ composeKleisliFlipped(bindEffect);
 var pure17 = /* @__PURE__ */ pure(applicativeAff);
 var bindFlipped1 = /* @__PURE__ */ bindFlipped(bindMaybe);
 var pure18 = /* @__PURE__ */ pure(applicativeEffect);
-var map37 = /* @__PURE__ */ map(functorEffect);
+var map40 = /* @__PURE__ */ map(functorEffect);
 var discard7 = /* @__PURE__ */ discard(discardUnit);
 var throwError4 = /* @__PURE__ */ throwError(monadThrowAff);
 var selectElement = function(query5) {
@@ -14136,7 +14126,7 @@ var awaitLoad = /* @__PURE__ */ makeAff(function(callback) {
   return function __do4() {
     var rs = bindFlipped7(readyState)(bindFlipped7(document)(windowImpl))();
     if (rs instanceof Loading) {
-      var et = map37(toEventTarget)(windowImpl)();
+      var et = map40(toEventTarget)(windowImpl)();
       var listener = eventListener(function(v2) {
         return callback(new Right(unit));
       })();
@@ -14233,9 +14223,9 @@ var traverse_22 = /* @__PURE__ */ traverse_12(foldableList);
 var fork3 = /* @__PURE__ */ fork(monadForkAff);
 var parSequence_3 = /* @__PURE__ */ parSequence_(parallelAff)(applicativeParAff)(foldableList);
 var pure19 = /* @__PURE__ */ pure(applicativeAff);
-var map38 = /* @__PURE__ */ map(functorCoyoneda);
+var map41 = /* @__PURE__ */ map(functorCoyoneda);
 var parallel3 = /* @__PURE__ */ parallel(parallelAff);
-var map115 = /* @__PURE__ */ map(functorAff);
+var map114 = /* @__PURE__ */ map(functorAff);
 var sequential2 = /* @__PURE__ */ sequential(parallelAff);
 var map210 = /* @__PURE__ */ map(functorMaybe);
 var insert7 = /* @__PURE__ */ insert2(ordSubscriptionId);
@@ -14307,7 +14297,7 @@ var evalQ = function(render5) {
   return function(ref2) {
     return function(q3) {
       return bind15(liftEffect7(read(ref2)))(function(v2) {
-        return evalM(render5)(ref2)(v2["component"]["eval"](new Query(map38(Just.create)(liftCoyoneda(q3)), $$const(Nothing.value))));
+        return evalM(render5)(ref2)(v2["component"]["eval"](new Query(map41(Just.create)(liftCoyoneda(q3)), $$const(Nothing.value))));
       });
     };
   };
@@ -14326,7 +14316,7 @@ var evalM = function(render5) {
                   })(dsx);
                 }));
               };
-              return map115(v22.value2)(sequential2(v22.value0(applicativeParAff)(evalChild)(v1.children)));
+              return map114(v22.value2)(sequential2(v22.value0(applicativeParAff)(evalChild)(v1.children)));
             })(cqb);
           });
         };
@@ -14517,7 +14507,7 @@ var discard23 = /* @__PURE__ */ discard9(bindAff);
 var parSequence_4 = /* @__PURE__ */ parSequence_(parallelAff)(applicativeParAff)(foldableList);
 var liftEffect8 = /* @__PURE__ */ liftEffect(monadEffectAff);
 var pure20 = /* @__PURE__ */ pure(applicativeEffect);
-var map39 = /* @__PURE__ */ map(functorEffect);
+var map42 = /* @__PURE__ */ map(functorEffect);
 var pure110 = /* @__PURE__ */ pure(applicativeAff);
 var when2 = /* @__PURE__ */ when(applicativeEffect);
 var renderStateX2 = /* @__PURE__ */ renderStateX(functorEffect);
@@ -14615,7 +14605,7 @@ var runUI = function(renderSpec2) {
             return function(childrenOutRef) {
               return unComponentSlot(function(slot5) {
                 return function __do4() {
-                  var childrenIn = map39(slot5.pop)(read(childrenInRef))();
+                  var childrenIn = map42(slot5.pop)(read(childrenInRef))();
                   var $$var2 = (function() {
                     if (childrenIn instanceof Just) {
                       write(childrenIn.value0.value1)(childrenInRef)();
@@ -14645,7 +14635,7 @@ var runUI = function(renderSpec2) {
                     ;
                     throw new Error("Failed pattern match at Halogen.Aff.Driver (line 213, column 14 - line 222, column 98): " + [childrenIn.constructor.name]);
                   })();
-                  var isDuplicate = map39(function($69) {
+                  var isDuplicate = map42(function($69) {
                     return isJust(slot5.get($69));
                   })(read(childrenOutRef))();
                   when2(isDuplicate)(warn("Halogen: Duplicate slot address was detected during rendering, unexpected results may occur"))();
@@ -14671,7 +14661,7 @@ var runUI = function(renderSpec2) {
         return function($$var2) {
           return function __do4() {
             var v2 = read($$var2)();
-            var shouldProcessHandlers = map39(isNothing)(read(v2.pendingHandlers))();
+            var shouldProcessHandlers = map42(isNothing)(read(v2.pendingHandlers))();
             when2(shouldProcessHandlers)(write(new Just(Nil.value))(v2.pendingHandlers))();
             write(empty4)(v2.childrenOut)();
             write(v2.children)(v2.childrenIn)();
@@ -14864,15 +14854,15 @@ function removeChild2(node) {
 }
 
 // output/Web.DOM.Node/index.js
-var map40 = /* @__PURE__ */ map(functorEffect);
+var map43 = /* @__PURE__ */ map(functorEffect);
 var parentNode2 = /* @__PURE__ */ (function() {
-  var $6 = map40(toMaybe);
+  var $6 = map43(toMaybe);
   return function($7) {
     return $6(_parentNode($7));
   };
 })();
 var nextSibling = /* @__PURE__ */ (function() {
-  var $15 = map40(toMaybe);
+  var $15 = map43(toMaybe);
   return function($16) {
     return $15(_nextSibling($16));
   };
@@ -14900,7 +14890,7 @@ var not2 = /* @__PURE__ */ not(/* @__PURE__ */ heytingAlgebraFunction(/* @__PURE
 var identity17 = /* @__PURE__ */ identity(categoryFn);
 var bind18 = /* @__PURE__ */ bind(bindAff);
 var liftEffect9 = /* @__PURE__ */ liftEffect(monadEffectAff);
-var map41 = /* @__PURE__ */ map(functorEffect);
+var map44 = /* @__PURE__ */ map(functorEffect);
 var bindFlipped10 = /* @__PURE__ */ bindFlipped(bindEffect);
 var substInParent = function(v2) {
   return function(v1) {
@@ -15048,7 +15038,7 @@ var renderSpec = function(document2) {
 var runUI2 = function(component5) {
   return function(i2) {
     return function(element4) {
-      return bind18(liftEffect9(map41(toDocument)(bindFlipped10(document)(windowImpl))))(function(document2) {
+      return bind18(liftEffect9(map44(toDocument)(bindFlipped10(document)(windowImpl))))(function(document2) {
         return runUI(renderSpec(document2)(element4))(component5)(i2);
       });
     };
