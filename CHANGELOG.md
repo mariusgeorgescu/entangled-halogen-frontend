@@ -8,6 +8,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Changed
+- Migrated to external `purescript-cardano-capabilities` library from GitHub
+- Updated to use latest `halogen-cardano-wallet-connect-component` from GitHub
+- Simplified capability instance declarations (empty marker instances instead of verbose implementations)
+- Updated imports to use `Cardano.Capabilities` modules instead of local `Capabilities` modules
+- Updated wallet connect component import from `WalletConnect.Component` to `Components.WalletConnectComponent`
 - BFF configuration now requires all environment variables (no default values)
 - Environment variable validation with error messages on startup if values are missing
 - Added environment variable debugging output at startup (sensitive values are masked)
@@ -18,6 +23,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Environment variable logging at server startup for debugging purposes
 
 ### Removed
+- Local `MonadInteraction` and `MonadCardanoQuery` capability implementations
+- Manual `MonadCIP30` instance implementation (now automatically provided by library)
 - Default fallback values for environment variables in BFF config
 - Manual `/api/pool-info/:poolId` endpoint (now handled by proxy system)
 

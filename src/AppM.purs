@@ -7,9 +7,7 @@ module AppM
 import Prelude
 
 import AppEnv (Env)
-import Capabilities.MonadCIP30 (class MonadCIP30)
-import Capabilities.MonadCardanoQuery (class MonadCardanoQuery, fetchPoolInfoDefault)
-import Cardano.Wallet.Cip30 as Cip30
+import Cardano.Capabilities (class MonadCardanoQuery, class MonadInteraction, class MonadCIP30)
 import Control.Monad.Error.Class (class MonadThrow)
 import Control.Monad.Reader (class MonadReader, ReaderT, runReaderT)
 import Control.Monad.Reader.Class (class MonadAsk)
@@ -67,30 +65,9 @@ derive newtype instance monadAskAppM :: MonadAsk Env AppM
 getDecodedJson ∷ ∀ a. Either JsonDecodeError a → Effect a
 getDecodedJson = either (throw <<< printJsonDecodeError) pure
 
--- MonadCIP30 instance required by external WalletConnect component
-instance monadCip30AppM :: MonadCIP30 AppM where
-  enable w exts = H.liftAff $ Cip30.enable w exts
-  getExtensions = H.liftAff <<< Cip30.getExtensions
-  getNetworkId = H.liftAff <<< Cip30.getNetworkId
-  getBalance = H.liftAff <<< Cip30.getBalance
-  getUsedAddresses api mp = H.liftAff $ Cip30.getUsedAddresses api mp
-  getUtxos api ma mp = H.liftAff $ Cip30.getUtxos api ma mp
-  getCollateral api amt = H.liftAff $ Cip30.getCollateral api amt
-  getUnusedAddresses = H.liftAff <<< Cip30.getUnusedAddresses
-  getChangeAddress = H.liftAff <<< Cip30.getChangeAddress
-  getRewardAddresses = H.liftAff <<< Cip30.getRewardAddresses
-  signTx api tx isPartial = H.liftAff $ Cip30.signTx api tx isPartial
-  signData api addr payload = H.liftAff $ Cip30.signData api addr payload
-  submitTx api tx = H.liftAff $ Cip30.submitTx api tx
-  getName = H.liftEffect <<< Cip30.getName
-  getIcon = H.liftEffect <<< Cip30.getIcon
-  isWalletAvailable = H.liftEffect <<< Cip30.isWalletAvailable
-  getAvailableWallets = H.liftEffect Cip30.getAvailableWallets
-  isEnabled = H.liftAff <<< Cip30.isEnabled
-  getApiVersion = H.liftEffect <<< Cip30.getApiVersion
-  getSupportedExtensions = H.liftEffect <<< Cip30.getSupportedExtensions
-
--- MonadCardanoQuery instance
-instance monadCardanoQueryAppM :: MonadCardanoQuery AppM where
-  fetchPoolInfo = fetchPoolInfoDefault
-
+-- Empty marker instances for cardano-capabilities library
+-- All functionality comes from standalone functions
+-- MonadCIP30 is automatically provided by the library for MonadAff instances
+instance MonadCIP30 AppM
+instance MonadInteraction AppM
+instance MonadCardanoQuery AppM

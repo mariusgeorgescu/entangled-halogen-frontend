@@ -2,9 +2,7 @@ module Components.NavBar where
 
 import Prelude
 import AppEnv (Env)
-import Capabilities.MonadCIP30 (class MonadCIP30)
-import Capabilities.MonadCIP30 as MonadCIP30
-import Capabilities.MonadInteraction (class MonadInteraction)
+import Cardano.Capabilities.Wallet.MonadCIP30 (class MonadCIP30, getNetworkId)
 import Cardano.Wallet.Cip30 (Api)
 import Control.Monad.Reader.Class (class MonadAsk, ask)
 import Data.Array (elem)
@@ -20,7 +18,7 @@ import Halogen.Store.Select (selectAll)
 import Store as Store
 import Test.Unit.Console (consoleLog)
 import Type.Proxy (Proxy(..))
-import WalletConnect.Component as WC
+import Components.WalletConnectComponent as WC
 
 --------------------------------------------------------------------------------
 -- * Component Interface
@@ -109,7 +107,6 @@ handleAction ::
   MonadAff m =>
   MonadCIP30 m =>
   MonadAsk Env m =>
-  MonadInteraction String m =>
   MonadStore Store.Action Store.Store m =>
   Action → H.HalogenM State Action Slots Output m Unit
 handleAction = case _ of
@@ -127,7 +124,7 @@ handleAction = case _ of
           updateStore (Store.Connect api)
           H.raise WalletConnectEvent
           env <- ask
-          currentNetworkId <- MonadCIP30.getNetworkId api
+          currentNetworkId <- getNetworkId api
           if (currentNetworkId /= env.allowedNetworkId) then do
             H.liftEffect $ consoleLog $ show $ "Invalid network: " <> show currentNetworkId <> " <> " <> show env.allowedNetworkId
             void $ H.query WC.walletConnectProxy unit (WC.DisconnectWalletQuery unit)

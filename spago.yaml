@@ -5,6 +5,7 @@ package:
     - affjax-web
     - argonaut-aeson-generic
     - b64
+    - cardano-capabilities
     - cardano-serialization-lib
     - cip30
     - cip30-typesafe
@@ -15,6 +16,7 @@ package:
     - halogen-formless
     - halogen-store
     - halogen-svg-elems
+    - halogen-cardano-wallet-connect-component
     - js-date
     - node-buffer
     - prelude
@@ -24,9 +26,6 @@ package:
     - web-cssom-view
     - web-events
     - web-storage
-    - halogen-cardano-wallet-connect-component
-    # - cardano-types
-
 
   test:
     main: Test.Main
@@ -38,21 +37,22 @@ workspace:
   packageSet:
     registry: 68.9.0
   extraPackages:
-    # cardano-types:
-    #   git: https://github.com/mariusgeorgescu/purescript-cardano-types.git
-    #   ref: aa3df3f5a5c8863e4da11cfab0e028f25ae397e6 # branch, tag, or commit hash
+    cardano-capabilities:
+      git: https://github.com/mariusgeorgescu/purescript-cardano-capabilities.git
+      ref: 3588337c8105616b89f05cb33e16cb3424124fbe
 
     cardano-serialization-lib:
       git: https://github.com/mariusgeorgescu/purescript-cardano-serialization-lib.git
-      ref: 7d6c664b125ce8c3cc441912fb8daf72294c17e7 # branch, tag, or commit hash
+      ref: 7d6c664b125ce8c3cc441912fb8daf72294c17e7
 
     cip30-typesafe:
       git: https://github.com/mariusgeorgescu/purescript-cip30-typesafe.git
-      ref: a8cf31f14663b2737387ed26090516362c69d0f3 # branch, tag, or commit hash
+      ref: a8cf31f14663b2737387ed26090516362c69d0f3
+
     cip30:
       git: https://github.com/mariusgeorgescu/purescript-cip30.git
-      ref: fb4b90fcca1f57edaacd6405965bf245d3504583 # branch, tag, or commit hash
+      ref: fb4b90fcca1f57edaacd6405965bf245d3504583
 
     halogen-cardano-wallet-connect-component:
       git: https://github.com/mariusgeorgescu/halogen-cardano-wallet-connect-component.git
-      ref: v1.0.2
+      ref: b17a2e7dbebe4efeb1ead9e98e990df183f41e7a

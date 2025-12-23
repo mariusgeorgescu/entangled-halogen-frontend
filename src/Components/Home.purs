@@ -5,9 +5,8 @@ import Prelude
 import App.Utils (scrollToTop)
 import AppEnv (Env)
 import AppTypes (DelegationAction(..))
-import Capabilities.MonadCIP30 (class MonadCIP30)
-import Capabilities.MonadCardanoQuery (PoolInfo, class MonadCardanoQuery, fetchPoolInfo)
-import Capabilities.MonadInteraction (class MonadInteraction, buildTransaction, signTransaction, submitTransaction)
+import Cardano.Capabilities.Wallet.MonadCIP30 (class MonadCIP30)
+import Cardano.Capabilities (PoolInfo, class MonadCardanoQuery, fetchPoolInfo, class MonadInteraction, buildTransaction, signTransaction, submitTransaction)
 import Cardano.Wallet.Cip30 as Cardano.Wallet.Cip30
 import Components.HTML.RenderUtils.App (renderAccentButton, renderCexplorerPoolGraphSection, renderFabFlower, renderFooterSection, renderHeroSection, renderPoolOverviewSection, renderPrimaryButton, renderProfessionalServicesSection, renderSecondaryButton, renderToasts) as RU
 import Components.NavBar as NavBar
@@ -106,7 +105,7 @@ component ::
   MonadCIP30 m =>
   MonadStore Store.Action Store.Store m =>
   MonadAsk Env m =>
-  MonadInteraction DelegationAction m =>
+  MonadInteraction m =>
   MonadCardanoQuery m =>
   H.Component query Input output m
 component =
@@ -133,7 +132,7 @@ handleAction ::
   MonadCIP30 m =>
   MonadStore Store.Action Store.Store m =>
   MonadAsk Env m =>
-  MonadInteraction DelegationAction m =>
+  MonadInteraction m =>
   MonadCardanoQuery m =>
   Action -> H.HalogenM State Action Slots output m Unit
 handleAction action = case action of
@@ -157,7 +156,7 @@ handleAction action = case action of
       pure emitter
   FetchPoolInfo -> do
     env <- ask
-    result <- fetchPoolInfo env.myPoolId
+    result <- fetchPoolInfo env env.myPoolId
     case result of
       Right poolInfo -> do
         handleAction $ PoolInfoReceived $ Right poolInfo
@@ -177,7 +176,7 @@ handleAction action = case action of
       newTs = clearToasts <<< decrementToats $ ts
     H.modify_ _ { currentTime = ct, toasts = newTs }
   SignTransaction api unsignedTxCbor -> do
-    signedTxResult <- signTransaction @String api unsignedTxCbor
+    signedTxResult <- signTransaction api unsignedTxCbor
     case signedTxResult of
       Right signedTxCbor -> do
         H.modify_ \s -> s { toasts = txSubmitSuccessToast  `cons` s.toasts }
@@ -187,7 +186,7 @@ handleAction action = case action of
     pure unit
   SubmitTransaction unsignedTxCbor signedTx -> do
     env <- ask  
-    submitResult <- submitTransaction @String env unsignedTxCbor signedTx
+    submitResult <- submitTransaction env unsignedTxCbor signedTx
     case submitResult of
       Right txId -> do
         H.modify_ \s -> s { toasts = txConfirmedSuccessToast txId `cons` s.toasts }

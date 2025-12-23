@@ -1,7 +1,7 @@
 module Components.HTML.RenderUtils.App where
 
 import Prelude
-import Capabilities.MonadCardanoQuery (PoolInfo(..))
+import Cardano.Capabilities (PoolInfo(..))
 import Components.HTML.Icons (activeSvgIcon, downSvgIcon, errorSvgIcon, finalSvgIcon, infoSvgIcon, successSvgIcon, upSvgIcon, warningSvgIcon)
 import DOM.HTML.Indexed (HTMLinput, HTMLtextarea)
 import Data.Array (mapMaybe, length)

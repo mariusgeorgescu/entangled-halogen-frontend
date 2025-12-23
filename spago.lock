@@ -9,6 +9,7 @@
             "affjax-web",
             "argonaut-aeson-generic",
             "b64",
+            "cardano-capabilities",
             "cardano-serialization-lib",
             "cip30",
             "cip30-typesafe",
@@ -46,6 +47,7 @@
             "avar",
             "b64",
             "bifunctors",
+            "cardano-capabilities",
             "cardano-serialization-lib",
             "catenable-lists",
             "cip30",
@@ -721,6 +723,10 @@
       }
     },
     "extra_packages": {
+      "cardano-capabilities": {
+        "git": "https://github.com/mariusgeorgescu/purescript-cardano-capabilities.git",
+        "ref": "3588337c8105616b89f05cb33e16cb3424124fbe"
+      },
       "cardano-serialization-lib": {
         "git": "https://github.com/mariusgeorgescu/purescript-cardano-serialization-lib.git",
         "ref": "7d6c664b125ce8c3cc441912fb8daf72294c17e7"
@@ -735,7 +741,7 @@
       },
       "halogen-cardano-wallet-connect-component": {
         "git": "https://github.com/mariusgeorgescu/halogen-cardano-wallet-connect-component.git",
-        "ref": "v1.0.2"
+        "ref": "b17a2e7dbebe4efeb1ead9e98e990df183f41e7a"
       }
     }
   },
@@ -959,6 +965,28 @@
         "either",
         "newtype",
         "prelude",
+        "tuples"
+      ]
+    },
+    "cardano-capabilities": {
+      "type": "git",
+      "url": "https://github.com/mariusgeorgescu/purescript-cardano-capabilities.git",
+      "rev": "3588337c8105616b89f05cb33e16cb3424124fbe",
+      "dependencies": [
+        "affjax",
+        "affjax-web",
+        "argonaut-aeson-generic",
+        "arrays",
+        "cardano-serialization-lib",
+        "cip30",
+        "cip30-typesafe",
+        "effect",
+        "foldable-traversable",
+        "foreign",
+        "halogen",
+        "prelude",
+        "profunctor-lenses",
+        "transformers",
         "tuples"
       ]
     },
@@ -1405,9 +1433,10 @@
     "halogen-cardano-wallet-connect-component": {
       "type": "git",
       "url": "https://github.com/mariusgeorgescu/halogen-cardano-wallet-connect-component.git",
-      "rev": "feb930728e2d99f63ad58cd55180ce049c291496",
+      "rev": "b17a2e7dbebe4efeb1ead9e98e990df183f41e7a",
       "dependencies": [
         "arrays",
+        "cardano-capabilities",
         "cardano-serialization-lib",
         "cip30",
         "effect",
