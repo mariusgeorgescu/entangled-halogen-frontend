@@ -279,12 +279,11 @@ renderBodyContent :: forall m.
   State -> H.ComponentHTML Action Slots m
 renderBodyContent s = case s.currentPage of 
   MainPage -> 
-    HH.div_ [    
-      RU.renderHeroSection heroButtonsList
-    , RU.renderProfessionalServicesSection professionalServicesButtonsList
-    ,       RU.renderPoolOverviewSection s.poolInfo
-    -- , RU.renderCexplorerPoolGraphSection s.poolInfo
-    ]
+    HH.div_
+      [ RU.renderHeroSection heroButtonsList
+      , RU.renderProfessionalServicesSection professionalServicesButtonsList
+      , RU.renderPoolOverviewSection s.poolInfo
+      ]
   PortfolioPage -> renderPortfolioWidgetSlot
 
 

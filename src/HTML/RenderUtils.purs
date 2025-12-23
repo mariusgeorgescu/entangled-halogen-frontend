@@ -1,28 +1,11 @@
 module Components.HTML.RenderUtils.App
   ( -- Re-export library components
     module Halogen.DaisyUI.Components
-  , module Halogen.DaisyUI.Types
-  -- App-specific form utilities
-  , withLabel
-  , textInput
-  , textInput_
-  , textarea
-  , textarea_
-  , checkboxConsent
-  , checkbox
-  , checkbox_
-  , swap
-  , swap_
-  , swapUpDown
-  , swapActiveFinal
-  , filter
-  , filter_
   -- App-specific sections
   , renderProfessionalServicesSection
   , renderHeroSection
   , renderPoolOverviewSection
   , renderFooterSection
-  , renderCexplorerPoolGraphSection
   , renderFabFlower
   ) where
 
@@ -30,217 +13,18 @@ import Prelude
 
 import App.Utils (lovelaceToAda)
 import Cardano.Capabilities (PoolInfo(..))
-import Components.HTML.Icons (activeSvgIcon, downSvgIcon, finalSvgIcon, upSvgIcon)
-import DOM.HTML.Indexed (HTMLinput, HTMLtextarea)
 import Data.Array (mapMaybe, length)
-import Data.Either (Either(..))
 import Data.Int (toNumber)
 import Data.Maybe (Maybe(..))
 import Data.Number (floor)
-import Data.Tuple (Tuple(..))
-import Halogen as H
 import Halogen.DaisyUI.Components
-import Halogen.DaisyUI.Types
 import Halogen.HTML as HH
-import Halogen.HTML.Events as HE
 import Halogen.HTML.Properties as HP
 import Halogen.Svg.Attributes as SA
 import Halogen.Svg.Attributes.Color (Color(..))
 import Halogen.Svg.Attributes.StrokeLineCap (StrokeLineCap(..))
 import Halogen.Svg.Attributes.StrokeLineJoin (StrokeLineJoin(..))
 import Halogen.Svg.Elements as SE
-
--- ==============================================================================
--- FORM UTILITIES (App-specific with Formless integration)
--- ==============================================================================
-
--- | Attach a label and error text to a form input
-withLabel ::
-  forall input output action slots m.
-  Labelled input output ->
-  H.ComponentHTML action slots m ->
-  H.ComponentHTML action slots m
-withLabel { label, state } html =
-  let
-    (Tuple errorMsg inputColor) = case state.result of
-      Just (Left e) -> Tuple e "input-secondary"
-      _ -> Tuple "" "input-error"
-  in
-    HH.div [ HP.classes [ HH.ClassName $ "grid grid-cols-1 gap-1" ] ]
-      [ HH.label [ HP.classes [ HH.ClassName $ "label " <> inputColor ] ]
-          [ HH.span [ HP.classes [ HH.ClassName "primary-content" ] ] [ HH.text label ] ]
-      , html
-      , HH.small [ HP.classes [ HH.ClassName "bg-error text-error-content" ] ] [ HH.text errorMsg ]
-      ]
-
-textInput ::
-  forall output action slots m.
-  TextInput action output ->
-  Array (HP.IProp HTMLinput action) ->
-  H.ComponentHTML action slots m
-textInput { label, state, action } =
-  withLabel { label, state } <<< HH.input
-    <<< append
-        [ HP.value state.value
-        , case state.result of
-            Nothing -> HP.attr (HH.AttrName "aria-touched") "false"
-            Just (Left _) -> HP.attr (HH.AttrName "aria-invalid") "true"
-            Just (Right _) -> HP.attr (HH.AttrName "aria-invalid") "false"
-        , HE.onValueInput action.handleChange
-        , HE.onBlur action.handleBlur
-        , HP.classes [ HH.ClassName "input input-bordered input-secondary w-full max-w-xs" ]
-        ]
-
-textInput_ ::
-  forall output action slots m.
-  TextInput action output ->
-  H.ComponentHTML action slots m
-textInput_ = flip textInput []
-
-textarea ::
-  forall output action slots m.
-  Textarea action output ->
-  Array (HP.IProp HTMLtextarea action) ->
-  H.ComponentHTML action slots m
-textarea { label, state, action } =
-  withLabel { label, state } <<< HH.textarea
-    <<< append
-        [ HP.value state.value
-        , HE.onValueInput action.handleChange
-        , HE.onBlur action.handleBlur
-        , HP.classes [ HH.ClassName "textarea textarea-secondary textarea-bordered  w-full max-w-xs" ]
-        ]
-
-textarea_ ::
-  forall output action slots m.
-  Textarea action output ->
-  H.ComponentHTML action slots m
-textarea_ = flip textarea []
-
-checkboxConsent ::
-  forall error action slots m.
-  Checkbox error action ->
-  Array (HP.IProp HTMLinput action) ->
-  H.ComponentHTML action slots m
-checkboxConsent { label, state, action } props =
-  HH.fieldset_
-    [ HH.label_
-        [ HH.input
-            $ flip append props
-                [ HP.type_ HP.InputCheckbox
-                , HP.checked state.value
-                , HE.onChecked action.handleChange
-                , HE.onBlur action.handleBlur
-                ]
-        , HH.text label
-        ]
-    ]
-
-checkbox ::
-  forall error action slots m.
-  Checkbox error action ->
-  Array (HP.IProp HTMLinput action) ->
-  H.ComponentHTML action slots m
-checkbox { label, state, action } props =
-  HH.fieldset_
-    [ HH.label_
-        [ HH.text label
-        , HH.input
-            $ flip append props
-                [ HP.type_ HP.InputCheckbox
-                , HP.checked state.value
-                , HE.onChecked action.handleChange
-                , HE.onBlur action.handleBlur
-                ]
-        ]
-    ]
-
-checkbox_ ::
-  forall error action slots m.
-  Checkbox error action ->
-  H.ComponentHTML action slots m
-checkbox_ = flip checkbox []
-
-swap ::
-  forall error action slots m.
-  H.ComponentHTML action slots m ->
-  H.ComponentHTML action slots m ->
-  Checkbox error action ->
-  Array (HP.IProp HTMLinput action) ->
-  H.ComponentHTML action slots m
-swap onHTML offHTML { label, state, action } props =
-  HH.fieldset [ HP.classes [ HH.ClassName "grid grid-cols-1 gap-1" ] ]
-    [ HH.text label
-    , HH.label [ HP.classes [ HH.ClassName "swap swap-rotate" ] ]
-        [ HH.input
-            $ flip append props
-                [ HP.type_ HP.InputCheckbox
-                , HP.checked state.value
-                , HE.onChecked action.handleChange
-                , HE.onBlur action.handleBlur
-                ]
-        , HH.div [ HP.classes [ HH.ClassName "swap-on h-10 w-10 fill-current" ] ] [ onHTML ]
-        , HH.div [ HP.classes [ HH.ClassName "swap-off h-10 w-10 fill-current" ] ] [ offHTML ]
-        ]
-    ]
-
-swap_ ::
-  forall error action slots m.
-  H.ComponentHTML action slots m ->
-  H.ComponentHTML action slots m ->
-  Checkbox error action ->
-  H.ComponentHTML action slots m
-swap_ onText offText = flip (swap onText offText) []
-
-swapUpDown :: forall error action slots m. Checkbox error action -> H.ComponentHTML action slots m
-swapUpDown = swap_ (upSvgIcon) (downSvgIcon)
-
-swapActiveFinal :: forall error action slots m. Checkbox error action -> H.ComponentHTML action slots m
-swapActiveFinal = swap_ (activeSvgIcon) (finalSvgIcon)
-
-filter ::
-  forall error action slots m.
-  Filter error action ->
-  Array (HP.IProp HTMLinput action) ->
-  H.ComponentHTML action slots m
-filter { label, options, state, action } props =
-  HH.fieldset_
-    [ HH.label_
-        [ HH.text label
-        , HH.div [ HP.classes [ HH.ClassName "filter" ] ]
-            $ [ HH.input
-                  [ HP.classes [ HH.ClassName "btn filter-reset" ]
-                  , HP.type_ HP.InputRadio
-                  , HP.name label
-                  , HP.checked (state.value == "")
-                  , HE.onChange (\_ -> action.handleChange "")
-                  , HP.attr (HH.AttrName "aria-label") "x"
-                  ]
-              ]
-            <> ( map
-                  ( \o ->
-                      HH.input
-                        $ flip append props
-                            [ HP.classes [ HH.ClassName "btn" ]
-                            , HP.type_ HP.InputRadio
-                            , HP.name label
-                            , HP.checked (state.value == o)
-                            , HE.onValueInput action.handleChange
-                            , HE.onChange (\_ -> action.handleChange o)
-                            , HE.onBlur action.handleBlur
-                            , HP.attr (HH.AttrName "aria-label") o
-                            ]
-                  )
-                  options
-              )
-        ]
-    ]
-
-filter_ ::
-  forall error action slots m.
-  Filter error action ->
-  H.ComponentHTML action slots m
-filter_ = flip filter []
 
 -- ==============================================================================
 -- PROFESSIONAL SERVICES (App-specific Static Section)
@@ -506,50 +290,6 @@ renderFooterSection =
         , HH.a [ HP.classes [ HH.ClassName "link link-hover text-sm sm:text-base" ], HP.target "_blank", HP.href "https://github.com/en7angled/" ] [ HH.text "GitHub" ]
         ]
     ]
-
--- ==============================================================================
--- CEXPLORER POOL GRAPH (App-specific Static Section)
--- ==============================================================================
-renderCexplorerPoolGraphSection :: forall w i. Maybe PoolInfo -> HH.HTML w i
-renderCexplorerPoolGraphSection maybePoolInfo =
-  let
-    maybePoolId = case maybePoolInfo of
-      Just (PoolInfo info) -> info.pool_id
-      Nothing -> Nothing
-  in
-    case maybePoolId of
-      Just poolId ->
-        HH.section
-          [ HP.classes [ HH.ClassName "w-full max-w-6xl mx-auto px-4 sm:px-6 py-8 sm:py-12" ] ]
-          [ HH.div [ HP.classes [ HH.ClassName "text-center mb-6" ] ]
-              [ HH.h2 [ HP.classes [ HH.ClassName "text-2xl sm:text-3xl font-bold" ] ] [ HH.text "Stake Pool Graph" ]
-              , HH.p [ HP.classes [ HH.ClassName "opacity-80 mt-2 text-sm sm:text-base px-2" ] ] [ HH.text "Real-time performance metrics and block production history" ]
-              ]
-          , HH.div [ HP.classes [ HH.ClassName "flex justify-center" ] ]
-              [ HH.div [ HP.classes [ HH.ClassName "w-full max-w-4xl" ] ]
-                  [ HH.div
-                      [ HP.classes [ HH.ClassName "relative w-full" ]
-                      , HP.style "padding-top: 52.8%"
-                      ]
-                      [ HH.iframe
-                          [ HP.src $ "https://img.cexplorer.io/w/widget-graph.html?pool=" <> poolId <> "&theme=dark"
-                          , HP.attr (HH.AttrName "frameborder") "0"
-                          , HP.attr (HH.AttrName "allowtransparency") "true"
-                          , HP.attr (HH.AttrName "style") "position:absolute;top:0;left:0;width:100%;height:100%;background:transparent !important;"
-                          ]
-                      ]
-                  ]
-              ]
-          , HH.div [ HP.classes [ HH.ClassName "text-center mt-3" ] ]
-              [ HH.a
-                  [ HP.href $ "https://cexplorer.io/pool/" <> poolId
-                  , HP.target "_blank"
-                  , HP.classes [ HH.ClassName "link link-hover text-sm sm:text-base" ]
-                  ]
-                  [ HH.text "View detailed pool statistics →" ]
-              ]
-          ]
-      Nothing -> HH.text ""
 
 -- ==============================================================================
 -- FAB Speed Dial (App-specific Floating Action Button)
