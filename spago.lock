@@ -12,7 +12,6 @@
             "halogen",
             "halogen-cardano-wallet-connect-component",
             "halogen-daisyui",
-            "halogen-formless",
             "halogen-store",
             "prelude"
           ],
