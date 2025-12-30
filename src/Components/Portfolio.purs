@@ -1,6 +1,7 @@
 module Components.Portfolio where
 
 import Prelude
+import Components.HTML.RenderUtils.App (renderBackButton)
 import Data.Maybe (Maybe(..))
 import Halogen as H
 import Halogen.HTML as HH
@@ -30,6 +31,7 @@ data Output
 
 data Action
   = Initialize
+  | GoHome
 
 component ::
   forall m.
@@ -57,6 +59,7 @@ handleAction ::
   Action -> H.HalogenM State Action () Output m Unit
 handleAction action = case action of
   Initialize -> pure unit
+  GoHome -> H.raise NavigateToHome
 
 --------------------------------------------------------------------------------
 -- * Component Rendering
@@ -68,6 +71,7 @@ render _ =
   HH.div [ HP.classes [ HH.ClassName "w-full min-h-screen" ] ]
     [ renderProjectCatalystSection
     , renderSecurityAuditsSection
+    , renderBackButton GoHome
     ]
 
 --------------------------------------------------------------------------------

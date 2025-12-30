@@ -1,29 +1,62 @@
 module Components.HTML.RenderUtils.App
-  ( -- Re-export library components  
-    module Halogen.DaisyUI.Components
-  -- App-specific sections
-  , renderProfessionalServicesSection
+  ( module Halogen.DaisyUI.Components
+  , renderBackButton
+  , renderFabFlower
+  , renderFooterSection
   , renderHeroSection
   , renderPoolOverviewSection
-  , renderFooterSection
-  , renderFabFlower
-  ) where
+  , renderProfessionalServicesSection
+  )
+  where
 
+import Halogen.DaisyUI.Components
 import Prelude
+
 import App.Utils (lovelaceToAda)
 import Cardano.Capabilities (PoolInfo(..))
 import Data.Array (mapMaybe, length)
 import Data.Int (toNumber)
 import Data.Maybe (Maybe(..))
 import Data.Number (floor)
-import Halogen.DaisyUI.Components
 import Halogen.HTML as HH
+import Halogen.HTML.Events as HE
 import Halogen.HTML.Properties as HP
 import Halogen.Svg.Attributes as SA
 import Halogen.Svg.Attributes.Color (Color(..))
 import Halogen.Svg.Attributes.StrokeLineCap (StrokeLineCap(..))
 import Halogen.Svg.Attributes.StrokeLineJoin (StrokeLineJoin(..))
 import Halogen.Svg.Elements as SE
+
+
+
+--------------------------------------------------------------------------------
+-- * Back Button
+--------------------------------------------------------------------------------
+renderBackButton :: forall w i. i -> HH.HTML w i
+renderBackButton action =
+  HH.div [ HP.classes [ HH.ClassName "fixed bottom-6 left-6 z-50" ] ]
+    [ HH.button
+        [ HP.classes [ HH.ClassName "btn btn-circle btn-lg btn-primary shadow-lg hover:shadow-xl transition-all" ]
+        , HE.onClick \_ -> action
+        ]
+        [ SE.svg
+            [ SA.class_ $ HH.ClassName "h-6 w-6"
+            , SA.fill NoColor
+            , SA.viewBox 0.0 0.0 24.0 24.0
+            ]
+            [ SE.path
+                [ SA.strokeLineCap LineCapRound
+                , SA.strokeLineJoin LineJoinRound
+                , SA.strokeWidth 2.0
+                , HP.attr (HH.AttrName "stroke") "currentColor"
+                , HP.attr (HH.AttrName "d") "M10 19l-7-7m0 0l7-7m-7 7h18"
+                ]
+            ]
+        ]
+    ]
+
+
+
 
 -- ==============================================================================
 -- PROFESSIONAL SERVICES (App-specific Static Section)
@@ -298,7 +331,7 @@ renderFooterSection =
         ]
     , HH.nav_
         [ HH.h6 [ HP.classes [ HH.ClassName "footer-title text-sm sm:text-base" ] ] [ HH.text "Company" ]
-        , HH.a [ HP.classes [ HH.ClassName "link link-hover text-sm sm:text-base" ], HP.href "#about" ] [ HH.text "About" ]
+        , HH.a [ HP.classes [ HH.ClassName "link link-hover text-sm sm:text-base" ], HP.href "#founders" ] [ HH.text "About Us" ]
         , HH.a [ HP.classes [ HH.ClassName "link link-hover text-sm sm:text-base" ], HP.href "#services" ] [ HH.text "Services" ]
         , HH.a [ HP.classes [ HH.ClassName "link link-hover text-sm sm:text-base" ], HP.href "#pool" ] [ HH.text "Pool" ]
         ]

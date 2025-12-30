@@ -1,7 +1,6 @@
 module Components.Home where
 
 import Prelude
-
 import App.Utils (scrollToTop)
 import AppEnv (Env)
 import AppTypes (DelegationAction(..))
@@ -11,6 +10,7 @@ import Cardano.Wallet.Cip30 as Cardano.Wallet.Cip30
 import Components.HTML.RenderUtils.App (renderAccentButton, renderFabFlower, renderFooterSection, renderHeroSection, renderPoolOverviewSection, renderPrimaryButton, renderProfessionalServicesSection, renderSecondaryButton, renderToasts) as RU
 import Components.NavBar as NavBar
 import Components.Portfolio as Portfolio
+import Components.About as About
 import Control.Monad.Reader.Class (class MonadAsk, ask, asks)
 import Control.Monad.Rec.Class (forever)
 import Data.Array (cons, filter)
@@ -65,11 +65,13 @@ parseDelegationAction userAction env = case userAction of
 type Slots
   = ( navbarWidget :: NavBar.Slot
     , portfolioWidget :: Portfolio.Slot
+    , aboutWidget :: About.Slot
     )
 
 data Page
   = MainPage
   | PortfolioPage
+  | AboutPage
 
 derive instance eqValue :: Eq Page
 
@@ -90,9 +92,10 @@ data Action
   | ChangePage Page
   | HandleNavBarOutput NavBar.Output
   | HandlePortfolioOutput Portfolio.Output
+  | HandleAboutOutput About.Output
   | SubmitTransaction String String
   | SignTransaction Cardano.Wallet.Cip30.Api String
-  | StartEarningRewardsButton 
+  | StartEarningRewardsButton
   | LetUsBeYourDRepButton
   | BothButton
   | Tick
@@ -168,7 +171,7 @@ handleAction action = case action of
     H.liftEffect $ Console.log $ "Pool info received successfully"
   PoolInfoReceived (Left err) -> do
     H.liftEffect $ Console.log $ "Failed to fetch pool info: " <> err
-    -- Don't show error to user, just log it
+  -- Don't show error to user, just log it
   Tick -> do
     ct <- unwrap <<< unInstant <$> H.liftEffect now
     ts <- H.gets _.toasts
@@ -179,18 +182,17 @@ handleAction action = case action of
     signedTxResult <- signTransaction api unsignedTxCbor
     case signedTxResult of
       Right signedTxCbor -> do
-        H.modify_ \s -> s { toasts = txSubmitSuccessToast  `cons` s.toasts }
+        H.modify_ \s -> s { toasts = txSubmitSuccessToast `cons` s.toasts }
         handleAction (SubmitTransaction unsignedTxCbor signedTxCbor)
       Left err -> do
         H.modify_ \s -> s { toasts = txSubmitFailedToast err `cons` s.toasts }
     pure unit
   SubmitTransaction unsignedTxCbor signedTx -> do
-    env <- ask  
+    env <- ask
     submitResult <- submitTransaction env unsignedTxCbor signedTx
     case submitResult of
       Right txId -> do
         H.modify_ \s -> s { toasts = txConfirmedSuccessToast txId `cons` s.toasts }
-
       Left err -> do
         H.modify_ \s -> s { toasts = txConfirmedFailedToast err `cons` s.toasts }
     H.liftEffect $ Console.log $ show submitResult
@@ -198,8 +200,10 @@ handleAction action = case action of
   HandleNavBarOutput navbarout -> case navbarout of
     NavBar.HomeEvent -> do
       handleAction (ChangePage MainPage)
+    NavBar.AboutEvent -> do
+      handleAction (ChangePage AboutPage)
     NavBar.BuildTransactionEvent userAction api -> do
-      env <- ask  
+      env <- ask
       delegationAction <- parseDelegationAction userAction env
       buildResult <- buildTransaction env api delegationAction
       H.liftEffect $ Console.log $ show buildResult
@@ -214,7 +218,7 @@ handleAction action = case action of
       pure unit
     NavBar.WalletConnectEvent -> pure unit
     NavBar.InvalidNetworkEvent currentNetwork -> do
-      cardanoNetwork <- asks ( _.allowedNetworkId )
+      cardanoNetwork <- asks (_.allowedNetworkId)
       let
         newToast = { remainingSeconds: 5, alertType: "error", message: "You are connected to the " <> show currentNetwork <> " network, but the app is configured to use the " <> show cardanoNetwork <> " network" }
       H.modify_ \s -> s { toasts = newToast `cons` s.toasts }
@@ -241,6 +245,10 @@ handleAction action = case action of
     H.modify_ _ { currentPage = page }
   HandlePortfolioOutput portfolioout -> case portfolioout of
     Portfolio.NavigateToHome -> handleAction (ChangePage MainPage)
+  HandleAboutOutput aboutout -> case aboutout of
+    About.NavigateToHome -> handleAction (ChangePage MainPage)
+    About.NavigateToPortfolio -> handleAction (ChangePage PortfolioPage)
+
 --------------------------------------------------------------------------------
 -- * Component Rendering
 --------------------------------------------------------------------------------
@@ -251,14 +259,14 @@ render ::
   MonadStore Store.Action Store.Store m =>
   MonadAsk Env m =>
   State -> H.ComponentHTML Action Slots m
-render s = HH.div_
+render s =
+  HH.div_
     [ renderWalletWidgetSlot
     , renderBodyContent s
     , RU.renderFooterSection
     , RU.renderFabFlower
     , RU.renderToasts $ getToast <$> s.toasts -- must be last to show up in front.
     ]
-
 
 renderWalletWidgetSlot ::
   forall m.
@@ -269,45 +277,54 @@ renderWalletWidgetSlot ::
   H.ComponentHTML Action Slots m
 renderWalletWidgetSlot = HH.slot NavBar.navbarProxy unit NavBar.component unit HandleNavBarOutput
 
-
-
-renderBodyContent :: forall m.
+renderBodyContent ::
+  forall m.
   MonadAff m =>
   MonadAsk Env m =>
   MonadCIP30 m =>
   MonadStore Store.Action Store.Store m =>
   State -> H.ComponentHTML Action Slots m
-renderBodyContent s = case s.currentPage of 
-  MainPage -> 
+renderBodyContent s = case s.currentPage of
+  MainPage ->
     HH.div_
       [ RU.renderHeroSection heroButtonsList
       , RU.renderProfessionalServicesSection professionalServicesButtonsList
       , RU.renderPoolOverviewSection s.poolInfo
       ]
   PortfolioPage -> renderPortfolioWidgetSlot
+  AboutPage -> renderAboutWidgetSlot
 
-
-renderPortfolioWidgetSlot :: forall m.
+renderPortfolioWidgetSlot ::
+  forall m.
   H.ComponentHTML Action Slots m
 renderPortfolioWidgetSlot = HH.slot Portfolio.portfolioProxy unit Portfolio.component {} HandlePortfolioOutput
 
+renderAboutWidgetSlot ::
+  forall m.
+  H.ComponentHTML Action Slots m
+renderAboutWidgetSlot = HH.slot About.aboutProxy unit About.component {} HandleAboutOutput
+
 heroButtonsList :: forall w. Array (HH.HTML w Action)
-heroButtonsList = [ RU.renderSecondaryButton "Start Earning Rewards" StartEarningRewardsButton
-              , RU.renderSecondaryButton "Delegate Your Vote" LetUsBeYourDRepButton
-              , RU.renderPrimaryButton "Stake & Vote" BothButton
-              ]
+heroButtonsList =
+  [ RU.renderSecondaryButton "Start Earning Rewards" StartEarningRewardsButton
+  , RU.renderSecondaryButton "Delegate Your Vote" LetUsBeYourDRepButton
+  , RU.renderPrimaryButton "Stake & Vote" BothButton
+  ]
 
 professionalServicesButtonsList :: forall w. Array (HH.HTML w Action)
-professionalServicesButtonsList = [RU.renderAccentButton "Check out our portfolio" (ChangePage PortfolioPage)]
+professionalServicesButtonsList =
+  [ RU.renderAccentButton "About Us" (ChangePage AboutPage)
+  , RU.renderAccentButton "Check out our portfolio" (ChangePage PortfolioPage)
+  ]
 
 txBuildSuccessToast ∷ { alertType ∷ String, message ∷ String, remainingSeconds ∷ Int }
 txBuildSuccessToast = { remainingSeconds: 5, alertType: "info alert-dash", message: "Transaction built successfully. Please review and sign the transaction." }
+
 txBuildFailedToast ∷ String → { alertType ∷ String, message ∷ String, remainingSeconds ∷ Int }
 txBuildFailedToast e = { remainingSeconds: 5, alertType: "error", message: "Transaction building failed: " <> e }
 
-
-txSubmitSuccessToast ∷  { alertType ∷ String, message ∷ String, remainingSeconds ∷ Int }
-txSubmitSuccessToast  = { remainingSeconds: 5, alertType: "info", message: "Transaction signed and submitted successfully" }
+txSubmitSuccessToast ∷ { alertType ∷ String, message ∷ String, remainingSeconds ∷ Int }
+txSubmitSuccessToast = { remainingSeconds: 5, alertType: "info", message: "Transaction signed and submitted successfully" }
 
 txSubmitFailedToast ∷ String → { alertType ∷ String, message ∷ String, remainingSeconds ∷ Int }
 txSubmitFailedToast e = { remainingSeconds: 5, alertType: "error", message: "Transaction submission failed: " <> e }
@@ -317,7 +334,6 @@ txConfirmedSuccessToast txId = { remainingSeconds: 5, alertType: "success", mess
 
 txConfirmedFailedToast ∷ String → { alertType ∷ String, message ∷ String, remainingSeconds ∷ Int }
 txConfirmedFailedToast txId = { remainingSeconds: 5, alertType: "error", message: "Transaction confirmation failed: " <> txId }
-
 
 walletNotConnectedToast ∷ { alertType ∷ String, message ∷ String, remainingSeconds ∷ Int }
 walletNotConnectedToast = { remainingSeconds: 5, alertType: "info", message: "Please connect your wallet for this action" }

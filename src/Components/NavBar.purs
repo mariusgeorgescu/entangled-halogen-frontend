@@ -41,6 +41,7 @@ data Output
   = WalletConnectEvent
   | InvalidNetworkEvent Int
   | HomeEvent
+  | AboutEvent
   | BuildTransactionEvent String Api
 
 --------------------------------------------------------------------------------
@@ -62,6 +63,7 @@ data Action
   | Receive (Connected StoreContext Input)
   | HandleWalletConnectOutput WC.Output
   | HomeButton
+  | AboutButton
 
 component ::
   forall m.
@@ -140,6 +142,7 @@ handleAction = case _ of
       H.liftEffect $ Console.log $ show bid
       case bid of
         "home" -> H.raise HomeEvent
+        "about" -> H.raise AboutEvent
         userAction
           | userAction `elem` [ "DelegateToPool", "DelegateToDRep", "DelegateToPoolAndDRep" ] -> do
             walletApi <- H.gets _.walletApi
@@ -150,6 +153,7 @@ handleAction = case _ of
               Nothing -> pure unit
         _ -> H.liftEffect $ Console.log $ show "Unknown button event"
   HomeButton -> H.raise HomeEvent
+  AboutButton -> H.raise AboutEvent
 
 --------------------------------------------------------------------------------
 -- * Component Rendering
@@ -172,7 +176,14 @@ render _state =
                 ]
             ]
         , HH.div [ HP.classes [ HH.ClassName "flex-2 flex justify-end min-w-0" ] ]
-            [ HH.slot WC.walletConnectProxy unit WC.component { buttons: customButtons, assets: { connectIcon: "./images/walletsymbol.svg", disconnectIcon: "./images/disconnectsymbol.svg" } } HandleWalletConnectOutput
+            [ HH.div [ HP.classes [ HH.ClassName "hidden sm:flex items-right gap-2" ] ]
+                [ HH.button
+                    [ HP.classes [ HH.ClassName "btn btn-ghost btn-sm" ]
+                    , HE.onClick (\_ -> AboutButton)
+                    ]
+                    [ HH.text "About Us" ]
+                ]
+            , HH.slot WC.walletConnectProxy unit WC.component { buttons: customButtons, assets: { connectIcon: "./images/walletsymbol.svg", disconnectIcon: "./images/disconnectsymbol.svg" } } HandleWalletConnectOutput
             ]
         , HH.div [ HP.classes [ HH.ClassName "flex-none" ] ] []
         ]
