@@ -26,6 +26,7 @@ import Effect.Aff.Class (class MonadAff)
 import Effect.Now (now)
 import Halogen as H
 import Halogen.HTML as HH
+import Halogen.HTML.Properties as HP
 import Halogen.Store.Monad (class MonadStore)
 import Halogen.Subscription as HS
 import Store as Store
@@ -263,7 +264,7 @@ render s =
   HH.div_
     [ renderWalletWidgetSlot
     , renderBodyContent s
-    , RU.renderFooterSection
+    , RU.renderFooterSection { onAboutClick: ChangePage AboutPage, onPortfolioClick: ChangePage PortfolioPage }
     , RU.renderFabFlower
     , RU.renderToasts $ getToast <$> s.toasts -- must be last to show up in front.
     ]
@@ -290,6 +291,7 @@ renderBodyContent s = case s.currentPage of
       [ RU.renderHeroSection heroButtonsList
       , RU.renderProfessionalServicesSection professionalServicesButtonsList
       , RU.renderPoolOverviewSection s.poolInfo
+      , renderLiveProjectsSection
       ]
   PortfolioPage -> renderPortfolioWidgetSlot
   AboutPage -> renderAboutWidgetSlot
@@ -316,6 +318,65 @@ professionalServicesButtonsList =
   [ RU.renderAccentButton "About Us" (ChangePage AboutPage)
   , RU.renderAccentButton "Check out our portfolio" (ChangePage PortfolioPage)
   ]
+
+--------------------------------------------------------------------------------
+-- * Live Projects Section
+--------------------------------------------------------------------------------
+renderLiveProjectsSection :: forall w i. HH.HTML w i
+renderLiveProjectsSection =
+  HH.section
+    [ HP.id "live-projects"
+    , HP.classes [ HH.ClassName "w-full max-w-6xl mx-auto px-4 sm:px-6 py-8 sm:py-12" ]
+    ]
+    [ HH.div [ HP.classes [ HH.ClassName "text-center mb-6 sm:mb-8" ] ]
+        [ HH.h2 [ HP.classes [ HH.ClassName "text-2xl sm:text-3xl md:text-4xl font-bold" ] ]
+            [ HH.text "Live Projects" ]
+        , HH.p [ HP.classes [ HH.ClassName "opacity-80 mt-2 text-sm sm:text-base px-2" ] ]
+            [ HH.text "Explore some of our projects."
+            ]
+        ]
+    , HH.div [ HP.classes [ HH.ClassName "grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6" ] ]
+        [ liveProjectCard
+            "Tokenized BJJ Belts"
+            "./images/logos/bjj-logo-gradient.svg"
+            "https://bjj-belts.org"
+        , liveProjectCard
+            "Decentralized Raffles"
+            "./images/logos/raffleize_raffle.png"
+            "https://raffleize.art"
+        , liveProjectCard
+            "Crypto Portfolio Tracker"
+            "./images/logos/dashboard.png"
+            "https://www.crypto-portofolio.com"
+        , liveProjectCard
+            "Cardano Ticker"
+            "./images/logos/cardanotickerbadgewobg.png"
+            "https://github.com/en7angled/CardanoTicker/tree/main"
+        ]
+    ]
+  where
+  liveProjectCard :: forall w' i'. String -> String -> String -> HH.HTML w' i'
+  liveProjectCard name logoPath projectUrl =
+    HH.a
+      [ HP.classes [ HH.ClassName "card relative bg-gradient-to-br from-base-200 to-base-300 shadow-xl shadow-info/10 lg:hover:shadow-info/20 lg:hover:-translate-y-2 transition-all duration-500 cursor-pointer group active:-translate-y-2 active:shadow-info/20" ]
+      , HP.href projectUrl
+      , HP.target "_blank"
+      , HP.rel "noopener noreferrer"
+      ]
+      [ -- Glowing border effect (subtle on mobile, full on lg hover)
+        HH.div [ HP.classes [ HH.ClassName "absolute inset-0 rounded-2xl bg-gradient-to-r from-info/0 via-info/20 to-secondary/0 opacity-30 lg:opacity-0 lg:group-hover:opacity-100 transition-opacity duration-500 blur-xl" ] ] []
+      , HH.figure [ HP.classes [ HH.ClassName "px-6 pt-6 relative z-10" ] ]
+          [ HH.img
+              [ HP.src logoPath
+              , HP.alt name
+              , HP.classes [ HH.ClassName "rounded-lg w-20 h-20 sm:w-24 sm:h-24 object-contain group-hover:scale-110 transition-transform" ]
+              ]
+          ]
+      , HH.div [ HP.classes [ HH.ClassName "card-body items-center text-center py-4 relative z-10" ] ]
+          [ HH.h3 [ HP.classes [ HH.ClassName "card-title text-sm sm:text-base md:text-lg" ] ]
+              [ HH.text name ]
+          ]
+      ]
 
 txBuildSuccessToast ∷ { alertType ∷ String, message ∷ String, remainingSeconds ∷ Int }
 txBuildSuccessToast = { remainingSeconds: 5, alertType: "info alert-dash", message: "Transaction built successfully. Please review and sign the transaction." }

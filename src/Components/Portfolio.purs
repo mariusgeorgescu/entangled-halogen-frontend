@@ -107,7 +107,7 @@ renderSecurityAuditsSection =
           , HH.p [ HP.classes [ HH.ClassName "opacity-90 mb-4 text-sm sm:text-base" ] ]
               [ HH.text description ]
           , HH.a
-              [ HP.classes [ HH.ClassName "btn btn-primary btn-sm sm:btn-md w-full sm:w-auto" ]
+              [ HP.classes [ HH.ClassName "btn btn-accent btn-sm sm:btn-md w-full sm:w-auto" ]
               , HP.href pdfPath
               , HP.target "_blank"
               , HP.rel "noopener noreferrer"
@@ -169,7 +169,7 @@ renderProjectCatalystSection =
           , HH.p [ HP.classes [ HH.ClassName "opacity-90 mb-4 text-sm sm:text-base" ] ]
               [ HH.text description ]
           , HH.a
-              [ HP.classes [ HH.ClassName "btn btn-primary btn-sm sm:btn-md w-full sm:w-auto" ]
+              [ HP.classes [ HH.ClassName "btn btn-accent btn-sm sm:btn-md w-full sm:w-auto" ]
               , HP.href projectUrl
               , HP.target "_blank"
               , HP.rel "noopener noreferrer"

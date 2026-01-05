@@ -7,6 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+- Live Projects section on main page showcasing operational projects:
+  - Tokenized BJJ Belts (bjj-belts.org)
+  - Decentralized Raffles (raffleize.art)
+  - Crypto Portfolio Tracker
+  - Cardano Ticker
+- Glowing card effect for live project cards (matching founder cards style)
+- Project logos for BJJ Belts, Raffleize, Cardano Ticker, and Crypto Portfolio Tracker
+
 ### Changed
 - Migrated to external `purescript-cardano-capabilities` library from GitHub
 - Migrated to external `purescript-halogen-daisyui` library 
