@@ -103,11 +103,7 @@ renderHeroSection =
         ]
     , HH.div [ HP.classes [ HH.ClassName "hero-content text-center relative z-10" ] ]
         [ HH.div [ HP.classes [ HH.ClassName "max-w-4xl" ] ]
-            [ HH.div [ HP.classes [ HH.ClassName "flex justify-center mb-6" ] ]
-                [ HH.div [ HP.classes [ HH.ClassName "badge badge-info badge-lg gap-2 animate-pulse" ] ]
-                    [ HH.text "🚀 Contributing to the Future of Web3" ]
-                ]
-            , HH.h1 [ HP.classes [ HH.ClassName "text-5xl md:text-7xl font-black bg-gradient-to-r from-primary via-info to-accent bg-clip-text text-transparent" ] ]
+            [ HH.h1 [ HP.classes [ HH.ClassName "text-5xl md:text-7xl font-black bg-gradient-to-r from-primary via-info to-accent bg-clip-text text-transparent animate-pulse" ] ]
                 [ HH.text "About Us" ]
             , HH.p [ HP.classes [ HH.ClassName "py-6 text-xl md:text-2xl opacity-80 max-w-2xl mx-auto" ] ]
                 [ HH.text "Twin brothers united by a shared passion for crypto, cypherpunk ideals, and libertarian values. Building decentralized solutions that empower individuals and protect privacy." ]
@@ -126,8 +122,8 @@ renderFoundersSection =
     , HP.classes [ HH.ClassName "w-full max-w-7xl mx-auto px-4 sm:px-6 py-16 sm:py-24" ]
     ]
     [ HH.div [ HP.classes [ HH.ClassName "text-center mb-12" ] ]
-        [ HH.div [ HP.classes [ HH.ClassName "badge badge-ghost badge-lg mb-4" ] ] [ HH.text "Who are we?" ]
-        , HH.h2 [ HP.classes [ HH.ClassName "text-4xl md:text-5xl font-bold" ] ] [ HH.text "Meet the Team" ]
+        [ HH.div [ HP.classes [ HH.ClassName "badge badge-primary badge-lg mb-4" ] ] [ HH.text "Our Team" ]
+        , HH.h2 [ HP.classes [ HH.ClassName "text-4xl md:text-5xl font-bold" ] ] [ HH.text "Co-Founders" ]
         , HH.div [ HP.classes [ HH.ClassName "divider divider-info max-w-xs mx-auto" ] ] []
         ]
     , HH.div [ HP.classes [ HH.ClassName "grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12" ] ]
@@ -163,9 +159,9 @@ renderFoundersSection =
   where
   founderCard :: forall w' i'. { name :: String, role :: String, linkedIn :: String, avatar :: String, description :: String, skills :: Array String, achievements :: Array String } -> HH.HTML w' i'
   founderCard founder =
-    HH.div [ HP.classes [ HH.ClassName "card bg-gradient-to-br from-base-200 to-base-300 shadow-2xl hover:shadow-info/20 transition-all duration-500 group hover:-translate-y-2" ] ]
-      [ -- Glowing border effect
-        HH.div [ HP.classes [ HH.ClassName "absolute inset-0 rounded-2xl bg-gradient-to-r from-info/0 via-info/20 to-secondary/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-xl" ] ] []
+    HH.div [ HP.classes [ HH.ClassName "card relative bg-gradient-to-br from-base-200 to-base-300 shadow-xl shadow-info/10 -translate-y-1 lg:shadow-2xl lg:shadow-base-300 lg:translate-y-0 lg:hover:shadow-info/20 lg:hover:-translate-y-2 transition-all duration-500 group active:-translate-y-2 active:shadow-info/20" ] ]
+      [ -- Glowing border effect (subtle on mobile, full on lg hover)
+        HH.div [ HP.classes [ HH.ClassName "absolute inset-0 rounded-2xl bg-gradient-to-r from-info/0 via-info/20 to-secondary/0 opacity-30 lg:opacity-0 lg:group-hover:opacity-100 transition-opacity duration-500 blur-xl" ] ] []
       , HH.div [ HP.classes [ HH.ClassName "card-body relative z-10" ] ]
           [ -- Avatar & Name Section
             HH.div [ HP.classes [ HH.ClassName "flex flex-col sm:flex-row items-center gap-6 mb-6" ] ]
@@ -239,7 +235,7 @@ renderMissionSection =
     [ HH.div [ HP.classes [ HH.ClassName "max-w-6xl mx-auto px-4 sm:px-6" ] ]
         [ HH.div [ HP.classes [ HH.ClassName "grid grid-cols-1 lg:grid-cols-2 gap-12 items-center" ] ]
             [ HH.div_
-                [ HH.div [ HP.classes [ HH.ClassName "badge badge-secondary badge-lg mb-4" ] ] [ HH.text "Our Purpose" ]
+                [ HH.div [ HP.classes [ HH.ClassName "badge badge-primary badge-lg mb-4" ] ] [ HH.text "Our Purpose" ]
                 , HH.h2 [ HP.classes [ HH.ClassName "text-4xl md:text-5xl font-bold mb-6" ] ] [ HH.text "Our Mission" ]
                 , HH.p [ HP.classes [ HH.ClassName "text-lg opacity-80 leading-relaxed mb-6" ] ]
                     [ HH.text "We believe in Cardano's vision of a decentralized, secure, and sustainable blockchain ecosystem. Our mission is to contribute to this vision by providing top-tier infrastructure, development services, and community support." ]
@@ -274,7 +270,7 @@ renderTimelineSection =
   HH.section
     [ HP.classes [ HH.ClassName "w-full max-w-4xl mx-auto px-4 sm:px-6 py-16 sm:py-24" ] ]
     [ HH.div [ HP.classes [ HH.ClassName "text-center mb-12" ] ]
-        [ HH.div [ HP.classes [ HH.ClassName "badge badge-info badge-lg mb-4" ] ] [ HH.text "Our Story" ]
+        [ HH.div [ HP.classes [ HH.ClassName "badge badge-primary badge-lg mb-4" ] ] [ HH.text "Our Story" ]
         , HH.h2 [ HP.classes [ HH.ClassName "text-4xl md:text-5xl font-bold" ] ] [ HH.text "Our Journey" ]
         ]
     , HH.ul [ HP.classes [ HH.ClassName "timeline timeline-snap-icon timeline-vertical max-md:timeline-compact" ] ]
@@ -309,8 +305,8 @@ renderValuesSection =
     [ HP.classes [ HH.ClassName "w-full bg-gradient-to-b from-base-100 to-base-200 py-16 sm:py-24" ] ]
     [ HH.div [ HP.classes [ HH.ClassName "max-w-6xl mx-auto px-4 sm:px-6" ] ]
         [ HH.div [ HP.classes [ HH.ClassName "text-center mb-12" ] ]
-            [ HH.div [ HP.classes [ HH.ClassName "badge badge-info badge-lg mb-4" ] ] [ HH.text "What Drives Us" ]
-            , HH.h2 [ HP.classes [ HH.ClassName "text-4xl md:text-5xl font-bold" ] ] [ HH.text "Our Values" ]
+            [ HH.div [ HP.classes [ HH.ClassName "badge badge-primary badge-lg mb-4" ] ] [ HH.text "Our Values" ]
+            , HH.h2 [ HP.classes [ HH.ClassName "text-4xl md:text-5xl font-bold" ] ] [ HH.text "What Drives Us" ]
             ]
         , HH.div [ HP.classes [ HH.ClassName "grid grid-cols-1 md:grid-cols-3 gap-6" ] ]
             [ valueCard "💎" "Transparency" "Open source, open communication. We believe in building trust through transparency in everything we do."
@@ -346,7 +342,7 @@ renderPortfolioCTA =
                 , HH.p [ HP.classes [ HH.ClassName "text-lg opacity-80 mb-8 max-w-2xl mx-auto" ] ]
                     [ HH.text "Explore our Project Catalyst proposals and the innovative solutions we've delivered to the Cardano community." ]
                 , HH.button
-                    [ HP.classes [ HH.ClassName "btn btn-primary btn-lg gap-2" ]
+                    [ HP.classes [ HH.ClassName "btn btn-accent btn-lg gap-2" ]
                     , HE.onClick \_ -> GoToPortfolio
                     ]
                     [ HH.text "Check out our portfolio"

@@ -6,12 +6,10 @@ module Components.HTML.RenderUtils.App
   , renderHeroSection
   , renderPoolOverviewSection
   , renderProfessionalServicesSection
-  )
-  where
+  ) where
 
 import Halogen.DaisyUI.Components
 import Prelude
-
 import App.Utils (lovelaceToAda)
 import Cardano.Capabilities (PoolInfo(..))
 import Data.Array (mapMaybe, length)
@@ -27,8 +25,6 @@ import Halogen.Svg.Attributes.StrokeLineCap (StrokeLineCap(..))
 import Halogen.Svg.Attributes.StrokeLineJoin (StrokeLineJoin(..))
 import Halogen.Svg.Elements as SE
 
-
-
 --------------------------------------------------------------------------------
 -- * Back Button
 --------------------------------------------------------------------------------
@@ -36,27 +32,12 @@ renderBackButton :: forall w i. i -> HH.HTML w i
 renderBackButton action =
   HH.div [ HP.classes [ HH.ClassName "fixed bottom-6 left-6 z-50" ] ]
     [ HH.button
-        [ HP.classes [ HH.ClassName "btn btn-circle btn-lg btn-primary shadow-lg hover:shadow-xl transition-all" ]
+        [ HP.classes [ HH.ClassName "btn btn-circle btn-lg btn-accent shadow-lg hover:shadow-xl transition-all" ]
         , HE.onClick \_ -> action
         ]
-        [ SE.svg
-            [ SA.class_ $ HH.ClassName "h-6 w-6"
-            , SA.fill NoColor
-            , SA.viewBox 0.0 0.0 24.0 24.0
-            ]
-            [ SE.path
-                [ SA.strokeLineCap LineCapRound
-                , SA.strokeLineJoin LineJoinRound
-                , SA.strokeWidth 2.0
-                , HP.attr (HH.AttrName "stroke") "currentColor"
-                , HP.attr (HH.AttrName "d") "M10 19l-7-7m0 0l7-7m-7 7h18"
-                ]
-            ]
+        [ HH.img [ HP.src "./images/home-symbol.svg", HP.alt "Home", HP.classes [ HH.ClassName "h-6 w-6" ] ]
         ]
     ]
-
-
-
 
 -- ==============================================================================
 -- PROFESSIONAL SERVICES (App-specific Static Section)
@@ -73,9 +54,9 @@ renderProfessionalServicesSection buttonsList =
             [ HH.text "We transform blockchain ideas into production-ready solutions. Our team specializes in Cardano development, from smart contracts to full-stack dApps, with security and performance at the core."
             ]
         , HH.div [ HP.classes [ HH.ClassName "flex flex-wrap justify-center gap-2 mt-4" ] ]
-            [ badge "badge-info" "Fixed budget"
-            , badge "badge-info" "Team augmentation"
-            , badge "badge-info" "Time and materials"
+            [ badge "badge-ghost animate-pulse" "Fixed budget"
+            , badge "badge-ghost animate-pulse" "Team augmentation"
+            , badge "badge-ghost animate-pulse" "Time and materials"
             ]
         ]
     , HH.div [ HP.classes [ HH.ClassName "grid grid-cols-1 md:grid-cols-2 gap-4" ] ]
@@ -318,8 +299,8 @@ renderPoolOverviewSection maybePoolInfo =
 -- ==============================================================================
 -- FOOTER (App-specific Static Section)
 -- ==============================================================================
-renderFooterSection :: forall w i. HH.HTML w i
-renderFooterSection =
+renderFooterSection :: forall w i. { onAboutClick :: i, onPortfolioClick :: i } -> HH.HTML w i
+renderFooterSection actions =
   HH.footer [ HP.classes [ HH.ClassName "footer footer-vertical sm:footer-horizontal bg-base-200 text-base-content p-6 sm:p-10 mt-12" ] ]
     [ HH.aside_
         [ HH.img [ HP.src "./images/E7D/PNG Logo Files/Transparent Logo.png", HP.alt "ENTANGLED Labs", HP.classes [ HH.ClassName "w-12 sm:w-16" ] ]
@@ -331,9 +312,9 @@ renderFooterSection =
         ]
     , HH.nav_
         [ HH.h6 [ HP.classes [ HH.ClassName "footer-title text-sm sm:text-base" ] ] [ HH.text "Company" ]
-        , HH.a [ HP.classes [ HH.ClassName "link link-hover text-sm sm:text-base" ], HP.href "#founders" ] [ HH.text "About Us" ]
-        , HH.a [ HP.classes [ HH.ClassName "link link-hover text-sm sm:text-base" ], HP.href "#services" ] [ HH.text "Services" ]
-        , HH.a [ HP.classes [ HH.ClassName "link link-hover text-sm sm:text-base" ], HP.href "#pool" ] [ HH.text "Pool" ]
+        , HH.a [ HP.classes [ HH.ClassName "link link-hover text-sm sm:text-base cursor-pointer" ], HE.onClick \_ -> actions.onAboutClick ] [ HH.text "About Us" ]
+        , HH.a [ HP.classes [ HH.ClassName "link link-hover text-sm sm:text-base cursor-pointer" ], HE.onClick \_ -> actions.onPortfolioClick ] [ HH.text "Portfolio" ]
+        , HH.a [ HP.classes [ HH.ClassName "link link-hover text-sm sm:text-base" ], HP.href "https://beta.cexplorer.io/pool/pool1sj3gnahsms73uxxu43rgwczdw596en7dtsfcqf6297vzgcedquv" ] [ HH.text "Pool" ]
         ]
     , HH.nav_
         [ HH.h6 [ HP.classes [ HH.ClassName "footer-title text-sm sm:text-base" ] ] [ HH.text "Links" ]
@@ -365,7 +346,7 @@ renderFabFlower =
             , HP.href "https://bjj.cardano.vip"
             , HP.target "_blank"
             ]
-            [ medalIcon ]
+            [ bjjBeltIcon ]
         ]
     , HH.div_
         [ HH.span [ HP.classes [ HH.ClassName "bg-base-100 text-accent" ] ] [ HH.text "Raffleize Art" ]
@@ -374,7 +355,7 @@ renderFabFlower =
             , HP.href "https://github.com/mariusgeorgescu/raffleize"
             , HP.target "_blank"
             ]
-            [ paletteIcon ]
+            [ raffleizeIcon ]
         ]
     , HH.div_
         [ HH.span [ HP.classes [ HH.ClassName "bg-base-100 text-accent" ] ] [ HH.text "Cardano Ticker" ]
@@ -383,7 +364,16 @@ renderFabFlower =
             , HP.href "https://github.com/en7angled/CardanoTicker/tree/main"
             , HP.target "_blank"
             ]
-            [ chartIcon ]
+            [ cardanotickerIcon ]
+        ]
+    , HH.div_
+        [ HH.span [ HP.classes [ HH.ClassName "bg-base-100 text-accent" ] ] [ HH.text "Crypto Portfolio Dashboard" ]
+        , HH.a
+            [ HP.classes [ HH.ClassName "btn btn-lg btn-circle bg-accent text-accent-content" ]
+            , HP.href "https://crypto-portofolio.com"
+            , HP.target "_blank"
+            ]
+            [ portfolioIcon ]
         ]
     ]
   where
@@ -402,47 +392,42 @@ renderFabFlower =
           ]
       ]
 
-  paletteIcon :: forall w' i'. HH.HTML w' i'
-  paletteIcon =
-    SE.svg
-      [ SA.class_ $ HH.ClassName "h-6 w-6 shrink-0 stroke-current"
-      , SA.fill NoColor
-      , SA.viewBox 0.0 0.0 24.0 24.0
-      ]
-      [ SE.path
-          [ SA.strokeLineCap LineCapRound
-          , SA.strokeLineJoin LineJoinRound
-          , SA.strokeWidth 2.0
-          , HP.attr (HH.AttrName "d") "M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01"
+  bjjBeltIcon :: forall w' i'. HH.HTML w' i'
+  bjjBeltIcon =
+    HH.div [ HP.classes [ HH.ClassName "mask mask-circle bg-base-100 h-full w-full" ] ]
+      [ HH.img
+          [ HP.src "./images/logos/bjj-logo-white-outline.svg"
+          , HP.alt "BJJ Belts"
+          , HP.classes [ HH.ClassName "h-full w-full" ]
           ]
       ]
 
-  medalIcon :: forall w' i'. HH.HTML w' i'
-  medalIcon =
-    SE.svg
-      [ SA.class_ $ HH.ClassName "h-6 w-6 shrink-0 stroke-current"
-      , SA.fill NoColor
-      , SA.viewBox 0.0 0.0 24.0 24.0
-      ]
-      [ SE.path
-          [ SA.strokeLineCap LineCapRound
-          , SA.strokeLineJoin LineJoinRound
-          , SA.strokeWidth 2.0
-          , HP.attr (HH.AttrName "d") "M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"
+  raffleizeIcon :: forall w' i'. HH.HTML w' i'
+  raffleizeIcon =
+    HH.div [ HP.classes [ HH.ClassName "mask mask-circle bg-base-100 h-full w-full" ] ]
+      [ HH.img
+          [ HP.src "./images/logos/raffle-logo.svg"
+          , HP.alt "Raffleize"
+          , HP.classes [ HH.ClassName "h-full w-full" ]
           ]
       ]
 
-  chartIcon :: forall w' i'. HH.HTML w' i'
-  chartIcon =
-    SE.svg
-      [ SA.class_ $ HH.ClassName "h-6 w-6 shrink-0 stroke-current"
-      , SA.fill NoColor
-      , SA.viewBox 0.0 0.0 24.0 24.0
+  portfolioIcon :: forall w' i'. HH.HTML w' i'
+  portfolioIcon =
+    HH.div [ HP.classes [ HH.ClassName "mask mask-circle bg-base-100 h-full w-full" ] ]
+      [ HH.img
+          [ HP.src "./images/logos/chartpie.svg"
+          , HP.alt "Portfolio"
+          , HP.classes [ HH.ClassName "h-full w-full" ]
+          ]
       ]
-      [ SE.path
-          [ SA.strokeLineCap LineCapRound
-          , SA.strokeLineJoin LineJoinRound
-          , SA.strokeWidth 2.0
-          , HP.attr (HH.AttrName "d") "M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z"
+
+  cardanotickerIcon :: forall w' i'. HH.HTML w' i'
+  cardanotickerIcon =
+    HH.div [ HP.classes [ HH.ClassName "mask mask-circle bg-base-100 h-full w-full" ] ]
+      [ HH.img
+          [ HP.src "./images/logos/cardanotickerbadgewobg.png"
+          , HP.alt "Cardano Ticker"
+          , HP.classes [ HH.ClassName "h-full w-full" ]
           ]
       ]

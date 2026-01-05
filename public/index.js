@@ -4,9 +4,9 @@
 var defaultEnv = {
   buildTxURL: "/api/delegation-service/build-tx",
   submitTxURL: "/api/delegation-service/submit-tx",
-  allowedNetworkId: 0,
-  myPoolId: "pool1rr53gk9vaxqhvm0uuvyu4yzcvuc5zxqktvcl39k9swhewvaf7t2",
-  myDRepHash: "6bec808ca4fae34548a6384e79bf18877914a04b57d5022d56007d1b",
+  allowedNetworkId: 1,
+  myPoolId: "pool1sj3gnahsms73uxxu43rgwczdw596en7dtsfcqf6297vzgcedquv",
+  myDRepHash: "70687a06149aafc3c89492b06e743a10a051327371d14f8f95e3c605",
   poolInfoURL: function(poolId) {
     return "/api/gomaestro-api/v1/pools/" + (poolId + "/info");
   }
@@ -11448,7 +11448,7 @@ var renderProfessionalServicesSection = function(buttonsList) {
       return div3([classes(["badge " + cls])])([text(label$prime)]);
     };
   };
-  return section([id3("services"), classes(["w-full max-w-6xl mx-auto px-4 sm:px-6 py-8 sm:py-12"])])([div3([classes(["text-center mb-6 sm:mb-8"])])([h2([classes(["text-2xl sm:text-3xl md:text-4xl font-bold"])])([text("Professional Services")]), p([classes(["opacity-80 mt-2 text-sm sm:text-base px-2"])])([text("We transform blockchain ideas into production-ready solutions. Our team specializes in Cardano development, from smart contracts to full-stack dApps, with security and performance at the core.")]), div3([classes(["flex flex-wrap justify-center gap-2 mt-4"])])([badge("badge-info")("Fixed budget"), badge("badge-info")("Team augmentation"), badge("badge-info")("Time and materials")])]), div3([classes(["grid grid-cols-1 md:grid-cols-2 gap-4"])])([serviceCard("Smart Contracts")(["Battle-tested smart contract development", "NFTs, DeFi, DAOs, and custom solutions", "Optimized for efficiency and cost"]), serviceCard("Audits")(["Comprehensive security analysis", "Gas optimization recommendations", "Detailed audit reports with actionable insights"]), serviceCard("Backend & Frontend")(["Haskell, PureScript, and modern frameworks", "Web3-native user experiences", "Secure API design and integration"]), serviceCard("Infrastructure")(["24/7 monitoring and support", "Cloud-native Kubernetes deployments", "Disaster recovery and backup solutions"])]), div3([classes(["mt-6 flex flex-col sm:flex-row justify-center gap-2"])])(buttonsList)]);
+  return section([id3("services"), classes(["w-full max-w-6xl mx-auto px-4 sm:px-6 py-8 sm:py-12"])])([div3([classes(["text-center mb-6 sm:mb-8"])])([h2([classes(["text-2xl sm:text-3xl md:text-4xl font-bold"])])([text("Professional Services")]), p([classes(["opacity-80 mt-2 text-sm sm:text-base px-2"])])([text("We transform blockchain ideas into production-ready solutions. Our team specializes in Cardano development, from smart contracts to full-stack dApps, with security and performance at the core.")]), div3([classes(["flex flex-wrap justify-center gap-2 mt-4"])])([badge("badge-ghost animate-pulse")("Fixed budget"), badge("badge-ghost animate-pulse")("Team augmentation"), badge("badge-ghost animate-pulse")("Time and materials")])]), div3([classes(["grid grid-cols-1 md:grid-cols-2 gap-4"])])([serviceCard("Smart Contracts")(["Battle-tested smart contract development", "NFTs, DeFi, DAOs, and custom solutions", "Optimized for efficiency and cost"]), serviceCard("Audits")(["Comprehensive security analysis", "Gas optimization recommendations", "Detailed audit reports with actionable insights"]), serviceCard("Backend & Frontend")(["Haskell, PureScript, and modern frameworks", "Web3-native user experiences", "Secure API design and integration"]), serviceCard("Infrastructure")(["24/7 monitoring and support", "Cloud-native Kubernetes deployments", "Disaster recovery and backup solutions"])]), div3([classes(["mt-6 flex flex-col sm:flex-row justify-center gap-2"])])(buttonsList)]);
 };
 var renderPoolOverviewSection = function(maybePoolInfo) {
   var stat = function(value15) {
@@ -11479,7 +11479,7 @@ var renderPoolOverviewSection = function(maybePoolInfo) {
           return "\u2014";
         }
         ;
-        throw new Error("Failed pattern match at Components.HTML.RenderUtils.App (line 256, column 7 - line 256, column 46): " + [v1.constructor.name]);
+        throw new Error("Failed pattern match at Components.HTML.RenderUtils.App (line 237, column 7 - line 237, column 46): " + [v1.constructor.name]);
       };
       var formatNumber2 = function(v1) {
         if (v1 instanceof Just) {
@@ -11501,14 +11501,14 @@ var renderPoolOverviewSection = function(maybePoolInfo) {
           return "\u2014";
         }
         ;
-        throw new Error("Failed pattern match at Components.HTML.RenderUtils.App (line 267, column 7 - line 267, column 42): " + [v1.constructor.name]);
+        throw new Error("Failed pattern match at Components.HTML.RenderUtils.App (line 248, column 7 - line 248, column 42): " + [v1.constructor.name]);
       };
       var formatAda = function(v1) {
         if (v1 instanceof Just) {
           if (v1.value0 >= 1e6) {
             var millions = v1.value0 / 1e6;
-            var $22 = millions >= 100;
-            if ($22) {
+            var $24 = millions >= 100;
+            if ($24) {
               return show9(floor(millions)) + "M \u20B3";
             }
             ;
@@ -11518,8 +11518,8 @@ var renderPoolOverviewSection = function(maybePoolInfo) {
           ;
           if (v1.value0 >= 1e3) {
             var thousands = v1.value0 / 1e3;
-            var $23 = thousands >= 100;
-            if ($23) {
+            var $25 = thousands >= 100;
+            if ($25) {
               return show9(floor(thousands)) + "K \u20B3";
             }
             ;
@@ -11537,7 +11537,7 @@ var renderPoolOverviewSection = function(maybePoolInfo) {
           return "\u2014";
         }
         ;
-        throw new Error("Failed pattern match at Components.HTML.RenderUtils.App (line 228, column 7 - line 228, column 42): " + [v1.constructor.name]);
+        throw new Error("Failed pattern match at Components.HTML.RenderUtils.App (line 209, column 7 - line 209, column 42): " + [v1.constructor.name]);
       };
       var allStats = [(function() {
         if (v2.value0.margin instanceof Just) {
@@ -11548,7 +11548,7 @@ var renderPoolOverviewSection = function(maybePoolInfo) {
           return Nothing.value;
         }
         ;
-        throw new Error("Failed pattern match at Components.HTML.RenderUtils.App (line 276, column 11 - line 278, column 31): " + [v2.value0.margin.constructor.name]);
+        throw new Error("Failed pattern match at Components.HTML.RenderUtils.App (line 257, column 11 - line 259, column 31): " + [v2.value0.margin.constructor.name]);
       })(), (function() {
         if (v2.value0.pledge instanceof Just) {
           return new Just(stat(formatAda(map34(lovelaceToAda)(v2.value0.pledge)))("Pledge"));
@@ -11558,7 +11558,7 @@ var renderPoolOverviewSection = function(maybePoolInfo) {
           return Nothing.value;
         }
         ;
-        throw new Error("Failed pattern match at Components.HTML.RenderUtils.App (line 279, column 11 - line 281, column 31): " + [v2.value0.pledge.constructor.name]);
+        throw new Error("Failed pattern match at Components.HTML.RenderUtils.App (line 260, column 11 - line 262, column 31): " + [v2.value0.pledge.constructor.name]);
       })(), (function() {
         if (v2.value0.fixed_cost instanceof Just) {
           return new Just(stat(formatAda(map34(lovelaceToAda)(v2.value0.fixed_cost)))("Fixed Cost"));
@@ -11568,7 +11568,7 @@ var renderPoolOverviewSection = function(maybePoolInfo) {
           return Nothing.value;
         }
         ;
-        throw new Error("Failed pattern match at Components.HTML.RenderUtils.App (line 282, column 11 - line 284, column 31): " + [v2.value0.fixed_cost.constructor.name]);
+        throw new Error("Failed pattern match at Components.HTML.RenderUtils.App (line 263, column 11 - line 265, column 31): " + [v2.value0.fixed_cost.constructor.name]);
       })(), (function() {
         if (v2.value0.live_stake instanceof Just) {
           return new Just(stat(formatAda(map34(lovelaceToAda)(v2.value0.live_stake)))("Live Stake"));
@@ -11578,7 +11578,7 @@ var renderPoolOverviewSection = function(maybePoolInfo) {
           return Nothing.value;
         }
         ;
-        throw new Error("Failed pattern match at Components.HTML.RenderUtils.App (line 285, column 11 - line 287, column 31): " + [v2.value0.live_stake.constructor.name]);
+        throw new Error("Failed pattern match at Components.HTML.RenderUtils.App (line 266, column 11 - line 268, column 31): " + [v2.value0.live_stake.constructor.name]);
       })(), (function() {
         if (v2.value0.active_stake instanceof Just) {
           return new Just(stat(formatAda(map34(lovelaceToAda)(v2.value0.active_stake)))("Active Stake"));
@@ -11588,7 +11588,7 @@ var renderPoolOverviewSection = function(maybePoolInfo) {
           return Nothing.value;
         }
         ;
-        throw new Error("Failed pattern match at Components.HTML.RenderUtils.App (line 288, column 11 - line 290, column 31): " + [v2.value0.active_stake.constructor.name]);
+        throw new Error("Failed pattern match at Components.HTML.RenderUtils.App (line 269, column 11 - line 271, column 31): " + [v2.value0.active_stake.constructor.name]);
       })(), (function() {
         if (v2.value0.delegators instanceof Just) {
           return new Just(stat(formatNumber2(v2.value0.delegators))("Delegators"));
@@ -11598,7 +11598,7 @@ var renderPoolOverviewSection = function(maybePoolInfo) {
           return Nothing.value;
         }
         ;
-        throw new Error("Failed pattern match at Components.HTML.RenderUtils.App (line 291, column 11 - line 293, column 31): " + [v2.value0.delegators.constructor.name]);
+        throw new Error("Failed pattern match at Components.HTML.RenderUtils.App (line 272, column 11 - line 274, column 31): " + [v2.value0.delegators.constructor.name]);
       })(), (function() {
         if (v2.value0.blocks instanceof Just) {
           return new Just(stat(formatNumber2(v2.value0.blocks))("Blocks Minted"));
@@ -11608,7 +11608,7 @@ var renderPoolOverviewSection = function(maybePoolInfo) {
           return Nothing.value;
         }
         ;
-        throw new Error("Failed pattern match at Components.HTML.RenderUtils.App (line 294, column 11 - line 296, column 31): " + [v2.value0.blocks.constructor.name]);
+        throw new Error("Failed pattern match at Components.HTML.RenderUtils.App (line 275, column 11 - line 277, column 31): " + [v2.value0.blocks.constructor.name]);
       })(), (function() {
         if (v2.value0.saturation instanceof Just) {
           return new Just(stat(formatPercent(new Just(v2.value0.saturation.value0)))("Saturation"));
@@ -11618,7 +11618,7 @@ var renderPoolOverviewSection = function(maybePoolInfo) {
           return Nothing.value;
         }
         ;
-        throw new Error("Failed pattern match at Components.HTML.RenderUtils.App (line 297, column 11 - line 299, column 31): " + [v2.value0.saturation.constructor.name]);
+        throw new Error("Failed pattern match at Components.HTML.RenderUtils.App (line 278, column 11 - line 280, column 31): " + [v2.value0.saturation.constructor.name]);
       })(), (function() {
         if (v2.value0.name instanceof Just) {
           return new Just(stat(v2.value0.name.value0)("Pool Name"));
@@ -11628,7 +11628,7 @@ var renderPoolOverviewSection = function(maybePoolInfo) {
           return Nothing.value;
         }
         ;
-        throw new Error("Failed pattern match at Components.HTML.RenderUtils.App (line 300, column 11 - line 302, column 31): " + [v2.value0.name.constructor.name]);
+        throw new Error("Failed pattern match at Components.HTML.RenderUtils.App (line 281, column 11 - line 283, column 31): " + [v2.value0.name.constructor.name]);
       })(), (function() {
         if (v2.value0.ticker instanceof Just) {
           return new Just(stat(v2.value0.ticker.value0)("Ticker"));
@@ -11638,18 +11638,18 @@ var renderPoolOverviewSection = function(maybePoolInfo) {
           return Nothing.value;
         }
         ;
-        throw new Error("Failed pattern match at Components.HTML.RenderUtils.App (line 303, column 11 - line 305, column 31): " + [v2.value0.ticker.constructor.name]);
+        throw new Error("Failed pattern match at Components.HTML.RenderUtils.App (line 284, column 11 - line 286, column 31): " + [v2.value0.ticker.constructor.name]);
       })()];
       var availableStats = mapMaybe(identity12)(allStats);
-      var $45 = length(availableStats) > 0;
-      if ($45) {
+      var $47 = length(availableStats) > 0;
+      if ($47) {
         return availableStats;
       }
       ;
       return [stat("99.9%")("Uptime target"), stat("Competitive Fees")("More rewards in your wallet"), stat("Secured")("Best practices operations")];
     }
     ;
-    throw new Error("Failed pattern match at Components.HTML.RenderUtils.App (line 219, column 3 - line 219, column 60): " + [v2.constructor.name]);
+    throw new Error("Failed pattern match at Components.HTML.RenderUtils.App (line 200, column 3 - line 200, column 60): " + [v2.constructor.name]);
   };
   var maybePoolId = (function() {
     if (maybePoolInfo instanceof Just) {
@@ -11660,7 +11660,7 @@ var renderPoolOverviewSection = function(maybePoolInfo) {
       return Nothing.value;
     }
     ;
-    throw new Error("Failed pattern match at Components.HTML.RenderUtils.App (line 176, column 19 - line 178, column 25): " + [maybePoolInfo.constructor.name]);
+    throw new Error("Failed pattern match at Components.HTML.RenderUtils.App (line 157, column 19 - line 159, column 25): " + [maybePoolInfo.constructor.name]);
   })();
   return section([id3("pool"), classes(["w-full max-w-6xl mx-auto px-4 sm:px-6 py-8 sm:py-12"])])([div3([classes(["text-center mb-6"])])([h2([classes(["text-2xl sm:text-3xl font-bold"])])([text("Cardano Staking Pool")]), p([classes(["opacity-80 mt-2 text-sm sm:text-base px-2"])])([text("Secure, reliable, and community-focused staking. As a single pool operator, we're 100% dedicated to our delegators' success.")])]), div3([classes(["grid grid-cols-1 md:grid-cols-3 gap-4"])])(extractPoolStats(maybePoolInfo)), (function() {
     if (maybePoolId instanceof Just) {
@@ -11671,24 +11671,31 @@ var renderPoolOverviewSection = function(maybePoolInfo) {
       return text("");
     }
     ;
-    throw new Error("Failed pattern match at Components.HTML.RenderUtils.App (line 192, column 9 - line 207, column 32): " + [maybePoolId.constructor.name]);
+    throw new Error("Failed pattern match at Components.HTML.RenderUtils.App (line 173, column 9 - line 188, column 32): " + [maybePoolId.constructor.name]);
   })()]);
 };
 var renderHeroSection = function(buttonsList) {
   return section([id3("hero"), classes(["w-full bg-base-200"])])([div3([classes(["hero min-h-svh"])])([div3([classes(["hero-content flex-col lg:flex-row gap-4 sm:gap-8 px-4 sm:px-6"])])([div3([classes(["w-full lg:w-auto"])])([div_([renderHover3DCard(figure([classes(["w-[320px] sm:w-[400px] md:w-[500px] lg:w-[600px] rounded-4xl"])])([img([src9("./images/E7D/SVG Vector Files/Transparent Logo.svg"), alt8("ENTANGLED Labs Logo"), classes(["w-full h-full"])])])), h3([classes(["text-xl sm:text-2xl md:text-3xl font-bold mt-2"])])([span_([text("We "), renderTextRotate("text-2xl sm:text-3xl md:text-4xl text-success")([" DESIGN \u{1F4D0} ", " DEVELOP \u2328\uFE0F ", " DEPLOY \u{1F30E} ", " SCALE \u2B06\uFE0F ", " MAINTAIN \u{1F527} "]), text(" for you.")])])]), div_([h1([classes(["text-3xl sm:text-4xl md:text-5xl font-bold"])])([text("ENTANGLED Labs")]), p([classes(["py-2 sm:py-4 opacity-80 text-sm sm:text-base"])])([text("Your trusted Cardano infrastructure & development partner")]), div3([classes(["flex flex-col sm:flex-row gap-2 w-full sm:w-auto"])])(buttonsList)]), div3([classes(["flex flex-wrap justify-center gap-2 mt-4"])])([renderHoverGallery(["./images/logos/Cardano-RGB_Logo-Icon-Black.svg", "./images/logos/Cardano-RGB_Logo-Icon-White.svg", "./images/logos/Midnight-RGB_Symbol-White.svg", "./images/logos/Midnight-RGB_Symbol-Black.svg", "./images/logos/Cardano-RGB_Logo-Icon-Blue.svg", "./images/logos/bitcoin-btc-logo.svg"])])])])])]);
 };
-var renderFooterSection = /* @__PURE__ */ footer([/* @__PURE__ */ classes(["footer footer-vertical sm:footer-horizontal bg-base-200 text-base-content p-6 sm:p-10 mt-12"])])([/* @__PURE__ */ aside_([/* @__PURE__ */ img([/* @__PURE__ */ src9("./images/E7D/PNG Logo Files/Transparent Logo.png"), /* @__PURE__ */ alt8("ENTANGLED Labs"), /* @__PURE__ */ classes(["w-12 sm:w-16"])]), /* @__PURE__ */ p([/* @__PURE__ */ classes(["text-sm sm:text-base"])])([/* @__PURE__ */ text("ENTANGLED Labs"), br_, /* @__PURE__ */ text("Secure staking \u2022 Expert development \u2022 Trusted partner")])]), /* @__PURE__ */ nav_([/* @__PURE__ */ h6([/* @__PURE__ */ classes(["footer-title text-sm sm:text-base"])])([/* @__PURE__ */ text("Company")]), /* @__PURE__ */ a([/* @__PURE__ */ classes(["link link-hover text-sm sm:text-base"]), /* @__PURE__ */ href4("#founders")])([/* @__PURE__ */ text("About Us")]), /* @__PURE__ */ a([/* @__PURE__ */ classes(["link link-hover text-sm sm:text-base"]), /* @__PURE__ */ href4("#services")])([/* @__PURE__ */ text("Services")]), /* @__PURE__ */ a([/* @__PURE__ */ classes(["link link-hover text-sm sm:text-base"]), /* @__PURE__ */ href4("#pool")])([/* @__PURE__ */ text("Pool")])]), /* @__PURE__ */ nav_([/* @__PURE__ */ h6([/* @__PURE__ */ classes(["footer-title text-sm sm:text-base"])])([/* @__PURE__ */ text("Links")]), /* @__PURE__ */ a([/* @__PURE__ */ classes(["link link-hover text-sm sm:text-base"]), /* @__PURE__ */ target5("_blank"), /* @__PURE__ */ href4("https://github.com/en7angled/")])([/* @__PURE__ */ text("GitHub")])])]);
+var renderFooterSection = function(actions) {
+  return footer([classes(["footer footer-vertical sm:footer-horizontal bg-base-200 text-base-content p-6 sm:p-10 mt-12"])])([aside_([img([src9("./images/E7D/PNG Logo Files/Transparent Logo.png"), alt8("ENTANGLED Labs"), classes(["w-12 sm:w-16"])]), p([classes(["text-sm sm:text-base"])])([text("ENTANGLED Labs"), br_, text("Secure staking \u2022 Expert development \u2022 Trusted partner")])]), nav_([h6([classes(["footer-title text-sm sm:text-base"])])([text("Company")]), a([classes(["link link-hover text-sm sm:text-base cursor-pointer"]), onClick(function(v2) {
+    return actions.onAboutClick;
+  })])([text("About Us")]), a([classes(["link link-hover text-sm sm:text-base cursor-pointer"]), onClick(function(v2) {
+    return actions.onPortfolioClick;
+  })])([text("Portfolio")]), a([classes(["link link-hover text-sm sm:text-base"]), href4("https://beta.cexplorer.io/pool/pool1sj3gnahsms73uxxu43rgwczdw596en7dtsfcqf6297vzgcedquv")])([text("Pool")])]), nav_([h6([classes(["footer-title text-sm sm:text-base"])])([text("Links")]), a([classes(["link link-hover text-sm sm:text-base"]), target5("_blank"), href4("https://github.com/en7angled/")])([text("GitHub")])])]);
+};
 var renderFabFlower = /* @__PURE__ */ (function() {
   var starIcon = svg([class_("h-6 w-6 shrink-0 stroke-current"), fill(NoColor.value), viewBox(0)(0)(24)(24)])([path([strokeLineCap(LineCapRound.value), strokeLineJoin(LineJoinRound.value), strokeWidth(2), attr2("d")("M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z")])]);
-  var paletteIcon = svg([class_("h-6 w-6 shrink-0 stroke-current"), fill(NoColor.value), viewBox(0)(0)(24)(24)])([path([strokeLineCap(LineCapRound.value), strokeLineJoin(LineJoinRound.value), strokeWidth(2), attr2("d")("M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01")])]);
-  var medalIcon = svg([class_("h-6 w-6 shrink-0 stroke-current"), fill(NoColor.value), viewBox(0)(0)(24)(24)])([path([strokeLineCap(LineCapRound.value), strokeLineJoin(LineJoinRound.value), strokeWidth(2), attr2("d")("M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z")])]);
-  var chartIcon = svg([class_("h-6 w-6 shrink-0 stroke-current"), fill(NoColor.value), viewBox(0)(0)(24)(24)])([path([strokeLineCap(LineCapRound.value), strokeLineJoin(LineJoinRound.value), strokeWidth(2), attr2("d")("M7 12l3-3 3 3 4-4M8 21l4-4 4 4M3 4h18M4 4h16v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4z")])]);
-  return div3([classes(["fab"])])([div3([tabIndex2(0), attr2("role")("button"), classes(["btn btn-lg btn-circle btn-accent"])])([starIcon]), div3([classes(["fab-close"])])([text("Close "), span4([classes(["btn btn-circle btn-lg btn-error"])])([text("\u2715")])]), div_([span4([classes(["bg-base-100 text-accent"])])([text("BJJ Belts")]), a([classes(["btn btn-lg btn-circle bg-accent text-accent-content"]), href4("https://bjj.cardano.vip"), target5("_blank")])([medalIcon])]), div_([span4([classes(["bg-base-100 text-accent"])])([text("Raffleize Art")]), a([classes(["btn btn-lg btn-circle bg-accent text-accent-content"]), href4("https://github.com/mariusgeorgescu/raffleize"), target5("_blank")])([paletteIcon])]), div_([span4([classes(["bg-base-100 text-accent"])])([text("Cardano Ticker")]), a([classes(["btn btn-lg btn-circle bg-accent text-accent-content"]), href4("https://github.com/en7angled/CardanoTicker/tree/main"), target5("_blank")])([chartIcon])])]);
+  var raffleizeIcon = div3([classes(["mask mask-circle bg-base-100 h-full w-full"])])([img([src9("./images/logos/raffle-logo.svg"), alt8("Raffleize"), classes(["h-full w-full"])])]);
+  var portfolioIcon = div3([classes(["mask mask-circle bg-base-100 h-full w-full"])])([img([src9("./images/logos/chartpie.svg"), alt8("Portfolio"), classes(["h-full w-full"])])]);
+  var cardanotickerIcon = div3([classes(["mask mask-circle bg-base-100 h-full w-full"])])([img([src9("./images/logos/cardanotickerbadgewobg.png"), alt8("Cardano Ticker"), classes(["h-full w-full"])])]);
+  var bjjBeltIcon = div3([classes(["mask mask-circle bg-base-100 h-full w-full"])])([img([src9("./images/logos/bjj-logo-white-outline.svg"), alt8("BJJ Belts"), classes(["h-full w-full"])])]);
+  return div3([classes(["fab"])])([div3([tabIndex2(0), attr2("role")("button"), classes(["btn btn-lg btn-circle btn-accent"])])([starIcon]), div3([classes(["fab-close"])])([text("Close "), span4([classes(["btn btn-circle btn-lg btn-error"])])([text("\u2715")])]), div_([span4([classes(["bg-base-100 text-accent"])])([text("BJJ Belts")]), a([classes(["btn btn-lg btn-circle bg-accent text-accent-content"]), href4("https://bjj.cardano.vip"), target5("_blank")])([bjjBeltIcon])]), div_([span4([classes(["bg-base-100 text-accent"])])([text("Raffleize Art")]), a([classes(["btn btn-lg btn-circle bg-accent text-accent-content"]), href4("https://github.com/mariusgeorgescu/raffleize"), target5("_blank")])([raffleizeIcon])]), div_([span4([classes(["bg-base-100 text-accent"])])([text("Cardano Ticker")]), a([classes(["btn btn-lg btn-circle bg-accent text-accent-content"]), href4("https://github.com/en7angled/CardanoTicker/tree/main"), target5("_blank")])([cardanotickerIcon])]), div_([span4([classes(["bg-base-100 text-accent"])])([text("Crypto Portfolio Dashboard")]), a([classes(["btn btn-lg btn-circle bg-accent text-accent-content"]), href4("https://crypto-portofolio.com"), target5("_blank")])([portfolioIcon])])]);
 })();
 var renderBackButton = function(action2) {
-  return div3([classes(["fixed bottom-6 left-6 z-50"])])([button([classes(["btn btn-circle btn-lg btn-primary shadow-lg hover:shadow-xl transition-all"]), onClick(function(v2) {
+  return div3([classes(["fixed bottom-6 left-6 z-50"])])([button([classes(["btn btn-circle btn-lg btn-accent shadow-lg hover:shadow-xl transition-all"]), onClick(function(v2) {
     return action2;
-  })])([svg([class_("h-6 w-6"), fill(NoColor.value), viewBox(0)(0)(24)(24)])([path([strokeLineCap(LineCapRound.value), strokeLineJoin(LineJoinRound.value), strokeWidth(2), attr2("stroke")("currentColor"), attr2("d")("M10 19l-7-7m0 0l7-7m-7 7h18")])])])]);
+  })])([img([src9("./images/home-symbol.svg"), alt8("Home"), classes(["h-6 w-6"])])])]);
 };
 
 // output/Components.About/index.js
@@ -11737,7 +11744,7 @@ var renderValuesSection = /* @__PURE__ */ (function() {
       };
     };
   };
-  return section([classes(["w-full bg-gradient-to-b from-base-100 to-base-200 py-16 sm:py-24"])])([div3([classes(["max-w-6xl mx-auto px-4 sm:px-6"])])([div3([classes(["text-center mb-12"])])([div3([classes(["badge badge-info badge-lg mb-4"])])([text("What Drives Us")]), h2([classes(["text-4xl md:text-5xl font-bold"])])([text("Our Values")])]), div3([classes(["grid grid-cols-1 md:grid-cols-3 gap-6"])])([valueCard("\u{1F48E}")("Transparency")("Open source, open communication. We believe in building trust through transparency in everything we do."), valueCard("\u{1F3AF}")("Excellence")("We don't cut corners. Every project receives our full attention and commitment to quality."), valueCard("\u{1F91D}")("Community")("Cardano is about community. We actively contribute, share knowledge, and support fellow builders.")])])]);
+  return section([classes(["w-full bg-gradient-to-b from-base-100 to-base-200 py-16 sm:py-24"])])([div3([classes(["max-w-6xl mx-auto px-4 sm:px-6"])])([div3([classes(["text-center mb-12"])])([div3([classes(["badge badge-primary badge-lg mb-4"])])([text("Our Values")]), h2([classes(["text-4xl md:text-5xl font-bold"])])([text("What Drives Us")])]), div3([classes(["grid grid-cols-1 md:grid-cols-3 gap-6"])])([valueCard("\u{1F48E}")("Transparency")("Open source, open communication. We believe in building trust through transparency in everything we do."), valueCard("\u{1F3AF}")("Excellence")("We don't cut corners. Every project receives our full attention and commitment to quality."), valueCard("\u{1F91D}")("Community")("Cardano is about community. We actively contribute, share knowledge, and support fellow builders.")])])]);
 })();
 var renderTimelineSection = /* @__PURE__ */ (function() {
   var timelineItem = function(isStart) {
@@ -11755,10 +11762,10 @@ var renderTimelineSection = /* @__PURE__ */ (function() {
       };
     };
   };
-  return section([classes(["w-full max-w-4xl mx-auto px-4 sm:px-6 py-16 sm:py-24"])])([div3([classes(["text-center mb-12"])])([div3([classes(["badge badge-info badge-lg mb-4"])])([text("Our Story")]), h2([classes(["text-4xl md:text-5xl font-bold"])])([text("Our Journey")])]), ul([classes(["timeline timeline-snap-icon timeline-vertical max-md:timeline-compact"])])([timelineItem(true)("2020")("Discovered Cardano")("Fell in love with Cardano's scientific approach, peer-reviewed research, and vision for a decentralized future."), timelineItem(false)("2021")("Plutus Pioneers")("Joined the first cohort of the Plutus Pioneer Program, mastering smart contract development on Cardano."), timelineItem(true)("2023")("E7D Stake Pool")("Launched our stake pool E7D, contributing to network decentralization and security."), timelineItem(false)("2024")("Project Catalyst")("Started participating in Project Catalyst and successfully delivered 3 funded projects to the community."), timelineItem(true)("2025")("ENTANGLED Labs")("Officially formed ENTANGLED Labs to scale our impact and bring more innovation to Web3.")])]);
+  return section([classes(["w-full max-w-4xl mx-auto px-4 sm:px-6 py-16 sm:py-24"])])([div3([classes(["text-center mb-12"])])([div3([classes(["badge badge-primary badge-lg mb-4"])])([text("Our Story")]), h2([classes(["text-4xl md:text-5xl font-bold"])])([text("Our Journey")])]), ul([classes(["timeline timeline-snap-icon timeline-vertical max-md:timeline-compact"])])([timelineItem(true)("2020")("Discovered Cardano")("Fell in love with Cardano's scientific approach, peer-reviewed research, and vision for a decentralized future."), timelineItem(false)("2021")("Plutus Pioneers")("Joined the first cohort of the Plutus Pioneer Program, mastering smart contract development on Cardano."), timelineItem(true)("2023")("E7D Stake Pool")("Launched our stake pool E7D, contributing to network decentralization and security."), timelineItem(false)("2024")("Project Catalyst")("Started participating in Project Catalyst and successfully delivered 3 funded projects to the community."), timelineItem(true)("2025")("ENTANGLED Labs")("Officially formed ENTANGLED Labs to scale our impact and bring more innovation to Web3.")])]);
 })();
 var renderPortfolioCTA = /* @__PURE__ */ (function() {
-  return section([classes(["w-full py-16 sm:py-24 bg-gradient-to-r from-primary/10 via-info/10 to-accent/10"])])([div3([classes(["max-w-4xl mx-auto px-4 sm:px-6 text-center"])])([div3([classes(["card bg-base-100 shadow-2xl"])])([div3([classes(["card-body py-12"])])([div3([classes(["text-6xl mb-4"])])([text("\u{1F680}")]), h2([classes(["text-3xl md:text-4xl font-bold mb-4"])])([text("Want to see our work?")]), p([classes(["text-lg opacity-80 mb-8 max-w-2xl mx-auto"])])([text("Explore our Project Catalyst proposals and the innovative solutions we've delivered to the Cardano community.")]), button([classes(["btn btn-primary btn-lg gap-2"]), onClick(function(v2) {
+  return section([classes(["w-full py-16 sm:py-24 bg-gradient-to-r from-primary/10 via-info/10 to-accent/10"])])([div3([classes(["max-w-4xl mx-auto px-4 sm:px-6 text-center"])])([div3([classes(["card bg-base-100 shadow-2xl"])])([div3([classes(["card-body py-12"])])([div3([classes(["text-6xl mb-4"])])([text("\u{1F680}")]), h2([classes(["text-3xl md:text-4xl font-bold mb-4"])])([text("Want to see our work?")]), p([classes(["text-lg opacity-80 mb-8 max-w-2xl mx-auto"])])([text("Explore our Project Catalyst proposals and the innovative solutions we've delivered to the Cardano community.")]), button([classes(["btn btn-accent btn-lg gap-2"]), onClick(function(v2) {
     return GoToPortfolio.value;
   })])([text("Check out our portfolio"), svg([class_("h-5 w-5"), fill(NoColor.value), viewBox(0)(0)(24)(24)])([path([strokeLineCap(LineCapRound.value), strokeLineJoin(LineJoinRound.value), strokeWidth(2), attr2("stroke")("currentColor"), attr2("d")("M13 7l5 5m0 0l-5 5m5-5H6")])])])])])])]);
 })();
@@ -11770,19 +11777,19 @@ var renderMissionSection = /* @__PURE__ */ (function() {
       };
     };
   };
-  return section([classes(["w-full bg-base-200 py-16 sm:py-24"])])([div3([classes(["max-w-6xl mx-auto px-4 sm:px-6"])])([div3([classes(["grid grid-cols-1 lg:grid-cols-2 gap-12 items-center"])])([div_([div3([classes(["badge badge-secondary badge-lg mb-4"])])([text("Our Purpose")]), h2([classes(["text-4xl md:text-5xl font-bold mb-6"])])([text("Our Mission")]), p([classes(["text-lg opacity-80 leading-relaxed mb-6"])])([text("We believe in Cardano's vision of a decentralized, secure, and sustainable blockchain ecosystem. Our mission is to contribute to this vision by providing top-tier infrastructure, development services, and community support.")]), p([classes(["text-lg opacity-80 leading-relaxed"])])([text("Every line of code we write, every smart contract we deploy, and every block we produce brings us closer to a more equitable financial future.")])]), div3([classes(["grid grid-cols-2 gap-4"])])([missionStat("\u{1F517}")("Decentralization")("Strengthening the network"), missionStat("\u{1F6E1}\uFE0F")("Security")("Battle-tested solutions"), missionStat("\u26A1")("Performance")("Optimized for efficiency"), missionStat("\u{1F331}")("Sustainability")("Long-term thinking")])])])]);
+  return section([classes(["w-full bg-base-200 py-16 sm:py-24"])])([div3([classes(["max-w-6xl mx-auto px-4 sm:px-6"])])([div3([classes(["grid grid-cols-1 lg:grid-cols-2 gap-12 items-center"])])([div_([div3([classes(["badge badge-primary badge-lg mb-4"])])([text("Our Purpose")]), h2([classes(["text-4xl md:text-5xl font-bold mb-6"])])([text("Our Mission")]), p([classes(["text-lg opacity-80 leading-relaxed mb-6"])])([text("We believe in Cardano's vision of a decentralized, secure, and sustainable blockchain ecosystem. Our mission is to contribute to this vision by providing top-tier infrastructure, development services, and community support.")]), p([classes(["text-lg opacity-80 leading-relaxed"])])([text("Every line of code we write, every smart contract we deploy, and every block we produce brings us closer to a more equitable financial future.")])]), div3([classes(["grid grid-cols-2 gap-4"])])([missionStat("\u{1F517}")("Decentralization")("Strengthening the network"), missionStat("\u{1F6E1}\uFE0F")("Security")("Battle-tested solutions"), missionStat("\u26A1")("Performance")("Optimized for efficiency"), missionStat("\u{1F331}")("Sustainability")("Long-term thinking")])])])]);
 })();
-var renderHeroSection2 = /* @__PURE__ */ section([/* @__PURE__ */ classes(["hero min-h-[60vh] bg-gradient-to-br from-base-300 via-base-200 to-base-100 relative overflow-hidden"])])([/* @__PURE__ */ div3([/* @__PURE__ */ classes(["absolute inset-0 opacity-10"])])([/* @__PURE__ */ div3([/* @__PURE__ */ classes(["absolute top-20 left-10 w-72 h-72 bg-primary rounded-full blur-3xl"])])([]), /* @__PURE__ */ div3([/* @__PURE__ */ classes(["absolute bottom-10 right-20 w-96 h-96 bg-secondary rounded-full blur-3xl"])])([]), /* @__PURE__ */ div3([/* @__PURE__ */ classes(["absolute top-40 right-40 w-48 h-48 bg-accent rounded-full blur-2xl"])])([])]), /* @__PURE__ */ div3([/* @__PURE__ */ classes(["hero-content text-center relative z-10"])])([/* @__PURE__ */ div3([/* @__PURE__ */ classes(["max-w-4xl"])])([/* @__PURE__ */ div3([/* @__PURE__ */ classes(["flex justify-center mb-6"])])([/* @__PURE__ */ div3([/* @__PURE__ */ classes(["badge badge-info badge-lg gap-2 animate-pulse"])])([/* @__PURE__ */ text("\u{1F680} Contributing to the Future of Web3")])]), /* @__PURE__ */ h1([/* @__PURE__ */ classes(["text-5xl md:text-7xl font-black bg-gradient-to-r from-primary via-info to-accent bg-clip-text text-transparent"])])([/* @__PURE__ */ text("About Us")]), /* @__PURE__ */ p([/* @__PURE__ */ classes(["py-6 text-xl md:text-2xl opacity-80 max-w-2xl mx-auto"])])([/* @__PURE__ */ text("Twin brothers united by a shared passion for crypto, cypherpunk ideals, and libertarian values. Building decentralized solutions that empower individuals and protect privacy.")])])])]);
+var renderHeroSection2 = /* @__PURE__ */ section([/* @__PURE__ */ classes(["hero min-h-[60vh] bg-gradient-to-br from-base-300 via-base-200 to-base-100 relative overflow-hidden"])])([/* @__PURE__ */ div3([/* @__PURE__ */ classes(["absolute inset-0 opacity-10"])])([/* @__PURE__ */ div3([/* @__PURE__ */ classes(["absolute top-20 left-10 w-72 h-72 bg-primary rounded-full blur-3xl"])])([]), /* @__PURE__ */ div3([/* @__PURE__ */ classes(["absolute bottom-10 right-20 w-96 h-96 bg-secondary rounded-full blur-3xl"])])([]), /* @__PURE__ */ div3([/* @__PURE__ */ classes(["absolute top-40 right-40 w-48 h-48 bg-accent rounded-full blur-2xl"])])([])]), /* @__PURE__ */ div3([/* @__PURE__ */ classes(["hero-content text-center relative z-10"])])([/* @__PURE__ */ div3([/* @__PURE__ */ classes(["max-w-4xl"])])([/* @__PURE__ */ h1([/* @__PURE__ */ classes(["text-5xl md:text-7xl font-black bg-gradient-to-r from-primary via-info to-accent bg-clip-text text-transparent animate-pulse"])])([/* @__PURE__ */ text("About Us")]), /* @__PURE__ */ p([/* @__PURE__ */ classes(["py-6 text-xl md:text-2xl opacity-80 max-w-2xl mx-auto"])])([/* @__PURE__ */ text("Twin brothers united by a shared passion for crypto, cypherpunk ideals, and libertarian values. Building decentralized solutions that empower individuals and protect privacy.")])])])]);
 var renderFoundersSection = /* @__PURE__ */ (function() {
   var linkedInIcon = svg([class_("h-5 w-5"), fill(new Named2("currentColor")), viewBox(0)(0)(24)(24)])([path([attr2("d")("M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z")])]);
   var founderCard = function(founder) {
-    return div3([classes(["card bg-gradient-to-br from-base-200 to-base-300 shadow-2xl hover:shadow-info/20 transition-all duration-500 group hover:-translate-y-2"])])([div3([classes(["absolute inset-0 rounded-2xl bg-gradient-to-r from-info/0 via-info/20 to-secondary/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-xl"])])([]), div3([classes(["card-body relative z-10"])])([div3([classes(["flex flex-col sm:flex-row items-center gap-6 mb-6"])])([div3([classes(["avatar"])])([div3([classes(["w-24 h-24 rounded-full ring ring-info ring-offset-base-100 ring-offset-4 overflow-hidden"])])([img([src9(founder.avatar), alt8(founder.name), classes(["w-full h-full object-cover"])])])]), div3([classes(["text-center sm:text-left"])])([h3([classes(["text-2xl font-bold"])])([text(founder.name)]), p([classes(["text-info font-medium"])])([text(founder.role)])])]), p([classes(["opacity-80 mb-6 leading-relaxed"])])([text(founder.description)]), div3([classes(["mb-6"])])([h4([classes(["text-sm font-semibold opacity-60 mb-3"])])([text("EXPERTISE")]), div3([classes(["flex flex-wrap gap-2"])])(mapFlipped4(founder.skills)(function(skill) {
+    return div3([classes(["card relative bg-gradient-to-br from-base-200 to-base-300 shadow-xl shadow-info/10 -translate-y-1 lg:shadow-2xl lg:shadow-base-300 lg:translate-y-0 lg:hover:shadow-info/20 lg:hover:-translate-y-2 transition-all duration-500 group active:-translate-y-2 active:shadow-info/20"])])([div3([classes(["absolute inset-0 rounded-2xl bg-gradient-to-r from-info/0 via-info/20 to-secondary/0 opacity-30 lg:opacity-0 lg:group-hover:opacity-100 transition-opacity duration-500 blur-xl"])])([]), div3([classes(["card-body relative z-10"])])([div3([classes(["flex flex-col sm:flex-row items-center gap-6 mb-6"])])([div3([classes(["avatar"])])([div3([classes(["w-24 h-24 rounded-full ring ring-info ring-offset-base-100 ring-offset-4 overflow-hidden"])])([img([src9(founder.avatar), alt8(founder.name), classes(["w-full h-full object-cover"])])])]), div3([classes(["text-center sm:text-left"])])([h3([classes(["text-2xl font-bold"])])([text(founder.name)]), p([classes(["text-info font-medium"])])([text(founder.role)])])]), p([classes(["opacity-80 mb-6 leading-relaxed"])])([text(founder.description)]), div3([classes(["mb-6"])])([h4([classes(["text-sm font-semibold opacity-60 mb-3"])])([text("EXPERTISE")]), div3([classes(["flex flex-wrap gap-2"])])(mapFlipped4(founder.skills)(function(skill) {
       return span4([classes(["badge badge-outline badge-info badge-sm"])])([text(skill)]);
     }))]), div3([classes(["mb-6"])])([h4([classes(["text-sm font-semibold opacity-60 mb-3"])])([text("ACHIEVEMENTS")]), ul([classes(["space-y-2"])])(mapFlipped4(founder.achievements)(function(achievement) {
       return li([classes(["flex items-center gap-2 text-sm"])])([text(achievement)]);
     }))]), div3([classes(["card-actions justify-center mt-auto"])])([a([classes(["btn btn-info btn-outline gap-2 group-hover:btn-info group-hover:text-info-content transition-all"]), href4(founder.linkedIn), target5("_blank")])([linkedInIcon, text("Connect on LinkedIn")])])])]);
   };
-  return section([id3("founders"), classes(["w-full max-w-7xl mx-auto px-4 sm:px-6 py-16 sm:py-24"])])([div3([classes(["text-center mb-12"])])([div3([classes(["badge badge-ghost badge-lg mb-4"])])([text("Who are we?")]), h2([classes(["text-4xl md:text-5xl font-bold"])])([text("Meet the Team")]), div3([classes(["divider divider-info max-w-xs mx-auto"])])([])]), div3([classes(["grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12"])])([founderCard({
+  return section([id3("founders"), classes(["w-full max-w-7xl mx-auto px-4 sm:px-6 py-16 sm:py-24"])])([div3([classes(["text-center mb-12"])])([div3([classes(["badge badge-primary badge-lg mb-4"])])([text("Our Team")]), h2([classes(["text-4xl md:text-5xl font-bold"])])([text("Co-Founders")]), div3([classes(["divider divider-info max-w-xs mx-auto"])])([])]), div3([classes(["grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12"])])([founderCard({
     name: "Marius Georgescu",
     role: "Co-Founder & Lead Developer",
     linkedIn: "https://www.linkedin.com/in/georgescumarius/",
@@ -13516,7 +13523,7 @@ var renderSecurityAuditsSection = /* @__PURE__ */ (function() {
   var auditCard = function(title4) {
     return function(description) {
       return function(pdfPath) {
-        return div3([classes(["card bg-base-200 shadow-lg hover:shadow-xl transition-shadow"])])([div3([classes(["card-body"])])([h3([classes(["card-title text-lg sm:text-xl"])])([text(title4)]), p([classes(["opacity-90 mb-4 text-sm sm:text-base"])])([text(description)]), a([classes(["btn btn-primary btn-sm sm:btn-md w-full sm:w-auto"]), href4(pdfPath), target5("_blank"), rel4("noopener noreferrer")])([text("View Audit Report")])])]);
+        return div3([classes(["card bg-base-200 shadow-lg hover:shadow-xl transition-shadow"])])([div3([classes(["card-body"])])([h3([classes(["card-title text-lg sm:text-xl"])])([text(title4)]), p([classes(["opacity-90 mb-4 text-sm sm:text-base"])])([text(description)]), a([classes(["btn btn-accent btn-sm sm:btn-md w-full sm:w-auto"]), href4(pdfPath), target5("_blank"), rel4("noopener noreferrer")])([text("View Audit Report")])])]);
       };
     };
   };
@@ -13528,7 +13535,7 @@ var renderProjectCatalystSection = /* @__PURE__ */ (function() {
       return function(projectUrl) {
         return function(funding) {
           return function(fund) {
-            return div3([classes(["card bg-base-200 shadow-lg hover:shadow-xl transition-shadow"])])([div3([classes(["card-body"])])([div3([classes(["flex items-center justify-between mb-2"])])([span4([classes(["badge badge-primary badge-sm"])])([text(fund)]), span4([classes(["badge badge-info badge-sm"])])([text(funding)])]), h3([classes(["card-title text-lg sm:text-xl"])])([text(title4)]), p([classes(["opacity-90 mb-4 text-sm sm:text-base"])])([text(description)]), a([classes(["btn btn-primary btn-sm sm:btn-md w-full sm:w-auto"]), href4(projectUrl), target5("_blank"), rel4("noopener noreferrer")])([text("View Project")])])]);
+            return div3([classes(["card bg-base-200 shadow-lg hover:shadow-xl transition-shadow"])])([div3([classes(["card-body"])])([div3([classes(["flex items-center justify-between mb-2"])])([span4([classes(["badge badge-primary badge-sm"])])([text(fund)]), span4([classes(["badge badge-info badge-sm"])])([text(funding)])]), h3([classes(["card-title text-lg sm:text-xl"])])([text(title4)]), p([classes(["opacity-90 mb-4 text-sm sm:text-base"])])([text(description)]), a([classes(["btn btn-accent btn-sm sm:btn-md w-full sm:w-auto"]), href4(projectUrl), target5("_blank"), rel4("noopener noreferrer")])([text("View Project")])])]);
           };
         };
       };
@@ -13808,6 +13815,16 @@ var renderPortfolioWidgetSlot = /* @__PURE__ */ (function() {
     }
   })(ordUnit)(portfolioProxy)(unit)(component4)({})(HandlePortfolioOutput.create);
 })();
+var renderLiveProjectsSection = /* @__PURE__ */ (function() {
+  var liveProjectCard = function(name17) {
+    return function(logoPath) {
+      return function(projectUrl) {
+        return a([classes(["card relative bg-gradient-to-br from-base-200 to-base-300 shadow-xl shadow-info/10 lg:hover:shadow-info/20 lg:hover:-translate-y-2 transition-all duration-500 cursor-pointer group active:-translate-y-2 active:shadow-info/20"]), href4(projectUrl), target5("_blank"), rel4("noopener noreferrer")])([div3([classes(["absolute inset-0 rounded-2xl bg-gradient-to-r from-info/0 via-info/20 to-secondary/0 opacity-30 lg:opacity-0 lg:group-hover:opacity-100 transition-opacity duration-500 blur-xl"])])([]), figure([classes(["px-6 pt-6 relative z-10"])])([img([src9(logoPath), alt8(name17), classes(["rounded-lg w-20 h-20 sm:w-24 sm:h-24 object-contain group-hover:scale-110 transition-transform"])])]), div3([classes(["card-body items-center text-center py-4 relative z-10"])])([h3([classes(["card-title text-sm sm:text-base md:text-lg"])])([text(name17)])])]);
+      };
+    };
+  };
+  return section([id3("live-projects"), classes(["w-full max-w-6xl mx-auto px-4 sm:px-6 py-8 sm:py-12"])])([div3([classes(["text-center mb-6 sm:mb-8"])])([h2([classes(["text-2xl sm:text-3xl md:text-4xl font-bold"])])([text("Live Projects")]), p([classes(["opacity-80 mt-2 text-sm sm:text-base px-2"])])([text("Explore some of our projects.")])]), div3([classes(["grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6"])])([liveProjectCard("Tokenized BJJ Belts")("./images/logos/bjj-logo-gradient.svg")("https://bjj-belts.org"), liveProjectCard("Decentralized Raffles")("./images/logos/raffleize_raffle.png")("https://raffleize.art"), liveProjectCard("Crypto Portfolio Tracker")("./images/logos/dashboard.png")("https://www.crypto-portofolio.com"), liveProjectCard("Cardano Ticker")("./images/logos/cardanotickerbadgewobg.png")("https://github.com/en7angled/CardanoTicker/tree/main")])]);
+})();
 var renderAboutWidgetSlot = /* @__PURE__ */ (function() {
   return slot4({
     reflectSymbol: function() {
@@ -13864,7 +13881,7 @@ var renderBodyContent = function(dictMonadAff) {
       return function(dictMonadStore) {
         return function(s2) {
           if (s2.currentPage instanceof MainPage) {
-            return div_([renderHeroSection(heroButtonsList), renderProfessionalServicesSection(professionalServicesButtonsList), renderPoolOverviewSection(s2.poolInfo)]);
+            return div_([renderHeroSection(heroButtonsList), renderProfessionalServicesSection(professionalServicesButtonsList), renderPoolOverviewSection(s2.poolInfo), renderLiveProjectsSection]);
           }
           ;
           if (s2.currentPage instanceof PortfolioPage) {
@@ -13875,7 +13892,7 @@ var renderBodyContent = function(dictMonadAff) {
             return renderAboutWidgetSlot;
           }
           ;
-          throw new Error("Failed pattern match at Components.Home (line 287, column 23 - line 295, column 37): " + [s2.currentPage.constructor.name]);
+          throw new Error("Failed pattern match at Components.Home (line 288, column 23 - line 297, column 37): " + [s2.currentPage.constructor.name]);
         };
       };
     };
@@ -13893,7 +13910,10 @@ var render5 = function(dictMonadAff) {
         var renderWalletWidgetSlot2 = renderWalletWidgetSlot1(dictMonadAsk)(dictMonadCIP30)(dictMonadStore);
         var renderBodyContent2 = renderBodyContent1(dictMonadAsk)(dictMonadCIP30)(dictMonadStore);
         return function(s2) {
-          return div_([renderWalletWidgetSlot2, renderBodyContent2(s2), renderFooterSection, renderFabFlower, renderToasts(map39(getToast)(s2.toasts))]);
+          return div_([renderWalletWidgetSlot2, renderBodyContent2(s2), renderFooterSection({
+            onAboutClick: new ChangePage(AboutPage.value),
+            onPortfolioClick: new ChangePage(PortfolioPage.value)
+          }), renderFabFlower, renderToasts(map39(getToast)(s2.toasts))]);
         };
       };
     };
@@ -13989,7 +14009,7 @@ var handleAction5 = function(dictMonadAff) {
                       });
                     }
                     ;
-                    throw new Error("Failed pattern match at Components.Home (line 163, column 5 - line 168, column 51): " + [result.constructor.name]);
+                    throw new Error("Failed pattern match at Components.Home (line 164, column 5 - line 169, column 51): " + [result.constructor.name]);
                   });
                 });
               }
@@ -14075,7 +14095,7 @@ var handleAction5 = function(dictMonadAff) {
                       });
                     }
                     ;
-                    throw new Error("Failed pattern match at Components.Home (line 183, column 5 - line 188, column 79): " + [signedTxResult.constructor.name]);
+                    throw new Error("Failed pattern match at Components.Home (line 184, column 5 - line 189, column 79): " + [signedTxResult.constructor.name]);
                   })())(function() {
                     return pure17(unit);
                   });
@@ -14116,7 +14136,7 @@ var handleAction5 = function(dictMonadAff) {
                         });
                       }
                       ;
-                      throw new Error("Failed pattern match at Components.Home (line 193, column 5 - line 197, column 82): " + [submitResult.constructor.name]);
+                      throw new Error("Failed pattern match at Components.Home (line 194, column 5 - line 198, column 82): " + [submitResult.constructor.name]);
                     })())(function() {
                       return discard22(liftEffect12(log2(show19(submitResult))))(function() {
                         return pure17(unit);
@@ -14173,7 +14193,7 @@ var handleAction5 = function(dictMonadAff) {
                               });
                             }
                             ;
-                            throw new Error("Failed pattern match at Components.Home (line 210, column 7 - line 217, column 80): " + [buildResult.constructor.name]);
+                            throw new Error("Failed pattern match at Components.Home (line 211, column 7 - line 218, column 80): " + [buildResult.constructor.name]);
                           })())(function() {
                             return pure17(unit);
                           });
@@ -14211,7 +14231,7 @@ var handleAction5 = function(dictMonadAff) {
                   });
                 }
                 ;
-                throw new Error("Failed pattern match at Components.Home (line 200, column 35 - line 224, column 62): " + [action2.value0.constructor.name]);
+                throw new Error("Failed pattern match at Components.Home (line 201, column 35 - line 225, column 62): " + [action2.value0.constructor.name]);
               }
               ;
               if (action2 instanceof StartEarningRewardsButton) {
@@ -14307,10 +14327,10 @@ var handleAction5 = function(dictMonadAff) {
                   return handleAction5(dictMonadAff)(dictMonadCIP30)(dictMonadStore)(dictMonadAsk)(dictMonadInteraction)(dictMonadCardanoQuery)(new ChangePage(PortfolioPage.value));
                 }
                 ;
-                throw new Error("Failed pattern match at Components.Home (line 248, column 33 - line 250, column 73): " + [action2.value0.constructor.name]);
+                throw new Error("Failed pattern match at Components.Home (line 249, column 33 - line 251, column 73): " + [action2.value0.constructor.name]);
               }
               ;
-              throw new Error("Failed pattern match at Components.Home (line 141, column 23 - line 250, column 73): " + [action2.constructor.name]);
+              throw new Error("Failed pattern match at Components.Home (line 142, column 23 - line 251, column 73): " + [action2.constructor.name]);
             };
           };
         };
