@@ -339,17 +339,17 @@ renderLiveProjectsSection =
         [ liveProjectCard
             "Tokenized BJJ Belts"
             "./images/logos/bjj-logo-gradient.svg"
-            "https://bjj-belts.org"
+            "https://www.bjj-belts.org"
         , liveProjectCard
-            "Decentralized Raffles"
+            "Raffleize Art"
             "./images/logos/raffleize_raffle.png"
-            "https://raffleize.art"
+            "https://www.raffleize.art"
         , liveProjectCard
             "Crypto Portfolio Tracker"
             "./images/logos/dashboard.png"
             "https://www.crypto-portofolio.com"
         , liveProjectCard
-            "Cardano Ticker"
+            "Cardano Ticker Device"
             "./images/logos/cardanotickerbadgewobg.png"
             "https://github.com/en7angled/CardanoTicker/tree/main"
         ]

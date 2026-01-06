@@ -343,7 +343,7 @@ renderFabFlower =
         [ HH.span [ HP.classes [ HH.ClassName "bg-base-100 text-accent" ] ] [ HH.text "BJJ Belts" ]
         , HH.a
             [ HP.classes [ HH.ClassName "btn btn-lg btn-circle bg-accent text-accent-content" ]
-            , HP.href "https://bjj.cardano.vip"
+            , HP.href "https://bjj-belts.org"
             , HP.target "_blank"
             ]
             [ bjjBeltIcon ]
@@ -352,7 +352,7 @@ renderFabFlower =
         [ HH.span [ HP.classes [ HH.ClassName "bg-base-100 text-accent" ] ] [ HH.text "Raffleize Art" ]
         , HH.a
             [ HP.classes [ HH.ClassName "btn btn-lg btn-circle bg-accent text-accent-content" ]
-            , HP.href "https://github.com/mariusgeorgescu/raffleize"
+            , HP.href "https://raffleize.art"
             , HP.target "_blank"
             ]
             [ raffleizeIcon ]
