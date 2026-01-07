@@ -107,7 +107,7 @@ data Action
   | GoHome
 
 containerId :: String
-containerId = "dexhunter-swap-container"
+containerId = "dexhunter-container"
 
 component ::
   forall m.
@@ -232,9 +232,11 @@ render state =
         , -- Wallet connection status
           renderWalletStatus state.walletApi
         , -- DexHunter widget container (full width for chart + orders layout)
+          -- relative position and min-height to allow modal dropdowns to overlay properly
           HH.div
             [ HP.id containerId
-            , HP.classes [ HH.ClassName "w-full" ]
+            , HP.classes [ HH.ClassName "w-full relative" ]
+            , HP.style "min-height: 600px;"
             ]
             [ -- Loading placeholder until React mounts
               if state.mounted then HH.text ""
