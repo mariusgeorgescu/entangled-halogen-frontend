@@ -3,3 +3,9 @@
 @plugin "daisyui" {
     themes: dim --default;
 }
+
+/* Hide DexHunter's internal Connect Wallet button when wallet is not connected */
+/* Users should use the navbar's Connect button instead */
+#dexhunter-swap-container.hide-connect-button > div > div > button:last-of-type {
+    display: none !important;
+}

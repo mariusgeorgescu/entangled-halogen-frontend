@@ -8,6 +8,30 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- **DexHunter Swap Widget Integration** - Token swap functionality using DexHunter's aggregated DEX liquidity
+  - New Swap page accessible via navbar "Swap" button and hero section "Swap Tokens" button
+  - React widget integration via PureScript FFI bridge
+  - Full CIP-30 wallet integration with navbar wallet connector
+  - Wallet callbacks: `getWalletAddress`, `getWalletUtxos`, `signTx`, `submitTx`
+  - Hidden widget's internal connect button to enforce navbar wallet usage
+  - Wallet connection status alerts (info/success states)
+  - Support for SWAP and LIMIT order types
+  - Dark theme matching site design
+
+  **Wallet Connection Data Flow:**
+  ```
+  1. User clicks "Connect" in navbar
+  2. WalletConnectComponent enables wallet via CIP-30
+  3. NavBar queries wallet API and wallet name from component
+  4. NavBar dispatches Store.Connect with API and wallet name
+  5. Store updates: { walletApi: Just api, walletName: Just "eternl" }
+  6. DexHunterSwap component receives store update via Halogen.Store.Connect
+  7. Component detects wallet change (isJust currentApi /= isJust newApi)
+  8. FFI mountDexHunterWithWalletImpl called with CIP-30 callbacks
+  9. React widget remounts with selectedWallet prop and wallet callbacks
+  10. Widget ready for swaps using connected wallet
+  ```
+
 - Live Projects section on main page showcasing operational projects:
   - Tokenized BJJ Belts (bjj-belts.org)
   - Decentralized Raffles (raffleize.art)
@@ -56,6 +80,24 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Support for API key authentication in proxy routes (in addition to Basic Auth)
 - Integrated gomaestro-api service into proxy system with API key authentication
 - Environment variable logging at server startup for debugging purposes
+
+### Changed
+- Store now includes `walletName :: Maybe String` alongside `walletApi`
+- `Store.Connect` action now takes both `Api` and wallet name `String`
+- NavBar queries `GetConnectedWalletInfo` to retrieve wallet name on connection
+
+### Technical (DexHunter Integration)
+- New files:
+  - `src/Components/DexHunterSwap.js` - FFI bridge for React widget mounting
+  - `src/Components/DexHunterSwap.purs` - Halogen component wrapper
+- Modified files:
+  - `src/Store.purs` - Added `walletName` field and updated `Connect` action
+  - `src/Components/NavBar.purs` - Added `SwapEvent`, queries wallet name
+  - `src/Components/Home.purs` - Added `SwapPage` routing and swap button
+  - `src/style.css` - CSS to hide DexHunter's internal connect button
+  - `index.html` - Import DexHunter styles
+  - `vite.config.js` - Added React plugin and optimizeDeps
+  - `package.json` - Added `@dexhunterio/swaps` and `@vitejs/plugin-react`
 
 ### Removed
 - Local `MonadInteraction` and `MonadCardanoQuery` capability implementations

@@ -11,6 +11,7 @@ import Components.HTML.RenderUtils.App (renderAccentButton, renderFabFlower, ren
 import Components.NavBar as NavBar
 import Components.Portfolio as Portfolio
 import Components.About as About
+import Components.DexHunterSwap as DexHunterSwap
 import Control.Monad.Reader.Class (class MonadAsk, ask, asks)
 import Control.Monad.Rec.Class (forever)
 import Data.Array (cons, filter)
@@ -67,12 +68,14 @@ type Slots
   = ( navbarWidget :: NavBar.Slot
     , portfolioWidget :: Portfolio.Slot
     , aboutWidget :: About.Slot
+    , swapWidget :: DexHunterSwap.Slot
     )
 
 data Page
   = MainPage
   | PortfolioPage
   | AboutPage
+  | SwapPage
 
 derive instance eqValue :: Eq Page
 
@@ -94,11 +97,13 @@ data Action
   | HandleNavBarOutput NavBar.Output
   | HandlePortfolioOutput Portfolio.Output
   | HandleAboutOutput About.Output
+  | HandleSwapOutput DexHunterSwap.Output
   | SubmitTransaction String String
   | SignTransaction Cardano.Wallet.Cip30.Api String
   | StartEarningRewardsButton
   | LetUsBeYourDRepButton
   | BothButton
+  | SwapButton
   | Tick
   | FetchPoolInfo
   | PoolInfoReceived (Either String PoolInfo)
@@ -203,6 +208,8 @@ handleAction action = case action of
       handleAction (ChangePage MainPage)
     NavBar.AboutEvent -> do
       handleAction (ChangePage AboutPage)
+    NavBar.SwapEvent -> do
+      handleAction (ChangePage SwapPage)
     NavBar.BuildTransactionEvent userAction api -> do
       env <- ask
       delegationAction <- parseDelegationAction userAction env
@@ -241,6 +248,15 @@ handleAction action = case action of
       Just (Just api) -> do
         handleAction (HandleNavBarOutput (NavBar.BuildTransactionEvent "DelegateToPool" api))
       _ -> H.modify_ \s -> s { toasts = walletNotConnectedToast `cons` s.toasts }
+  SwapButton -> do
+    handleAction (ChangePage SwapPage)
+  HandleSwapOutput output -> case output of
+    DexHunterSwap.TransactionSubmitted txHash -> do
+      let newToast = { remainingSeconds: 5, alertType: "success", message: "Swap transaction submitted: " <> txHash }
+      H.modify_ \s -> s { toasts = newToast `cons` s.toasts }
+    DexHunterSwap.SwapError err -> do
+      let newToast = { remainingSeconds: 5, alertType: "error", message: "Swap error: " <> err }
+      H.modify_ \s -> s { toasts = newToast `cons` s.toasts }
   ChangePage page -> do
     H.liftEffect $ scrollToTop
     H.modify_ _ { currentPage = page }
@@ -295,6 +311,7 @@ renderBodyContent s = case s.currentPage of
       ]
   PortfolioPage -> renderPortfolioWidgetSlot
   AboutPage -> renderAboutWidgetSlot
+  SwapPage -> renderSwapWidgetSlot
 
 renderPortfolioWidgetSlot ::
   forall m.
@@ -306,11 +323,19 @@ renderAboutWidgetSlot ::
   H.ComponentHTML Action Slots m
 renderAboutWidgetSlot = HH.slot About.aboutProxy unit About.component {} HandleAboutOutput
 
+renderSwapWidgetSlot ::
+  forall m.
+  MonadAff m =>
+  MonadStore Store.Action Store.Store m =>
+  H.ComponentHTML Action Slots m
+renderSwapWidgetSlot = HH.slot DexHunterSwap.swapProxy unit DexHunterSwap.component { config: DexHunterSwap.defaultSwapConfig } HandleSwapOutput
+
 heroButtonsList :: forall w. Array (HH.HTML w Action)
 heroButtonsList =
   [ RU.renderSecondaryButton "Start Earning Rewards" StartEarningRewardsButton
   , RU.renderSecondaryButton "Delegate Your Vote" LetUsBeYourDRepButton
   , RU.renderPrimaryButton "Stake & Vote" BothButton
+  , RU.renderAccentButton "Swap Tokens" SwapButton
   ]
 
 professionalServicesButtonsList :: forall w. Array (HH.HTML w Action)

@@ -42,6 +42,7 @@ data Output
   | InvalidNetworkEvent Int
   | HomeEvent
   | AboutEvent
+  | SwapEvent
   | BuildTransactionEvent String Api
 
 --------------------------------------------------------------------------------
@@ -64,6 +65,7 @@ data Action
   | HandleWalletConnectOutput WC.Output
   | HomeButton
   | AboutButton
+  | SwapButton
 
 component ::
   forall m.
@@ -121,9 +123,10 @@ handleAction = case _ of
   HandleWalletConnectOutput out -> case out of
     WC.WalletConnectedEvent -> do
       mApi <- H.query WC.walletConnectProxy unit (WC.GetWalletApi identity)
-      case mApi of
-        Just (Just api) -> do
-          updateStore (Store.Connect api)
+      mWalletInfo <- H.query WC.walletConnectProxy unit (WC.GetConnectedWalletInfo identity)
+      case mApi, mWalletInfo of
+        Just (Just api), Just (Just walletInfo) -> do
+          updateStore (Store.Connect api (walletInfo.connectedWalletName))
           H.raise WalletConnectEvent
           env <- ask
           currentNetworkId <- getNetworkId api
@@ -134,7 +137,7 @@ handleAction = case _ of
             H.raise $ InvalidNetworkEvent currentNetworkId
           else
             pure unit
-        _ -> pure unit
+        _, _ -> pure unit
     WC.WalletDisconnectedEvent -> do
       updateStore Store.Disconnect
       H.raise WalletConnectEvent
@@ -154,6 +157,7 @@ handleAction = case _ of
         _ -> H.liftEffect $ Console.log $ show "Unknown button event"
   HomeButton -> H.raise HomeEvent
   AboutButton -> H.raise AboutEvent
+  SwapButton -> H.raise SwapEvent
 
 --------------------------------------------------------------------------------
 -- * Component Rendering
@@ -178,6 +182,13 @@ render _state =
         , HH.div [ HP.classes [ HH.ClassName "flex-2 flex justify-end items-center min-w-0" ] ]
             [ HH.div [ HP.classes [ HH.ClassName "hidden sm:flex items-center gap-2 mr-2" ] ]
                 [ HH.button
+                    [ HP.classes [ HH.ClassName "btn btn-ghost btn-sm gap-1.5 font-medium hover:bg-base-100/20 transition-all duration-200" ]
+                    , HE.onClick (\_ -> SwapButton)
+                    ]
+                    [ HH.span [ HP.classes [ HH.ClassName "text-lg" ] ] [ HH.text "🔄" ]
+                    , HH.span [ HP.classes [ HH.ClassName "hidden md:inline" ] ] [ HH.text "Swap" ]
+                    ]
+                , HH.button
                     [ HP.classes [ HH.ClassName "btn btn-ghost btn-sm gap-1.5 font-medium hover:bg-base-100/20 transition-all duration-200" ]
                     , HE.onClick (\_ -> AboutButton)
                     ]
