@@ -55,13 +55,15 @@ export const mountDexHunterSwapImpl = (containerId) => (config) => (isMobile) =>
   roots.set(containerId, root);
 
   // Colors aligned with daisyUI dim theme
+  // These colors apply to the swap widget, token selectors, and orders section
+  // Note: TradingView chart uses 'theme' prop for its own dark/light mode
   const dimThemeColors = {
-    background: "#2A303C",   // base-100
-    containers: "#242933",   // base-200
-    subText: "#A6ADBA",      // base-content muted
-    mainText: "#B8C5D3",     // base-content
-    buttonText: "#1D232A",   // neutral
-    accent: "#9FE88D"        // primary (green)
+    background: "#2A303C",   // base-100 - main background
+    containers: "#1D232A",   // base-200 - card/panel backgrounds (darker for depth)
+    subText: "#A6ADBA",      // secondary/muted text
+    mainText: "#D1D5DB",     // primary text color
+    buttonText: "#FFFFFF",   // button text (white for contrast)
+    accent: "#9FE88D"        // primary accent color (green)
   };
 
   root.render(
@@ -74,7 +76,7 @@ export const mountDexHunterSwapImpl = (containerId) => (config) => (isMobile) =>
       orderTypes: ['SWAP', 'LIMIT', 'DCA'],
       theme: 'dark',
       colors: dimThemeColors,
-      width: config.width || 400,
+      swapWidth: 400,
       showChart: !isMobile,   // Show on desktop only
       showOrders: !isMobile,  // Show on desktop only
       getWalletAddress: null,
@@ -176,13 +178,15 @@ export const mountDexHunterWithWalletImpl = (containerId) => (config) => (wallet
   const selectedWalletName = walletName ? walletName.toLowerCase() : undefined;
 
   // Colors aligned with daisyUI dim theme
+  // These colors apply to the swap widget, token selectors, and orders section
+  // Note: TradingView chart uses 'theme' prop for its own dark/light mode
   const dimThemeColors = {
-    background: "#2A303C",   // base-100
-    containers: "#242933",   // base-200
-    subText: "#A6ADBA",      // base-content muted
-    mainText: "#B8C5D3",     // base-content
-    buttonText: "#1D232A",   // neutral
-    accent: "#9FE88D"        // primary (green)
+    background: "#2A303C",   // base-100 - main background
+    containers: "#1D232A",   // base-200 - card/panel backgrounds (darker for depth)
+    subText: "#A6ADBA",      // secondary/muted text
+    mainText: "#D1D5DB",     // primary text color
+    buttonText: "#FFFFFF",   // button text (white for contrast)
+    accent: "#9FE88D"        // primary accent color (green)
   };
 
   root.render(
@@ -195,7 +199,7 @@ export const mountDexHunterWithWalletImpl = (containerId) => (config) => (wallet
       orderTypes: ['SWAP', 'LIMIT', 'DCA'],
       theme: 'dark',
       colors: dimThemeColors,
-      width: config.width || 400,
+      swapWidth: 400,
       showChart: !isMobile,   // Show on desktop only
       showOrders: !isMobile,  // Show on desktop only
       selectedWallet: selectedWalletName,
