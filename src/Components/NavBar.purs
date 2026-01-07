@@ -175,13 +175,19 @@ render _state =
                     ]
                 ]
             ]
-        , HH.div [ HP.classes [ HH.ClassName "flex-2 flex justify-end min-w-0" ] ]
-            [ HH.div [ HP.classes [ HH.ClassName "hidden sm:flex items-right gap-2" ] ]
+        , HH.div [ HP.classes [ HH.ClassName "flex-2 flex justify-end items-center min-w-0" ] ]
+            [ HH.div [ HP.classes [ HH.ClassName "hidden sm:flex items-center gap-2 mr-2" ] ]
                 [ HH.button
-                    [ HP.classes [ HH.ClassName "btn btn-ghost btn-sm" ]
+                    [ HP.classes [ HH.ClassName "btn btn-ghost btn-sm gap-1.5 font-medium hover:bg-base-100/20 transition-all duration-200" ]
                     , HE.onClick (\_ -> AboutButton)
                     ]
-                    [ HH.text "About Us" ]
+                    [ HH.img
+                        [ HP.src "./images/about-symbol.svg"
+                        , HP.alt "About"
+                        , HP.classes [ HH.ClassName "w-5 h-5 opacity-80" ]
+                        ]
+                    , HH.span [ HP.classes [ HH.ClassName "hidden md:inline" ] ] [ HH.text "About Us" ]
+                    ]
                 ]
             , HH.slot WC.walletConnectProxy unit WC.component { buttons: customButtons, assets: { connectIcon: "./images/walletsymbol.svg", disconnectIcon: "./images/disconnectsymbol.svg" } } HandleWalletConnectOutput
             ]
