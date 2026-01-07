@@ -11,7 +11,7 @@ const roots = new Map();
 const MOBILE_BREAKPOINT = 768;
 
 // Check if current screen is mobile
-const isMobileScreen = () => window.innerWidth < MOBILE_BREAKPOINT;
+export const getIsMobileImpl = () => window.innerWidth < MOBILE_BREAKPOINT;
 
 // Hide the Connect Wallet button when no wallet is connected
 // Users should use the navbar's Connect button instead
@@ -32,8 +32,9 @@ const hideConnectWalletButton = (containerId) => {
 };
 
 // Mount the DexHunter swap widget to a container element
-export const mountDexHunterSwapImpl = (containerId) => (config) => () => {
-  console.log('DexHunter: Mounting widget WITHOUT wallet');
+// isMobile: Boolean - when true, show chart and orders (mobile layout)
+export const mountDexHunterSwapImpl = (containerId) => (config) => (isMobile) => () => {
+  console.log('DexHunter: Mounting widget WITHOUT wallet, isMobile:', isMobile);
   
   const container = document.getElementById(containerId);
   if (!container) {
@@ -74,8 +75,8 @@ export const mountDexHunterSwapImpl = (containerId) => (config) => () => {
       theme: 'dark',
       colors: dimThemeColors,
       width: config.width || 400,
-      showChart: isMobileScreen(),  // Only show on mobile
-      showOrders: isMobileScreen(), // Only show on mobile
+      showChart: isMobile,   // Only show on mobile
+      showOrders: isMobile,  // Only show on mobile
       getWalletAddress: null,
       getWalletUtxos: null,
       signTx: null,
@@ -97,8 +98,9 @@ export const unmountDexHunterSwapImpl = (containerId) => () => {
 };
 
 // Mount with wallet API integration
-export const mountDexHunterWithWalletImpl = (containerId) => (config) => (walletApi) => (walletName) => () => {
-  console.log('DexHunter: Mounting widget with wallet:', walletApi ? 'connected' : 'not connected', 'name:', walletName);
+// isMobile: Boolean - when true, show chart and orders (mobile layout)
+export const mountDexHunterWithWalletImpl = (containerId) => (config) => (walletApi) => (walletName) => (isMobile) => () => {
+  console.log('DexHunter: Mounting widget with wallet:', walletApi ? 'connected' : 'not connected', 'name:', walletName, 'isMobile:', isMobile);
   
   const container = document.getElementById(containerId);
   if (!container) {
@@ -194,8 +196,8 @@ export const mountDexHunterWithWalletImpl = (containerId) => (config) => (wallet
       theme: 'dark',
       colors: dimThemeColors,
       width: config.width || 400,
-      showChart: isMobileScreen(),  // Only show on mobile
-      showOrders: isMobileScreen(), // Only show on mobile
+      showChart: isMobile,   // Only show on mobile
+      showOrders: isMobile,  // Only show on mobile
       selectedWallet: selectedWalletName,
       ...walletCallbacks,
       onClickWalletConnect: () => {

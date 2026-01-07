@@ -28,9 +28,11 @@ import Type.Proxy (Proxy(..))
 --------------------------------------------------------------------------------
 -- * FFI Imports
 --------------------------------------------------------------------------------
-foreign import mountDexHunterSwapImpl :: String -> SwapConfigJS -> Effect Unit
-foreign import mountDexHunterWithWalletImpl :: String -> SwapConfigJS -> Api -> String -> Effect Unit
+-- isMobile flag controls whether chart and orders are shown (only on mobile)
+foreign import mountDexHunterSwapImpl :: String -> SwapConfigJS -> Boolean -> Effect Unit
+foreign import mountDexHunterWithWalletImpl :: String -> SwapConfigJS -> Api -> String -> Boolean -> Effect Unit
 foreign import unmountDexHunterSwapImpl :: String -> Effect Unit
+foreign import getIsMobileImpl :: Effect Boolean
 
 --------------------------------------------------------------------------------
 -- * Types
@@ -178,14 +180,17 @@ handleAction = case _ of
     state <- H.get
     let configJS = toConfigJS state.config
     let walletNameStr = fromMaybe "" state.walletName
+    -- Detect if on mobile screen to show/hide chart and orders
+    isMobile <- liftEffect getIsMobileImpl
+    liftEffect $ log $ "DexHunter: isMobile = " <> show isMobile
     case state.walletApi of
       Just api -> do
-        liftEffect $ mountDexHunterWithWalletImpl containerId configJS api walletNameStr
+        liftEffect $ mountDexHunterWithWalletImpl containerId configJS api walletNameStr isMobile
         H.modify_ _ { mounted = true }
       Nothing -> do
         -- Mount widget without wallet integration
         -- User can connect wallet through the navbar
-        liftEffect $ mountDexHunterSwapImpl containerId configJS
+        liftEffect $ mountDexHunterSwapImpl containerId configJS isMobile
         H.modify_ _ { mounted = true }
   WalletChanged mApi -> do
     H.modify_ _ { walletApi = mApi }
