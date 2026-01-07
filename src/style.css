@@ -17,3 +17,32 @@
     position: relative;
     overflow: visible !important;
 }
+
+/* Custom styling to match daisyUI dim theme */
+
+/* Override DexHunter's gray-109 background color (used in Orders table) */
+/* Original: #0E0F12, Override: #1D232A (base-200) for consistency */
+#dexhunter-container .dhs-bg-gray-109 {
+    background-color: #1D232A !important;
+}
+
+/* Override chart container backgrounds */
+#dexhunter-container [class*="chart"],
+#dexhunter-container [class*="Chart"] {
+    background-color: #1D232A !important;
+}
+
+/* Style the TradingView attribution bar */
+#dexhunter-container table {
+    background-color: #1D232A !important;
+}
+
+/* Ensure TradingView watermark/logo area blends with theme */
+#dexhunter-container table td {
+    background-color: transparent !important;
+}
+
+/* Ensure Orders table header matches theme */
+#dexhunter-container .dhs-border-gray-800 {
+    border-color: #2A303C !important;
+}
