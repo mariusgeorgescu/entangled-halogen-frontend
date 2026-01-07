@@ -217,18 +217,12 @@ render :: forall m. MonadAff m => State -> H.ComponentHTML Action () m
 render state =
   HH.div
     [ HP.classes [ HH.ClassName "min-h-screen bg-base-200" ] ]
-    [ HH.div
+    [ -- Hero Header Section
+      renderHeroHeader
+    , HH.div
         [ HP.classes [ HH.ClassName "container mx-auto px-4 py-8" ] ]
-        [ -- Header section
-          HH.div
-            [ HP.classes [ HH.ClassName "text-center mb-8" ] ]
-            [ HH.h1
-                [ HP.classes [ HH.ClassName "text-3xl md:text-4xl font-bold mb-4" ] ]
-                [ HH.text "Token Swap" ]
-            , HH.p
-                [ HP.classes [ HH.ClassName "text-base-content/70 max-w-2xl mx-auto" ] ]
-                [ HH.text "Swap tokens securely using DexHunter's aggregated liquidity across Cardano DEXs." ]
-            ]
+        [ -- Feature Stats
+          renderFeatureStats
         , -- Wallet connection status
           renderWalletStatus state.walletApi
         , -- DexHunter widget container (full width for chart + orders layout)
@@ -242,8 +236,152 @@ render state =
               if state.mounted then HH.text ""
               else renderLoadingPlaceholder
             ]
+        , -- How it works section
+          renderHowItWorks
         , -- Back to home button
           renderBackButton GoHome
+        ]
+    ]
+
+-- | Hero header with gradient text and encouraging message
+renderHeroHeader :: forall w i. HH.HTML w i
+renderHeroHeader =
+  HH.div
+    [ HP.classes [ HH.ClassName "hero bg-gradient-to-br from-base-300 via-base-200 to-base-300 pt-8 pb-12" ] ]
+    [ HH.div
+        [ HP.classes [ HH.ClassName "hero-content text-center" ] ]
+        [ HH.div
+            [ HP.classes [ HH.ClassName "max-w-3xl" ] ]
+            [ -- Badge
+              HH.div
+                [ HP.classes [ HH.ClassName "mb-4" ] ]
+                [ HH.span
+                    [ HP.classes [ HH.ClassName "badge badge-primary badge-lg gap-2" ] ]
+                    [ HH.text "⚡ Powered by DexHunter" ]
+                ]
+            , -- Main Title with gradient
+              HH.h1
+                [ HP.classes [ HH.ClassName "text-4xl md:text-5xl lg:text-6xl font-black mb-6" ] ]
+                [ HH.span
+                    [ HP.classes [ HH.ClassName "bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent" ] ]
+                    [ HH.text "Swap Tokens" ]
+                , HH.br_
+                , HH.span
+                    [ HP.classes [ HH.ClassName "text-base-content" ] ]
+                    [ HH.text "Like a Pro" ]
+                ]
+            , -- Subtitle
+              HH.p
+                [ HP.classes [ HH.ClassName "text-lg md:text-xl text-base-content/70 mb-6 max-w-2xl mx-auto" ] ]
+                [ HH.text "Get the "
+                , HH.span [ HP.classes [ HH.ClassName "text-primary font-semibold" ] ] [ HH.text "best rates" ]
+                , HH.text " across all Cardano DEXs. Our smart routing finds optimal paths for your swaps."
+                ]
+            , -- Quick benefits
+              HH.div
+                [ HP.classes [ HH.ClassName "flex flex-wrap justify-center gap-3" ] ]
+                [ renderBenefitBadge "🔒" "Secure"
+                , renderBenefitBadge "⚡" "Fast"
+                , renderBenefitBadge "💰" "Best Rates"
+                , renderBenefitBadge "🔄" "Multi-DEX"
+                ]
+            ]
+        ]
+    ]
+
+-- | Small benefit badge
+renderBenefitBadge :: forall w i. String -> String -> HH.HTML w i
+renderBenefitBadge icon label =
+  HH.span
+    [ HP.classes [ HH.ClassName "badge badge-outline badge-lg gap-1 py-3" ] ]
+    [ HH.text $ icon <> " " <> label ]
+
+-- | Feature statistics section
+renderFeatureStats :: forall w i. HH.HTML w i
+renderFeatureStats =
+  HH.div
+    [ HP.classes [ HH.ClassName "stats stats-vertical lg:stats-horizontal shadow-lg bg-base-100 w-full mb-8" ] ]
+    [ renderStat "🏦" "DEXs Aggregated" "10+" "All major Cardano DEXs"
+    , renderStat "💱" "Supported Tokens" "500+" "Native Cardano assets"
+    , renderStat "📊" "Order Types" "2" "Swap & Limit orders"
+    , renderStat "💸" "Trading Fee" "0.3%" "Transparent pricing"
+    ]
+
+-- | Single stat component
+renderStat :: forall w i. String -> String -> String -> String -> HH.HTML w i
+renderStat icon title value desc =
+  HH.div
+    [ HP.classes [ HH.ClassName "stat" ] ]
+    [ HH.div
+        [ HP.classes [ HH.ClassName "stat-figure text-primary text-3xl" ] ]
+        [ HH.text icon ]
+    , HH.div
+        [ HP.classes [ HH.ClassName "stat-title" ] ]
+        [ HH.text title ]
+    , HH.div
+        [ HP.classes [ HH.ClassName "stat-value text-primary" ] ]
+        [ HH.text value ]
+    , HH.div
+        [ HP.classes [ HH.ClassName "stat-desc" ] ]
+        [ HH.text desc ]
+    ]
+
+-- | How it works section
+renderHowItWorks :: forall w i. HH.HTML w i
+renderHowItWorks =
+  HH.div
+    [ HP.classes [ HH.ClassName "mt-12 mb-8" ] ]
+    [ HH.div
+        [ HP.classes [ HH.ClassName "divider text-lg font-semibold" ] ]
+        [ HH.text "✨ How It Works" ]
+    , HH.ul
+        [ HP.classes [ HH.ClassName "steps steps-vertical lg:steps-horizontal w-full mt-6" ] ]
+        [ HH.li
+            [ HP.classes [ HH.ClassName "step step-primary" ] ]
+            [ HH.div
+                [ HP.classes [ HH.ClassName "text-left lg:text-center" ] ]
+                [ HH.span [ HP.classes [ HH.ClassName "font-bold" ] ] [ HH.text "Connect Wallet" ]
+                , HH.br_
+                , HH.span [ HP.classes [ HH.ClassName "text-sm text-base-content/60" ] ] [ HH.text "Use the navbar button" ]
+                ]
+            ]
+        , HH.li
+            [ HP.classes [ HH.ClassName "step step-primary" ] ]
+            [ HH.div
+                [ HP.classes [ HH.ClassName "text-left lg:text-center" ] ]
+                [ HH.span [ HP.classes [ HH.ClassName "font-bold" ] ] [ HH.text "Select Tokens" ]
+                , HH.br_
+                , HH.span [ HP.classes [ HH.ClassName "text-sm text-base-content/60" ] ] [ HH.text "Choose what to swap" ]
+                ]
+            ]
+        , HH.li
+            [ HP.classes [ HH.ClassName "step" ] ]
+            [ HH.div
+                [ HP.classes [ HH.ClassName "text-left lg:text-center" ] ]
+                [ HH.span [ HP.classes [ HH.ClassName "font-bold" ] ] [ HH.text "Enter Amount" ]
+                , HH.br_
+                , HH.span [ HP.classes [ HH.ClassName "text-sm text-base-content/60" ] ] [ HH.text "See real-time rates" ]
+                ]
+            ]
+        , HH.li
+            [ HP.classes [ HH.ClassName "step" ] ]
+            [ HH.div
+                [ HP.classes [ HH.ClassName "text-left lg:text-center" ] ]
+                [ HH.span [ HP.classes [ HH.ClassName "font-bold" ] ] [ HH.text "Swap!" ]
+                , HH.br_
+                , HH.span [ HP.classes [ HH.ClassName "text-sm text-base-content/60" ] ] [ HH.text "Sign & confirm" ]
+                ]
+            ]
+        ]
+    , -- Encouraging CTA
+      HH.div
+        [ HP.classes [ HH.ClassName "text-center mt-8 p-6 bg-gradient-to-r from-primary/10 via-secondary/10 to-accent/10 rounded-box" ] ]
+        [ HH.p
+            [ HP.classes [ HH.ClassName "text-lg font-medium mb-2" ] ]
+            [ HH.text "🚀 Ready to trade? " ]
+        , HH.p
+            [ HP.classes [ HH.ClassName "text-base-content/70" ] ]
+            [ HH.text "Connect your wallet above and start swapping tokens with the best rates on Cardano!" ]
         ]
     ]
 
