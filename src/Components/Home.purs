@@ -257,6 +257,7 @@ handleAction action = case action of
     DexHunterSwap.SwapError err -> do
       let newToast = { remainingSeconds: 5, alertType: "error", message: "Swap error: " <> err }
       H.modify_ \s -> s { toasts = newToast `cons` s.toasts }
+    DexHunterSwap.GoToHome -> handleAction (ChangePage MainPage)
   ChangePage page -> do
     H.liftEffect $ scrollToTop
     H.modify_ _ { currentPage = page }

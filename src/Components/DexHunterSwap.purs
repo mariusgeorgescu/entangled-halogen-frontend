@@ -11,6 +11,7 @@ module Components.DexHunterSwap
 import Prelude
 
 import Cardano.Wallet.Cip30 (Api)
+import Components.HTML.RenderUtils.App (renderBackButton)
 import Data.Maybe (Maybe(..), isJust, fromMaybe)
 import Effect (Effect)
 import Effect.Aff.Class (class MonadAff)
@@ -85,6 +86,7 @@ data Query a
 data Output
   = TransactionSubmitted String
   | SwapError String
+  | GoToHome
 
 --------------------------------------------------------------------------------
 -- * Component Definition
@@ -102,6 +104,7 @@ data Action
   | Receive (Connected StoreContext Input)
   | MountWidget
   | WalletChanged (Maybe Api)
+  | GoHome
 
 containerId :: String
 containerId = "dexhunter-swap-container"
@@ -195,6 +198,7 @@ handleAction = case _ of
   WalletChanged mApi -> do
     H.modify_ _ { walletApi = mApi }
     handleAction MountWidget
+  GoHome -> H.raise GoToHome
 
 toConfigJS :: SwapConfig -> SwapConfigJS
 toConfigJS config =
@@ -236,6 +240,8 @@ render state =
               if state.mounted then HH.text ""
               else renderLoadingPlaceholder
             ]
+        , -- Back to home button
+          renderBackButton GoHome
         ]
     ]
 
