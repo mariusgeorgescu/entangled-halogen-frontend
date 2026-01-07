@@ -221,9 +221,7 @@ render state =
       renderHeroHeader
     , HH.div
         [ HP.classes [ HH.ClassName "container mx-auto px-4 py-8" ] ]
-        [ -- Feature Stats
-          renderFeatureStats
-        , -- Wallet connection status
+        [  -- Wallet connection status
           renderWalletStatus state.walletApi
         , -- DexHunter widget container (full width for chart + orders layout)
           -- relative position and min-height to allow modal dropdowns to overlay properly
@@ -252,14 +250,7 @@ renderHeroHeader =
         [ HP.classes [ HH.ClassName "hero-content text-center" ] ]
         [ HH.div
             [ HP.classes [ HH.ClassName "max-w-3xl" ] ]
-            [ -- Badge
-              HH.div
-                [ HP.classes [ HH.ClassName "mb-4" ] ]
-                [ HH.span
-                    [ HP.classes [ HH.ClassName "badge badge-primary badge-lg gap-2" ] ]
-                    [ HH.text "⚡ Powered by DexHunter" ]
-                ]
-            , -- Main Title with gradient
+            [ -- Main Title with gradient
               HH.h1
                 [ HP.classes [ HH.ClassName "text-4xl md:text-5xl lg:text-6xl font-black mb-6" ] ]
                 [ HH.span
@@ -296,35 +287,6 @@ renderBenefitBadge icon label =
     [ HP.classes [ HH.ClassName "badge badge-outline badge-lg gap-1 py-3" ] ]
     [ HH.text $ icon <> " " <> label ]
 
--- | Feature statistics section
-renderFeatureStats :: forall w i. HH.HTML w i
-renderFeatureStats =
-  HH.div
-    [ HP.classes [ HH.ClassName "stats stats-vertical lg:stats-horizontal shadow-lg bg-base-100 w-full mb-8" ] ]
-    [ renderStat "🏦" "DEXs Aggregated" "10+" "All major Cardano DEXs"
-    , renderStat "💱" "Supported Tokens" "500+" "Native Cardano assets"
-    , renderStat "📊" "Order Types" "2" "Swap & Limit orders"
-    , renderStat "💸" "Trading Fee" "0.3%" "Transparent pricing"
-    ]
-
--- | Single stat component
-renderStat :: forall w i. String -> String -> String -> String -> HH.HTML w i
-renderStat icon title value desc =
-  HH.div
-    [ HP.classes [ HH.ClassName "stat" ] ]
-    [ HH.div
-        [ HP.classes [ HH.ClassName "stat-figure text-primary text-3xl" ] ]
-        [ HH.text icon ]
-    , HH.div
-        [ HP.classes [ HH.ClassName "stat-title" ] ]
-        [ HH.text title ]
-    , HH.div
-        [ HP.classes [ HH.ClassName "stat-value text-primary" ] ]
-        [ HH.text value ]
-    , HH.div
-        [ HP.classes [ HH.ClassName "stat-desc" ] ]
-        [ HH.text desc ]
-    ]
 
 -- | How it works section
 renderHowItWorks :: forall w i. HH.HTML w i
@@ -337,7 +299,7 @@ renderHowItWorks =
     , HH.ul
         [ HP.classes [ HH.ClassName "steps steps-vertical lg:steps-horizontal w-full mt-6" ] ]
         [ HH.li
-            [ HP.classes [ HH.ClassName "step step-primary" ] ]
+            [ HP.classes [ HH.ClassName "step" ] ]
             [ HH.div
                 [ HP.classes [ HH.ClassName "text-left lg:text-center" ] ]
                 [ HH.span [ HP.classes [ HH.ClassName "font-bold" ] ] [ HH.text "Connect Wallet" ]
@@ -346,7 +308,7 @@ renderHowItWorks =
                 ]
             ]
         , HH.li
-            [ HP.classes [ HH.ClassName "step step-primary" ] ]
+            [ HP.classes [ HH.ClassName "step" ] ]
             [ HH.div
                 [ HP.classes [ HH.ClassName "text-left lg:text-center" ] ]
                 [ HH.span [ HP.classes [ HH.ClassName "font-bold" ] ] [ HH.text "Select Tokens" ]
@@ -391,13 +353,13 @@ renderWalletStatus = case _ of
     HH.div
       [ HP.classes [ HH.ClassName "alert alert-success alert-soft max-w-2xl mx-auto mb-6" ] ]
       [ HH.span [ HP.classes [ HH.ClassName "text-sm" ] ]
-          [ HH.text "✓ Wallet connected - You can swap tokens directly" ]
+          [ HH.text "✓ Wallet connected - You can swap tokens with the best rates on Cardano!" ]
       ]
   Nothing ->
     HH.div
       [ HP.classes [ HH.ClassName "alert alert-info alert-soft max-w-2xl mx-auto mb-6" ] ]
       [ HH.span [ HP.classes [ HH.ClassName "text-sm" ] ]
-          [ HH.text "Connect your wallet in the navbar to enable swaps" ]
+          [ HH.text "Connect your wallet in the navbar to enable swaps!" ]
       ]
 
 renderLoadingPlaceholder :: forall w i. HH.HTML w i

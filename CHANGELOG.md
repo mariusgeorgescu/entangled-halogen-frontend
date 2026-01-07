@@ -16,7 +16,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   - Hidden widget's internal connect button to enforce navbar wallet usage
   - Wallet connection status alerts (info/success states)
   - Support for SWAP and LIMIT order types
-  - Dark theme matching site design
+  - E7D partner code integration for revenue sharing
+  - Dark theme (dim) color scheme matching site design
+  - Responsive layout: chart/orders shown on desktop, hidden on mobile
+  - Cool hero header with gradient "Swap Tokens Like a Pro" title
+  - Benefit badges: Secure, Fast, Best Rates, Multi-DEX
+  - "How It Works" steps guide
+  - Encouraging CTA section
+  - Home button for navigation back to main page
 
   **Wallet Connection Data Flow:**
   ```
