@@ -17,38 +17,3 @@
     position: relative;
     overflow: visible !important;
 }
-
-/* 
- * Style ALL dialog elements on the page as proper centered modals
- * DexHunter may render dialogs outside the container
- */
-dialog[open] {
-    position: fixed !important;
-    top: 50% !important;
-    left: 50% !important;
-    transform: translate(-50%, -50%) !important;
-    z-index: 10000 !important;
-    max-height: 80vh !important;
-    max-width: 90vw !important;
-    width: 420px !important;
-    border-radius: 1rem !important;
-    border: 1px solid oklch(0.4 0.02 264) !important;
-    background-color: var(--color-base-200, #242933) !important;
-    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5) !important;
-    padding: 0 !important;
-    margin: 0 !important;
-}
-
-/* Add backdrop styling for the dialog */
-dialog::backdrop {
-    background-color: rgba(0, 0, 0, 0.7) !important;
-}
-
-/* Also handle dialogs that might not use the backdrop (non-modal) */
-dialog[open]::before {
-    content: "";
-    position: fixed;
-    inset: 0;
-    background-color: rgba(0, 0, 0, 0.5);
-    z-index: -1;
-}
