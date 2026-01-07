@@ -47,14 +47,14 @@ export const mountDexHunterSwapImpl = (containerId) => (config) => () => {
   const root = createRoot(container);
   roots.set(containerId, root);
 
-  // E7D partner config with custom colors
-  const defaultColors = {
-    background: "#0E0F12",
-    containers: "#191B23",
-    subText: "#88919E",
-    mainText: "#FFFFFF",
-    buttonText: "#191B23",
-    accent: "#007DFF"
+  // Colors aligned with daisyUI dim theme
+  const dimThemeColors = {
+    background: "#2A303C",   // base-100
+    containers: "#242933",   // base-200
+    subText: "#A6ADBA",      // base-content muted
+    mainText: "#B8C5D3",     // base-content
+    buttonText: "#1D232A",   // neutral
+    accent: "#9FE88D"        // primary (green)
   };
 
   root.render(
@@ -66,7 +66,7 @@ export const mountDexHunterSwapImpl = (containerId) => (config) => () => {
       defaultTokenOut: '0691b2fecca1ac4f53cb6dfb00b7013e561d1f34403b957cbb5af1fa4e49474854',
       orderTypes: ['SWAP', 'LIMIT', 'DCA'],
       theme: 'dark',
-      colors: defaultColors,
+      colors: dimThemeColors,
       width: config.width || 400,
       showChart: true,
       showOrders: true,
@@ -167,14 +167,14 @@ export const mountDexHunterWithWalletImpl = (containerId) => (config) => (wallet
   // Normalize wallet name to lowercase for DexHunter (e.g., "Nami" -> "nami")
   const selectedWalletName = walletName ? walletName.toLowerCase() : undefined;
 
-  // E7D partner config with custom colors
-  const defaultColors = {
-    background: "#0E0F12",
-    containers: "#191B23",
-    subText: "#88919E",
-    mainText: "#FFFFFF",
-    buttonText: "#191B23",
-    accent: "#007DFF"
+  // Colors aligned with daisyUI dim theme
+  const dimThemeColors = {
+    background: "#2A303C",   // base-100
+    containers: "#242933",   // base-200
+    subText: "#A6ADBA",      // base-content muted
+    mainText: "#B8C5D3",     // base-content
+    buttonText: "#1D232A",   // neutral
+    accent: "#9FE88D"        // primary (green)
   };
 
   root.render(
@@ -186,7 +186,7 @@ export const mountDexHunterWithWalletImpl = (containerId) => (config) => (wallet
       defaultTokenOut: '0691b2fecca1ac4f53cb6dfb00b7013e561d1f34403b957cbb5af1fa4e49474854',
       orderTypes: ['SWAP', 'LIMIT', 'DCA'],
       theme: 'dark',
-      colors: defaultColors,
+      colors: dimThemeColors,
       width: config.width || 400,
       showChart: true,
       showOrders: true,
