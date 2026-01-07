@@ -7,6 +7,12 @@ import '@dexhunterio/swaps/lib/assets/style.css';
 // Store for managing React roots
 const roots = new Map();
 
+// Mobile breakpoint (matches Tailwind's 'md' breakpoint)
+const MOBILE_BREAKPOINT = 768;
+
+// Check if current screen is mobile
+const isMobileScreen = () => window.innerWidth < MOBILE_BREAKPOINT;
+
 // Hide the Connect Wallet button when no wallet is connected
 // Users should use the navbar's Connect button instead
 const hideConnectWalletButton = (containerId) => {
@@ -68,8 +74,8 @@ export const mountDexHunterSwapImpl = (containerId) => (config) => () => {
       theme: 'dark',
       colors: dimThemeColors,
       width: config.width || 400,
-      showChart: true,
-      showOrders: true,
+      showChart: isMobileScreen(),  // Only show on mobile
+      showOrders: isMobileScreen(), // Only show on mobile
       getWalletAddress: null,
       getWalletUtxos: null,
       signTx: null,
@@ -188,8 +194,8 @@ export const mountDexHunterWithWalletImpl = (containerId) => (config) => (wallet
       theme: 'dark',
       colors: dimThemeColors,
       width: config.width || 400,
-      showChart: true,
-      showOrders: true,
+      showChart: isMobileScreen(),  // Only show on mobile
+      showOrders: isMobileScreen(), // Only show on mobile
       selectedWallet: selectedWalletName,
       ...walletCallbacks,
       onClickWalletConnect: () => {
