@@ -32,9 +32,9 @@ const hideConnectWalletButton = (containerId) => {
 };
 
 // Mount the DexHunter swap widget to a container element
-// isMobile: Boolean - when true, show chart and orders (mobile layout)
+// isMobile: Boolean - when false (desktop), show chart and orders
 export const mountDexHunterSwapImpl = (containerId) => (config) => (isMobile) => () => {
-  console.log('DexHunter: Mounting widget WITHOUT wallet, isMobile:', isMobile);
+  console.log('DexHunter: Mounting widget WITHOUT wallet, isMobile:', isMobile, 'showChart:', !isMobile);
   
   const container = document.getElementById(containerId);
   if (!container) {
@@ -75,8 +75,8 @@ export const mountDexHunterSwapImpl = (containerId) => (config) => (isMobile) =>
       theme: 'dark',
       colors: dimThemeColors,
       width: config.width || 400,
-      showChart: isMobile,   // Only show on mobile
-      showOrders: isMobile,  // Only show on mobile
+      showChart: !isMobile,   // Show on desktop only
+      showOrders: !isMobile,  // Show on desktop only
       getWalletAddress: null,
       getWalletUtxos: null,
       signTx: null,
@@ -98,9 +98,9 @@ export const unmountDexHunterSwapImpl = (containerId) => () => {
 };
 
 // Mount with wallet API integration
-// isMobile: Boolean - when true, show chart and orders (mobile layout)
+// isMobile: Boolean - when false (desktop), show chart and orders
 export const mountDexHunterWithWalletImpl = (containerId) => (config) => (walletApi) => (walletName) => (isMobile) => () => {
-  console.log('DexHunter: Mounting widget with wallet:', walletApi ? 'connected' : 'not connected', 'name:', walletName, 'isMobile:', isMobile);
+  console.log('DexHunter: Mounting widget with wallet:', walletApi ? 'connected' : 'not connected', 'name:', walletName, 'isMobile:', isMobile, 'showChart:', !isMobile);
   
   const container = document.getElementById(containerId);
   if (!container) {
@@ -196,8 +196,8 @@ export const mountDexHunterWithWalletImpl = (containerId) => (config) => (wallet
       theme: 'dark',
       colors: dimThemeColors,
       width: config.width || 400,
-      showChart: isMobile,   // Only show on mobile
-      showOrders: isMobile,  // Only show on mobile
+      showChart: !isMobile,   // Show on desktop only
+      showOrders: !isMobile,  // Show on desktop only
       selectedWallet: selectedWalletName,
       ...walletCallbacks,
       onClickWalletConnect: () => {
